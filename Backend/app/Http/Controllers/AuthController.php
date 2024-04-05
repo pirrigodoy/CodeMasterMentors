@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use \stdClass;
 use Illuminate\Support\Facades\Hash;
@@ -64,12 +64,19 @@ class AuthController extends Controller
      }
 
 
-     public function logout(){
+     public function logout()
+     {
+         // Verificar si el usuario está autenticado
+         if (auth()->user()) {
+             // Eliminar todos los tokens de acceso del usuario
+             auth()->user()->tokens()->delete();
 
-         auth()->user()->tokens()->delete();
-         return[
-             'message' => 'You have successfully logged out and the token was successfully deleted'
-         ];
+             // Retornar un mensaje de éxito
+             return ['message' => 'You have successfully logged out and all tokens were deleted.'];
+         } else {
+             // Si el usuario no está autenticado, retornar un mensaje de error
+             return ['message' => 'No user is currently authenticated.'];
+         }
      }
 
 }
