@@ -23,9 +23,7 @@ return new class extends Migration
             $table->string('place');
             $table->string('about_me');
             $table->string('description');
-
-
-
+            $table->string('disponibilitie'); //poner un campor de disponibilidad horaria
 
             $table->timestamps();
         });

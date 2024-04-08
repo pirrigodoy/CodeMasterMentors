@@ -13,7 +13,11 @@ class Teacher extends Model
     protected $fillable = [
         'user_id',
         'price/hour',
-        'age',
+        'born_date',
+        'experience',
+        'languages',
+        'disponibility'
+
     ];
     protected $guarded = [
         'id',

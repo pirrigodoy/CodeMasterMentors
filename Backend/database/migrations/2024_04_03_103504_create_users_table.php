@@ -23,6 +23,9 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('name');
             $table->string('email');
+            $table->date('born_date')->nullable(); // implementar en las tablas.
+            $table->string('area')->nullable(); //code  postal para la ubicacion o poblacion, mejorar el campo que lo ubique mejor
+
 
             $table->timestamps();
         });

@@ -3,28 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use \stdClass;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-
-        $validator = Validator::make($request->all(),[
-             'role_id' => 'required',
-             'username' => 'required|string|max:255',
-             'password' => 'required|string|min:8',
-             'name' => 'required|string|max:255',
-             'email' => 'required|string|email|max:255|unique:users',
+    public function register(Request $request)
+    {
+        // Validar los datos del formulario
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
         ]);
 
-        if($validator->fails()){
-             return response()->json($validator->errors(),400);
+        // Si la validación falla, devolver los errores
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 
+        // Crear un nuevo usuario
         $user = User::create([
             'role_id' => $request->role_id,
             'username' => $request->username,
@@ -33,50 +37,48 @@ class AuthController extends Controller
             'email' => $request->email
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Generar un token JWT para el nuevo usuario
+        $token = JWTAuth::fromUser($user);
 
-     return response()
-     ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
+        // Devolver la respuesta con el usuario y el token
+        return response()->json([
+            'data' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+    }
 
-     }
+    public function login(Request $request)
+    {
+        // Validar las credenciales del usuario
+        $credentials = $request->only('email', 'password');
 
-     public function login(Request $request){
+        // Si las credenciales son inválidas, devolver un error
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }
 
-         if(Auth::attempt($request->only('email','password'))){
+        // Obtener el usuario autenticado
+        $user = Auth::user();
 
-             return response()
-             ->json(['message' => 'Unauthorized'], 401);
-         }
+        // Generar un token JWT para el usuario autenticado
+        $token = JWTAuth::fromUser($user);
 
-         $user = User::where('email', $request['email'])->firstOrFail();
+        // Devolver la respuesta con el usuario y el token
+        return response()->json([
+            'message' => 'Hi ' . $user->name,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+        ]);
+    }
 
-         $token = $user->createToken('auth_token')->plainTextToken;
+    public function logout(Request $request)
+    {
+        // Revocar el token JWT del usuario autenticado
+        JWTAuth::parseToken()->invalidate();
 
-
-         return response()
-             ->json([
-                 'message' => 'Hi '.$user->name,
-                 'accessToken' => $token,
-                 'token_type' => 'Bearer',
-                 'user' => $user,
-             ]);
-
-     }
-
-
-     public function logout()
-     {
-         // Verificar si el usuario está autenticado
-         if (auth()->user()) {
-             // Eliminar todos los tokens de acceso del usuario
-             auth()->user()->tokens()->delete();
-
-             // Retornar un mensaje de éxito
-             return ['message' => 'You have successfully logged out and all tokens were deleted.'];
-         } else {
-             // Si el usuario no está autenticado, retornar un mensaje de error
-             return ['message' => 'No user is currently authenticated.'];
-         }
-     }
-
+        // Retornar un mensaje de éxito
+        return response()->json(['message' => 'Logout successful']);
+    }
 }

@@ -12,7 +12,7 @@ class Student extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'area',
+        'course',
     ];
     protected $guarded = [
         'id',
