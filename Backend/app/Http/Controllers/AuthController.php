@@ -11,18 +11,19 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request)
+    {
 
-        $validator = Validator::make($request->all(),[
-             'role_id' => 'required',
-             'username' => 'required|string|max:255',
-             'password' => 'required|string|min:8',
-             'name' => 'required|string|max:255',
-             'email' => 'required|string|email|max:255|unique:users',
+        $validator = Validator::make($request->all(), [
+            'role_id' => 'required',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
         ]);
 
-        if($validator->fails()){
-             return response()->json($validator->errors(),400);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
 
         $user = User::create([
@@ -35,48 +36,46 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-     return response()
-     ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
+        return response()
+            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+    }
 
-     }
+    public function login(Request $request)
+    {
 
-     public function login(Request $request){
+        if (Auth::attempt($request->only('email', 'password'))) {
 
-         if(Auth::attempt($request->only('email','password'))){
+            return response()
+                ->json(['message' => 'Unauthorized'], 401);
+        }
 
-             return response()
-             ->json(['message' => 'Unauthorized'], 401);
-         }
+        $user = User::where('email', $request['email'])->firstOrFail();
 
-         $user = User::where('email', $request['email'])->firstOrFail();
-
-         $token = $user->createToken('auth_token')->plainTextToken;
-
-
-         return response()
-             ->json([
-                 'message' => 'Hi '.$user->name,
-                 'accessToken' => $token,
-                 'token_type' => 'Bearer',
-                 'user' => $user,
-             ]);
-
-     }
+        $token = $user->createToken('auth_token')->plainTextToken;
 
 
-     public function logout()
-     {
-         // Verificar si el usuario está autenticado
-         if (auth()->user()) {
-             // Eliminar todos los tokens de acceso del usuario
-             auth()->user()->tokens()->delete();
+        return response()
+            ->json([
+                'message' => 'Hi ' . $user->name,
+                'accessToken' => $token,
+                'token_type' => 'Bearer',
+                'user' => $user,
+            ]);
+    }
 
-             // Retornar un mensaje de éxito
-             return ['message' => 'You have successfully logged out and all tokens were deleted.'];
-         } else {
-             // Si el usuario no está autenticado, retornar un mensaje de error
-             return ['message' => 'No user is currently authenticated.'];
-         }
-     }
 
+    public function logout()
+    {
+        // Verificar si el usuario está autenticado
+        if (auth()->check()) {
+            // Eliminar todos los tokens de acceso del usuario
+            auth()->user()->tokens()->delete();
+
+            // Retornar un mensaje de éxito
+            return ['message' => 'Has cerrado sesión exitosamente y todos los tokens han sido eliminados.'];
+        } else {
+            // Si el usuario no está autenticado, retornar un mensaje de error
+            return ['message' => 'No hay ningún usuario autenticado actualmente.'];
+        }
+    }
 }
