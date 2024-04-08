@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-use \stdClass;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-
+        // Validar los datos del formulario
         $validator = Validator::make($request->all(), [
             'role_id' => 'required',
             'username' => 'required|string|max:255',
@@ -22,10 +23,12 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
         ]);
 
+        // Si la validación falla, devolver los errores
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
         }
 
+        // Crear un nuevo usuario
         $user = User::create([
             'role_id' => $request->role_id,
             'username' => $request->username,
@@ -34,48 +37,48 @@ class AuthController extends Controller
             'email' => $request->email
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Generar un token JWT para el nuevo usuario
+        $token = JWTAuth::fromUser($user);
 
-        return response()
-            ->json(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+        // Devolver la respuesta con el usuario y el token
+        return response()->json([
+            'data' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
     }
 
     public function login(Request $request)
     {
+        // Validar las credenciales del usuario
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-
-            return response()
-                ->json(['message' => 'Unauthorized'], 401);
+        // Si las credenciales son inválidas, devolver un error
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Generar un token JWT para el usuario autenticado
+        $token = JWTAuth::fromUser($user);
 
-
-        return response()
-            ->json([
-                'message' => 'Hi ' . $user->name,
-                'accessToken' => $token,
-                'token_type' => 'Bearer',
-                'user' => $user,
-            ]);
+        // Devolver la respuesta con el usuario y el token
+        return response()->json([
+            'message' => 'Hi ' . $user->name,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'user' => $user,
+        ]);
     }
 
-
-    public function logout()
+    public function logout(Request $request)
     {
-        // Verificar si el usuario está autenticado
-        if (auth()->check()) {
-            // Eliminar todos los tokens de acceso del usuario
-            auth()->user()->tokens()->delete();
+        // Revocar el token JWT del usuario autenticado
+        JWTAuth::parseToken()->invalidate();
 
-            // Retornar un mensaje de éxito
-            return ['message' => 'Has cerrado sesión exitosamente y todos los tokens han sido eliminados.'];
-        } else {
-            // Si el usuario no está autenticado, retornar un mensaje de error
-            return ['message' => 'No hay ningún usuario autenticado actualmente.'];
-        }
+        // Retornar un mensaje de éxito
+        return response()->json(['message' => 'Logout successful']);
     }
 }

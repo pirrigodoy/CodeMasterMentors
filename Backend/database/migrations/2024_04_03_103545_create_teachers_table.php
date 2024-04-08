@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->string('name');
-            $table->string('precio/hora');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
+            $table->string('price/hour');
+            $table->string('expirience');//implementar en las tablas de modelo relacional.
             $table->string('languages');
+            $table->string('disponibility');//poner un campor de disponibilidad horaria
+
 
 
             $table->timestamps();
