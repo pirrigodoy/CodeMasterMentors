@@ -22,7 +22,9 @@ export class LoginComponent {
           // Manejar la respuesta de éxito, por ejemplo, redirigir al usuario a otra página
           console.log('Login exitoso:', response);
           loginSuccess: "Login Exitoso";
-          this.router.navigate(['/home']); // Redirige al componente Home después del inicio de sesión exitoso
+          this.router.navigate(['/home']).then(() => {
+            window.location.reload();
+          });
         },
         error => {
           // Manejar errores, por ejemplo, mostrar un mensaje de error al usuario

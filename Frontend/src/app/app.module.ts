@@ -11,7 +11,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
-import { ApiService } from './services/api.service'; // Importa tu servicio API
+import { ApiService } from './services/api.service';
+import { NavbarComponent } from './components/navbar/navbar.component'; // Importa tu servicio API
 
 
 // import { AuthService } from './auth.service';
@@ -25,6 +26,7 @@ import { ApiService } from './services/api.service'; // Importa tu servicio API
     RegisterComponent,
     NotfoundComponent,
     LogoutComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
