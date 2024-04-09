@@ -10,6 +10,9 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
 import { HttpClientModule } from '@angular/common/http';
+import { LogoutComponent } from './components/logout/logout.component';
+import { ApiService } from './services/api.service'; // Importa tu servicio API
+
 
 // import { AuthService } from './auth.service';
 
@@ -21,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     RegisterComponent,
     NotfoundComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
