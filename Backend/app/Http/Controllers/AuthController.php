@@ -21,6 +21,9 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'born_date' => 'required|string',
+            'area' => 'required|string',
+            'img' =>'required|string'
         ]);
 
         // Si la validación falla, devolver los errores
@@ -34,7 +37,10 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'name' => $request->name,
-            'email' => $request->email
+            'email' => $request->email,
+            'born_date' => $request->born_date,
+            'area' => $request->area,
+            'img' => $request->img
         ]);
 
         // Generar un token JWT para el nuevo usuario
@@ -75,10 +81,15 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Revocar el token JWT del usuario autenticado
-        JWTAuth::parseToken()->invalidate();
+        try {
+            // Intentar revocar el token JWT del usuario autenticado
+            JWTAuth::parseToken()->invalidate();
 
-        // Retornar un mensaje de éxito
-        return response()->json(['message' => 'Logout successful']);
+            // Retornar un mensaje de éxito
+            return response()->json(['message' => 'Logout successful'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            // Capturar excepciones y devolver un mensaje de error
+            return response()->json(['message' => 'Logout failed', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

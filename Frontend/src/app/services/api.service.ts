@@ -4,15 +4,10 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Data } from '@angular/router';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  checkUserExists(username: string, email: string) {
-    throw new Error('Method not implemented.');
-  }
-
   // URL de tu API en Laravel
   private apiUrl = 'http://127.0.0.1:8000/api/';
 
@@ -21,6 +16,10 @@ export class ApiService {
   // Método para realizar una solicitud GET
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'endpoint');
+  }
+
+  getTeachers(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}teachers`);
   }
 
   // Método para realizar una solicitud POST
@@ -44,11 +43,29 @@ export class ApiService {
         })
       );
   }
-  // Otros métodos para PUT, DELETE, etc.
 
-register(credentials: {username: string, password: string, role_id: string, name: string, email:string, born_date: string, area: string}){
-  return this.http.post<any>(`${this.apiUrl}register`, credentials);
+  // Método para cerrar sesión
+  logout() {
+    // Elimina el token de acceso del almacenamiento local
+    localStorage.removeItem('access_token');
+    // Realiza una solicitud de cierre de sesión al backend (si es necesario)
+    return this.http.post<any>(`${this.apiUrl}logout`, {});
+  }
+
+  // Método para registrar un nuevo usuario
+  register(credentials: {
+    username: string,
+    password: string,
+    role_id: string,
+    name: string,
+    email: string,
+    born_date: string,
+    area: string,
+    img:string
+  }) {
+    return this.http.post<any>(`${this.apiUrl}register`, credentials);
+  }
 }
-}
+
 
 

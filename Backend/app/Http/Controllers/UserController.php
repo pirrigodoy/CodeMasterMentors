@@ -26,8 +26,9 @@ class UserController extends Controller
                 'password' => 'required|min:8',
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users',
-                'born_date' => 'required|date',
+                'born_date' => 'required|string',
                 'area' => 'required|string',
+                'img' =>'required|string'
             ]);
 
             $user = User::create($request->all());
@@ -58,8 +59,9 @@ class UserController extends Controller
                 'password' => 'required|min:8',
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email,' . $id,
-                'born_date' => 'required|date',
+                'born_date' => 'required|string',
                 'area' => 'required|string',
+                'img' =>'required|string'
             ]);
             $user->update($request->all());
             return ApiResponse::success('Usuario actualizado exitosamente', 200, $user);
