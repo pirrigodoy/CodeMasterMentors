@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ProgrammingLanguageController;
+
 
 
 
@@ -34,4 +36,5 @@ Route::middleware(['auth:sanctum'])->group(function() {
 Route::apiResource('users', UserController::class);
 Route::apiResource('students', StudentController::class);
 Route::apiResource('teachers', TeacherController::class);
+Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 

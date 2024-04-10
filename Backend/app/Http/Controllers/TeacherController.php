@@ -26,7 +26,6 @@ class TeacherController extends Controller
             $request->validate([
                 'user_id' => 'required',
                 'price_per_hour' => 'required',
-                'born_date' => 'required|date',
                 'experience' => 'required',
                 'languages' => 'required',
                 'availability' => 'required',
@@ -56,7 +55,6 @@ class TeacherController extends Controller
             $request->validate([
                 'user_id' => 'required',
                 'price_per_hour' => 'required',
-                'born_date' => 'required|date',
                 'experience' => 'required',
                 'languages' => 'required',
                 'availability' => 'required',

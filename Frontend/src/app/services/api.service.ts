@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Data } from '@angular/router';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,9 +18,13 @@ export class ApiService {
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'endpoint');
   }
+  getTeachers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}teachers`);
+  }
 
-  getTeachers(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}teachers`);
+
+  getProgrammingLanguages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}programminglanguages`);
   }
 
   // Método para realizar una solicitud POST

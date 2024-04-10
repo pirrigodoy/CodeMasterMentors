@@ -18,7 +18,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
-            $table->string('price/hour');
+            $table->string('price_hour');
             $table->string('expirience');//implementar en las tablas de modelo relacional.
             $table->string('languages');
             $table->string('disponibility');//poner un campor de disponibilidad horaria
