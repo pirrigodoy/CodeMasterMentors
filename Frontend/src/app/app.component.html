@@ -7,6 +7,7 @@
     <div class="flex md:order-2 rtl:space-x-reverse">
 
 
+
       <!-- Mostrar botones de inicio de sesión y registro solo si el usuario no está autenticado -->
       <a *ngIf="!isLoggedIn" routerLink="/login" class="ml-2">
         <button type="button"
@@ -25,8 +26,7 @@
       </a> -->
 
       <a *ngIf="isLoggedIn" class="ml-2 relative" (click)="toggleDropdown()">
-        <button type="button"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Profile</button>
+        <img src="{{users.img}}" alt="User Image" class="h-8 w-8 rounded-full">
         <div *ngIf="showDropdown"
           class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
           <a href="#"
@@ -41,6 +41,7 @@
           </a>
         </div>
       </a>
+
 
       <!-- Boton util no borrar -->
       <button data-collapse-toggle="navbar-sticky" type="button"

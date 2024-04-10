@@ -22,6 +22,9 @@ export class ApiService {
     return this.http.get<any[]>(`${this.apiUrl}teachers`);
   }
 
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}users`);
+  }
 
   getProgrammingLanguages(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}programminglanguages`);
