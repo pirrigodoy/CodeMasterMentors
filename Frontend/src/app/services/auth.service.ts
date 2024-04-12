@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +25,19 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}login`, credentials)
       .pipe(
         tap(response => {
+          console.log('Login response:', response); // Agregar esta línea para depurar
           // Almacena el token de acceso en el almacenamiento local
           localStorage.setItem('access_token', response.access_token);
+          // Si la respuesta contiene el ID del usuario, almacénalo en el almacenamiento local también
+          if (response.user && response.user.id) {
+            localStorage.setItem('user_id', response.user.id);
+          }
           // Emite un nuevo valor de true para indicar que el usuario está autenticado
           this.isLoggedInSubject.next(true);
         })
       );
   }
+
 
   // Método para cerrar sesión
   logout() {
@@ -47,4 +54,12 @@ export class AuthService {
     // Devuelve true si existe un token de acceso en el almacenamiento local, de lo contrario, false
     return !!localStorage.getItem('access_token');
   }
+
+
+
+
+
 }
+
+
+

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Data } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +16,7 @@ export class ApiService {
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl + 'endpoint');
   }
+
   getTeachers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}teachers`);
   }
@@ -48,6 +47,7 @@ export class ApiService {
         tap(response => {
           // Almacena el token de acceso en el almacenamiento local
           localStorage.setItem('access_token', response.access_token);
+          localStorage.setItem('user_id', response.user.id);
         })
       );
   }
@@ -56,8 +56,20 @@ export class ApiService {
   logout() {
     // Elimina el token de acceso del almacenamiento local
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
+
     // Realiza una solicitud de cierre de sesión al backend (si es necesario)
     return this.http.post<any>(`${this.apiUrl}logout`, {});
+  }
+
+  // Método para obtener los datos del usuario por su ID
+  getUserData(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}users/${userId}`);
+  }
+
+  // Método para actualizar los datos del usuario
+  updateUserData(userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}users/${userData.id}`, userData);
   }
 
   // Método para registrar un nuevo usuario
@@ -74,6 +86,3 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}register`, credentials);
   }
 }
-
-
-
