@@ -9,7 +9,6 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // programmingLanguages: any = [];
   teachers: any = [];
   users: any = [];
   programmingLanguages: any = [];
@@ -21,41 +20,28 @@ export class HomeComponent implements OnInit {
     this.getTeachers();
     this.getUsers();
     this.getProgrammingLanguages();
-    // this.getProgrammingLanguages();
   }
 
-  // getTeachers(): void {
-  //     this.apiService.getTeachers()
-  //     .subscribe(teachers => {
-  //       this.teachers = teachers;
-  //       console.log('Teachers:', teachers);
-  //     });
-  // }
-getTeachers(){
-  return this.apiService.getTeachers().subscribe((teachers:{})=> {
-    this.teachers = teachers;
-    console.log('Teachers:', teachers);
-  })
-}
+  getTeachers() {
+    return this.apiService.getTeachers().subscribe((teachers: {}) => {
+      this.teachers = teachers;
+      console.log('Teachers:', teachers);
+    })
+  }
 
-getUsers(){
-  return this.apiService.getUsers().subscribe((users:{})=> {
-    this.users = users;
-    console.log('Users:', users);
-  })
-}
+  getUsers() {
+    return this.apiService.getUsers().subscribe((users: {}) => {
+      this.users = users;
+      console.log('Users:', users);
+    })
+  }
 
-getProgrammingLanguages(){
-  return this.apiService.getProgrammingLanguages().subscribe((programmingLanguages:{})=> {
-    this.programmingLanguages = programmingLanguages;
-    console.log('ProgrammingLanguages:', programmingLanguages);
-  })
-}
+  getProgrammingLanguages() {
+    return this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: {}) => {
+      this.programmingLanguages = programmingLanguages;
+      console.log('ProgrammingLanguages:', programmingLanguages);
+    })
+  }
 
-
-  // getProgrammingLanguages(): void {
-  //   this.apiService.getProgrammingLanguages()
-  //     .subscribe(languages => this.programmingLanguages = languages);
-  // }
 }
 

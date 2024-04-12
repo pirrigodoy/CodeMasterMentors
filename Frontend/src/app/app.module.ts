@@ -12,7 +12,8 @@ import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsMod
 import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ApiService } from './services/api.service';
-import { NavbarComponent } from './components/navbar/navbar.component'; // Importa tu servicio API
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProfileComponent } from './components/profile/profile.component'; // Importa tu servicio API
 
 
 // import { AuthService } from './auth.service';
@@ -27,6 +28,7 @@ import { NavbarComponent } from './components/navbar/navbar.component'; // Impor
     NotfoundComponent,
     LogoutComponent,
     NavbarComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

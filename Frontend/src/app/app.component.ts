@@ -10,15 +10,20 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false; // Inicializa isLoggedIn como falso por defecto
   showDropdown: boolean = false;
   users: any = [];
-
+  userId: string | null = null;
   constructor(private authService: AuthService, private apiService:ApiService
   ) { }
 
   ngOnInit() {
-    // Suscribe a isLoggedIn$ para actualizar isLoggedIn cuando cambie el estado de autenticación
     this.getUsers();
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
+      if (isLoggedIn) {
+        // Cuando el usuario está autenticado, recuperamos su ID del almacenamiento local
+        this.userId = localStorage.getItem('user_id');
+      } else {
+        this.userId = null;
+      }
     });
   }
 
