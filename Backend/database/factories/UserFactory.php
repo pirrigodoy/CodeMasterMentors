@@ -22,7 +22,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $roles = [1, 2, 3]; // IDs de los roles disponibles
+        $roles = [1, 2]; // IDs de los roles disponibles
 
         return [
             'username' => $this->faker->userName,
