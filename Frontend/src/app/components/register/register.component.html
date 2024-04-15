@@ -34,7 +34,7 @@
               [(ngModel)]="role_id" required #roleIdInput="ngModel">
               <option value="" disabled>Select a role</option>
               <ng-container *ngFor="let role of roles.data">
-                <option *ngIf="role.id == 1 || role.id == 2" [value]="role.id">{{ role.name }}</option>
+                <option *ngIf="role.name !== 'Admin'" [value]="role.id">{{ role.name }}</option>
               </ng-container>
             </select>
             <div *ngIf="roleIdInput.touched && !role_id" class="text-red-500">Role is required</div>
