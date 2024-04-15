@@ -20,7 +20,7 @@ export class LoginComponent {
       .subscribe(
         response => {
           // Manejar la respuesta de éxito, por ejemplo, redirigir al usuario a otra página
-          console.log('Login exitoso:', response);
+          // console.log('Login exitoso:', response);
           loginSuccess: "Login Exitoso";
           this.router.navigate(['/home']).then(() => {
             window.location.reload();

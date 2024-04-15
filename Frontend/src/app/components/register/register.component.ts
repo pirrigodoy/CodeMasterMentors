@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   // Variables para almacenar los datos del formulario y mensajes de éxito/error
   username: string = '';
   password: string = '';
@@ -16,16 +16,21 @@ export class RegisterComponent {
   email: string = '';
   born_date: string = '';
   area: string = '';
-  img: string ='';
+  img: string = '';
   registerSuccess: string = '';
   errorMessage: string = '';
   emailPattern: any;
+  roles: any = [];
 
   constructor(private apiService: ApiService, private router: Router) { }
 
+  ngOnInit(): void {
+    this.getRoles();
+  }
+
   onSubmit() {
     // Validar si todos los campos están llenos
-    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.area || !this.img ) {
+    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.area || !this.img) {
       this.errorMessage = 'Por favor, complete todos los campos.';
       return; // Detener la ejecución si algún campo está vacío
     }
@@ -64,5 +69,12 @@ export class RegisterComponent {
         console.error('Error en el registro:', error);
       }
     );
+  }
+  getRoles() {
+    this.apiService.getRoles().subscribe((roles: any) => {
+      this.roles = roles;
+       console.log('roles:', roles);
+
+    });
   }
 }

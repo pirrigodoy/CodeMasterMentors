@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   getUsers() {
     return this.apiService.getUsers().subscribe((users: {}) => {
       this.users = users;
-      console.log('Users:', users);
+      // console.log('Users:', users);
     })
   }
 }

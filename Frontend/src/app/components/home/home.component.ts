@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -12,7 +10,7 @@ export class HomeComponent implements OnInit {
   teachers: any = [];
   users: any = [];
   programmingLanguages: any = [];
-
+  searchQuery: string = '';
 
   constructor(private apiService: ApiService) { }
 
@@ -23,25 +21,32 @@ export class HomeComponent implements OnInit {
   }
 
   getTeachers() {
-    return this.apiService.getTeachers().subscribe((teachers: {}) => {
+    this.apiService.getTeachers().subscribe((teachers: any) => {
       this.teachers = teachers;
-      console.log('Teachers:', teachers);
-    })
+      // console.log('Teachers:', teachers);
+
+    });
   }
 
   getUsers() {
-    return this.apiService.getUsers().subscribe((users: {}) => {
+    this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-      console.log('Users:', users);
-    })
+      // console.log('Users:', users);
+
+    });
   }
 
   getProgrammingLanguages() {
-    return this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: {}) => {
+    this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-      console.log('ProgrammingLanguages:', programmingLanguages);
-    })
+      // console.log('ProgrammingLanguages:', programmingLanguages);
+    });
   }
 
-}
+  filterTeachersByLanguage(language: string) {
+    return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
+  }
 
+
+
+}
