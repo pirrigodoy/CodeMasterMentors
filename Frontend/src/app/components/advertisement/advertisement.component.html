@@ -5,8 +5,11 @@
 
   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ advertisementData.title }}</h5>
 
-  <p class="font-normal text-gray-700 dark:text-gray-400">UserID: {{ advertisementData.user_id }}</p>
-
+  <ng-container *ngFor="let user of users.data">
+    <ng-container *ngIf="user.id === advertisementData.user_id">
+      <p class="font-normal text-gray-700 dark:text-gray-400">Nombre: {{ user.name }}</p>
+    </ng-container>
+  </ng-container>
   <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
     <ng-container *ngIf="programmingLanguage.id === advertisementData.programmingLanguage_id">
       <p class="font-normal text-gray-700 dark:text-gray-400">Lenguaje de Programación: {{ programmingLanguage.languageName }}</p>

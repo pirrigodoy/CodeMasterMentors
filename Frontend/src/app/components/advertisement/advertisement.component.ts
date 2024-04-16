@@ -11,6 +11,8 @@ export class AdvertisementComponent implements OnInit {
   advertisementId: string = '';
   advertisementData: any = {}; // Debes definir la estructura de tu modelo de datos para el anuncio
   programmingLanguages: any = [];
+  users: any = [];
+
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
@@ -38,6 +40,7 @@ export class AdvertisementComponent implements OnInit {
     );
 
     this.getProgrammingLanguages();
+    this.getUsers();
 
   }
 
@@ -45,6 +48,14 @@ export class AdvertisementComponent implements OnInit {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
        console.log('ProgrammingLanguages:', programmingLanguages);
+    });
+  }
+
+  getUsers() {
+    this.apiService.getUsers().subscribe((users: any) => {
+      this.users = users;
+       console.log('Users:', users);
+
     });
   }
 }
