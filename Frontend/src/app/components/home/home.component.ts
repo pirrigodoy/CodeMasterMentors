@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
-      // console.log('Teachers:', teachers);
+       console.log('Advertisements:', advertisements);
 
     });
   }
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-      // console.log('Users:', users);
+       console.log('Users:', users);
 
     });
   }
@@ -39,9 +39,15 @@ export class HomeComponent implements OnInit {
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-      // console.log('ProgrammingLanguages:', programmingLanguages);
+       console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
+
+
+
+
+
+
 
   // filterTeachersByLanguage(language: string) {
   //   return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
@@ -49,4 +55,8 @@ export class HomeComponent implements OnInit {
 
 
 
+
+
+
 }
+

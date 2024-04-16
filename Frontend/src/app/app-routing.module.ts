@@ -6,6 +6,9 @@ import { LoginComponent } from './components/login/login.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 
 const routes: Routes = [
 
@@ -13,6 +16,11 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'logout', component: LogoutComponent },
+  { path: 'aboutus', component: AboutusComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'advertisement/:id', component: AdvertisementComponent },
+
+
   { path: 'profile/:userId', component: ProfileComponent },
 
 

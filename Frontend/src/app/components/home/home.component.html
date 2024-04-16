@@ -13,43 +13,49 @@
 <br>
 
 
-<!-- Parte del código donde se muestran las cards con la info de la base de datos -->
 <div class="antialiased text-gray-900">
   <div class="flex flex-wrap -mx-4">
-    <ng-container *ngFor="let user of users.data">
-      <div *ngIf="user.role_id === 2" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 px-4 mb-8">
+    <ng-container *ngFor="let advertisement of advertisements.data">
+      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 px-4 mb-8">
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
-          <img class="h-48 w-full object-cover object-end" src="{{user.img}}" alt="User Image" />
-          <div class="p-6">
-            <div class="flex items-baseline">
-              <ng-container *ngFor="let advertisement of programmingLanguages.data">
-              <span  *ngIf="advertisement.user_id === user.id"
-                class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">{{advertisement.programmingLanguage_id.languageName}}</span>
-              </ng-container>
-              <div class="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
-                {{user.area}}
-              </div>
-            </div>
-            <h4 class="mt-2 font-semibold text-lg leading-tight truncate">{{user.name}}</h4>
+          <ng-container *ngFor="let user of users.data">
+            <div *ngIf="user.id === advertisement.user_id">
+              <a [routerLink]="['/advertisement', advertisement.id]">
+                <img class="h-48 w-full object-cover object-end" src="{{user.img}}" alt="User Image" />
+                <!-- Resto del contenido omitido para mayor claridad -->
+              </a>
+              <div class="p-6">
+                <div class="flex items-baseline">
+                  <span class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">
+                    <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
+                      <ng-container *ngIf="programmingLanguage.id === advertisement.programmingLanguage_id">
+                        {{ programmingLanguage.languageName  }}
+                      </ng-container>
+                    </ng-container>
+                  </span>
+                  <div class="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
+                    {{user.area}}
+                  </div>
+                </div>
+                <h4 class="mt-2 font-semibold text-lg leading-tight truncate">{{user.name}}</h4>
 
-            <ng-container *ngFor="let advertisement of advertisements.data">
-              <div class="mt-1" *ngIf="advertisement.user_id === user.id">
-                <span>{{advertisement.price_hour}}€/h</span>
+                <div class="mt-1">
+                  <span>{{advertisement.price_hour}}€/h</span>
+                </div>
+                <div class="mt-2 flex items-center">
+                  <span class="text-teal-600 font-semibold">
+                    <span>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="far fa-star"></i>
+                    </span>
+                  </span>
+                </div>
               </div>
-            </ng-container>
-            <div class="mt-2 flex items-center">
-              <span class="text-teal-600 font-semibold">
-                <span>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
-                  <span class="ml-2 text-gray-600 text-sm">34 reviews</span>
-                </span>
-              </span>
             </div>
-          </div>
+          </ng-container>
         </div>
       </div>
     </ng-container>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 
@@ -13,7 +13,12 @@ export class LoginComponent {
   loginSuccess: string = '';
   errorMessage: string = '';
 
-  constructor(private apiService: ApiService,  private router: Router) { }
+  @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(private apiService: ApiService,  private router: Router) {
+    this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
+
+   }
 
   onSubmit() {
     this.apiService.login({ email: this.email, password: this.password })
