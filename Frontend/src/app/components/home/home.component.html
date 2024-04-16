@@ -20,7 +20,7 @@
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
           <ng-container *ngFor="let user of users.data">
             <div *ngIf="user.id === advertisement.user_id">
-              <a [routerLink]="['/advertisement', advertisement.id]">
+              <a [routerLink]="['/advertisement', advertisement.id]" (click)="createCookie(advertisement.id)">
                 <img class="h-48 w-full object-cover object-end" src="{{user.img}}" alt="User Image" />
                 <!-- Resto del contenido omitido para mayor claridad -->
               </a>

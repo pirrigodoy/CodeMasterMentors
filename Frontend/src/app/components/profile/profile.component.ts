@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-profile',
