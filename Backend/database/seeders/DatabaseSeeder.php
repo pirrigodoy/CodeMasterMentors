@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
-use App\Models\Student;
-use App\Models\Teacher;
 use App\Models\ProgrammingLanguage;
 
 
@@ -25,8 +23,5 @@ class DatabaseSeeder extends Seeder
         // Crear usuarios junto con un rol aleatorio
         User::factory(10)->create();
         ProgrammingLanguage::factory()->count(10)->create();
-        Student::factory(10)->create();
-
-        Teacher::factory(5)->create();
     }
 }

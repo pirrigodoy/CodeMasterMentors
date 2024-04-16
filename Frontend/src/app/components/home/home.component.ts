@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  teachers: any = [];
+  advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
   searchQuery: string = '';
@@ -15,14 +15,14 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.getTeachers();
+    this.getAdvertisements();
     this.getUsers();
     this.getProgrammingLanguages();
   }
 
-  getTeachers() {
-    this.apiService.getTeachers().subscribe((teachers: any) => {
-      this.teachers = teachers;
+  getAdvertisements() {
+    this.apiService.getAdvertisements().subscribe((advertisements: any) => {
+      this.advertisements = advertisements;
       // console.log('Teachers:', teachers);
 
     });
@@ -43,9 +43,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  filterTeachersByLanguage(language: string) {
-    return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
-  }
+  // filterTeachersByLanguage(language: string) {
+  //   return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
+  // }
 
 
 

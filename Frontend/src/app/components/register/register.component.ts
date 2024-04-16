@@ -73,8 +73,12 @@ export class RegisterComponent implements OnInit {
   getRoles() {
     this.apiService.getRoles().subscribe((roles: any) => {
       this.roles = roles;
-       console.log('roles:', roles);
+      console.log('roles:', roles);
 
     });
   }
+
+  
+
+
 }

@@ -4,16 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Teacher;
+use App\Models\User;
 use App\Models\ProgrammingLanguage;
 
 
-class TeacherProgramming extends Model
+class Advertisement extends Model
 {
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'programming_language_id'
+        'programming_language_id',
+        'title',
+        'class',
+        'about_me',
+        'description',
+        'price_hour',
+        'disponibility',
+        'experience'
 
     ];
     protected $guarded = [
@@ -28,11 +35,13 @@ class TeacherProgramming extends Model
         return 'id';
     }
 
-    public function teacher(){
-        return $this->belongsTo(Teacher::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
-    public function programmingLanguage(){
+    public function programmingLanguage()
+    {
         return $this->belongsTo(ProgrammingLanguage::class);
     }
 }

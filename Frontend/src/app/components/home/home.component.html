@@ -22,9 +22,9 @@
           <img class="h-48 w-full object-cover object-end" src="{{user.img}}" alt="User Image" />
           <div class="p-6">
             <div class="flex items-baseline">
-              <ng-container *ngFor="let teacher of teachers.data">
-              <span  *ngIf="teacher.user_id === user.id"
-                class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">{{teacher.languages}}</span>
+              <ng-container *ngFor="let advertisement of programmingLanguages.data">
+              <span  *ngIf="advertisement.user_id === user.id"
+                class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">{{advertisement.programmingLanguage_id.languageName}}</span>
               </ng-container>
               <div class="ml-2 text-gray-600 text-xs uppercase font-semibold tracking-wide">
                 {{user.area}}
@@ -32,9 +32,9 @@
             </div>
             <h4 class="mt-2 font-semibold text-lg leading-tight truncate">{{user.name}}</h4>
 
-            <ng-container *ngFor="let teacher of teachers.data">
-              <div class="mt-1" *ngIf="teacher.user_id === user.id">
-                <span>{{teacher.price_hour}}€/h</span>
+            <ng-container *ngFor="let advertisement of advertisements.data">
+              <div class="mt-1" *ngIf="advertisement.user_id === user.id">
+                <span>{{advertisement.price_hour}}€/h</span>
               </div>
             </ng-container>
             <div class="mt-2 flex items-center">

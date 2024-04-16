@@ -13,7 +13,7 @@ class RoleController extends Controller
     public function index()
     {
         try {
-            $roles = Role::all(['name']); // Obtener solo el campo 'name'
+            $roles = Role::all(['name','id']); // Obtener solo el campo 'name'
             return ApiResponse::success('Lista de roles', 200, $roles);
         } catch (\Exception $e) {
             return ApiResponse::error('Error al obtener la lista de roles', 500);

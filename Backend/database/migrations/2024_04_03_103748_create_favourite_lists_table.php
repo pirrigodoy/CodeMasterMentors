@@ -13,16 +13,12 @@ return new class extends Migration
     {
         Schema::create('favourite_lists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('teacher_id');
-            $table->foreign('teacher_id')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('teachers')
+                ->on('users')
                 ->cascadeOnDelete();
-                $table->unsignedBigInteger('student_id');
-            $table->foreign('student_id')
-                ->references('id')
-                ->on('students')
-                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
