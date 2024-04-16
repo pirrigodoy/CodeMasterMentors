@@ -24,7 +24,7 @@ class ProgrammingLanguageFactory extends Factory
         $languages = ['JavaScript', 'Python', 'Java', 'C#', 'PHP', 'Ruby', 'Swift', 'TypeScript', 'Go', 'Kotlin'];
 
         return [
-            'name' => $this->faker->unique()->randomElement($languages),
+            'languageName' => $this->faker->unique()->randomElement($languages),
         ];
     }
 }

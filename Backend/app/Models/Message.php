@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Teacher;
-use App\Models\Student;
+
 
 
 class Message extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'teacher_id',
-        'student_id',
+        'user_id',
         'content',
         'date',
         'status'
@@ -29,12 +27,5 @@ class Message extends Model
     {
         return 'id';
     }
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
+
 }

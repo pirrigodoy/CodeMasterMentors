@@ -13,7 +13,7 @@ class TeacherFavouriteList extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'teacher_id',
+        'user_id',
         'favourite_list_id',
     ];
     protected $guarded = [

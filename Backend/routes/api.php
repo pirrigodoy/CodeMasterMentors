@@ -5,12 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ProgrammingLanguageController;
-
-
-
+use App\Http\Controllers\AdvertisementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +32,6 @@ Route::middleware(['auth:sanctum'])->group(function() {
 });
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('users', UserController::class);
-Route::apiResource('students', StudentController::class);
-Route::apiResource('teachers', TeacherController::class);
+Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 

@@ -17,33 +17,33 @@ export class ApiService {
     return this.http.get<any>(this.apiUrl + 'endpoint');
   }
 
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
-  getTeachers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}teachers`);
+  getAdvertisements(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}advertisements`);
   }
 
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
 
   getUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}users`);
   }
 
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
   getProgrammingLanguages(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}programminglanguages`);
   }
 
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
   getRoles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}roles`);
   }
 
-//----------------------------------------------------------------------
-// Método para realizar una solicitud POST
+  //----------------------------------------------------------------------
+  // Método para realizar una solicitud POST
   postData(data: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
     const httpOptions = {
@@ -55,7 +55,7 @@ export class ApiService {
     return this.http.post<any>(this.apiUrl + 'endpoint', data, httpOptions);
   }
 
-//----------------------------------------------------------------------
+  //----------------------------------------------------------------------
 
   login(credentials: { email: string, password: string }) {
     return this.http.post<any>(`${this.apiUrl}login`, credentials)
@@ -68,8 +68,8 @@ export class ApiService {
       );
   }
 
-//----------------------------------------------------------------------
-// Método para cerrar sesión
+  //----------------------------------------------------------------------
+  // Método para cerrar sesión
   logout() {
     // Elimina el token de acceso del almacenamiento local
     localStorage.removeItem('access_token');
@@ -79,20 +79,22 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}logout`, {});
   }
 
-//----------------------------------------------------------------------
-// Método para obtener los datos del usuario por su ID
+  //----------------------------------------------------------------------
+  // Método para obtener los datos del usuario por su ID
   getUserData(userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}users/${userId}`);
   }
 
-//----------------------------------------------------------------------
-// Método para actualizar los datos del usuario
+  //----------------------------------------------------------------------
+  // Método para actualizar los datos del usuario
   updateUserData(userData: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}users/${userData.id}`, userData);
   }
 
-//----------------------------------------------------------------------
-// Método para registrar un nuevo usuario
+  //----------------------------------------------------------------------
+
+
+  // Método para registrar un nuevo usuario
   register(credentials: {
     username: string,
     password: string,

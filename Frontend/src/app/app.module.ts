@@ -13,7 +13,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ApiService } from './services/api.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProfileComponent } from './components/profile/profile.component'; // Importa tu servicio API
+import { ProfileComponent } from './components/profile/profile.component';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { AdvertisementComponent } from './advertisement/advertisement.component'; // Importa tu servicio API
 
 
 // import { AuthService } from './auth.service';
@@ -29,6 +32,9 @@ import { ProfileComponent } from './components/profile/profile.component'; // Im
     LogoutComponent,
     NavbarComponent,
     ProfileComponent,
+    AboutusComponent,
+    ContactComponent,
+    AdvertisementComponent,
   ],
   imports: [
     BrowserModule,

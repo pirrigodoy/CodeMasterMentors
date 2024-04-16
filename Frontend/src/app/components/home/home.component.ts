@@ -7,7 +7,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  teachers: any = [];
+  advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
   searchQuery: string = '';
@@ -15,15 +15,15 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.getTeachers();
+    this.getAdvertisements();
     this.getUsers();
     this.getProgrammingLanguages();
   }
 
-  getTeachers() {
-    this.apiService.getTeachers().subscribe((teachers: any) => {
-      this.teachers = teachers;
-      // console.log('Teachers:', teachers);
+  getAdvertisements() {
+    this.apiService.getAdvertisements().subscribe((advertisements: any) => {
+      this.advertisements = advertisements;
+       console.log('Advertisements:', advertisements);
 
     });
   }
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-      // console.log('Users:', users);
+       console.log('Users:', users);
 
     });
   }
@@ -39,14 +39,24 @@ export class HomeComponent implements OnInit {
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-      // console.log('ProgrammingLanguages:', programmingLanguages);
+       console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
 
-  filterTeachersByLanguage(language: string) {
-    return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
-  }
+
+
+
+
+
+
+  // filterTeachersByLanguage(language: string) {
+  //   return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
+  // }
+
+
+
 
 
 
 }
+
