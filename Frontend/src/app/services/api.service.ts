@@ -85,6 +85,9 @@ export class ApiService {
     return this.http.get<any>(`${this.apiUrl}users/${userId}`);
   }
 
+  getAdvertisementData(advertisementId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);
+  }
   //----------------------------------------------------------------------
   // Método para actualizar los datos del usuario
   updateUserData(userData: any): Observable<any> {

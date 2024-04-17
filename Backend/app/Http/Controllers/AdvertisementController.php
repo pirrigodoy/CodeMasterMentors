@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
 use App\Models\Advertisement;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdvertisementController extends Controller
 {
@@ -26,7 +27,7 @@ class AdvertisementController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'programming_languages_id' => 'required',
+            'programming_language_id' => 'required',
             'title' => 'required',
             'class' => 'required',
             'about_me' => 'required',
@@ -43,9 +44,14 @@ class AdvertisementController extends Controller
     }
 
     // Función para mostrar un anuncio específico
-    public function show(Advertisement $advertisement)
+    public function show($id)
     {
-        return view('advertisements.show', compact('advertisement'));
+        try {
+            $advertisement = Advertisement::findOrFail($id);
+            return ApiResponse::success('Anuncio obtenido', 200, $advertisement);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Anuncio no encontrado', 404);
+        }
     }
 
     // Función para mostrar un formulario para editar un anuncio

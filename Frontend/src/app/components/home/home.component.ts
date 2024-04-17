@@ -43,7 +43,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
+  createCookie(advertisementId: string): void {
+    localStorage.setItem('advertisement_id', advertisementId);
+  }
 
 
 

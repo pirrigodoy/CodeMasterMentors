@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'advertisement/:id', component: AdvertisementComponent },
+  { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
 
 
   { path: 'profile/:userId', component: ProfileComponent },
