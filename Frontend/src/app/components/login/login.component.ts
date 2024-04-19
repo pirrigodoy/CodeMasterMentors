@@ -20,20 +20,22 @@ export class LoginComponent {
 
    }
 
-  onSubmit() {
+   onSubmit() {
     this.apiService.login({ email: this.email, password: this.password })
       .subscribe(
         response => {
           // Manejar la respuesta de éxito, por ejemplo, redirigir al usuario a otra página
-          // console.log('Login exitoso:', response);
-          loginSuccess: "Login Exitoso";
           this.router.navigate(['/home']).then(() => {
             window.location.reload();
           });
         },
         error => {
           // Manejar errores, por ejemplo, mostrar un mensaje de error al usuario
-          this.errorMessage = 'Credenciales inválidas. Por favor, inténtalo de nuevo.';
+          if (error.status === 401) {
+            this.errorMessage = 'Usuario o contraseña incorrectos.';
+          } else {
+            this.errorMessage = 'Se produjo un error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.';
+          }
           console.error('Error en el login:', error);
         }
       );
