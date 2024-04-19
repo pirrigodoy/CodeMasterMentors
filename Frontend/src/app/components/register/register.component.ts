@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   // Variables para almacenar los datos del formulario y mensajes de éxito/error
+  isValidAge: boolean = true;
   username: string = '';
   password: string = '';
   role_id: string = '';
@@ -33,6 +34,18 @@ export class RegisterComponent implements OnInit {
     this.getRoles();
   }
 
+  validateAge() {
+    const today = new Date();
+    const birthDate = new Date(this.born_date);
+    let ageDiff = today.getFullYear() - birthDate.getFullYear(); // Cambiar de const a let
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      ageDiff--;
+    }
+    this.isValidAge = ageDiff >= 14;
+  }
+
+
   onSubmit() {
     // Validar si todos los campos están llenos
     if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.area || !this.img) {
@@ -47,8 +60,14 @@ export class RegisterComponent implements OnInit {
       return; // Detener la ejecución si el formato del correo electrónico es incorrecto
     }
 
+    // Validar longitud y contenido de la contraseña
+    if (this.password.length < 8 || !(/[a-zA-Z]/.test(this.password) && /[0-9]/.test(this.password))) {
+      this.errorMessage = 'La contraseña debe tener al menos 8 caracteres y contener letras y números.';
+      return; // Detener la ejecución si la contraseña no cumple con los requisitos
+    }
+
     // Convertir la fecha al formato inglés (YYYY-MM-DD)
-    const formattedDate = new Date(this.born_date).toLocaleDateString('en-GB');
+    //const formattedDate = new Date(this.born_date).toLocaleDateString('en-GB');
 
     // Enviar la solicitud de registro al servicio API
     this.apiService.register({
@@ -57,7 +76,7 @@ export class RegisterComponent implements OnInit {
       name: this.name,
       email: this.email,
       password: this.password,
-      born_date: formattedDate, // Usar la fecha formateada
+      born_date: this.born_date,
       area: this.area,
       img: this.img
     }).subscribe(
@@ -74,7 +93,9 @@ export class RegisterComponent implements OnInit {
         console.error('Error en el registro:', error);
       }
     );
+
   }
+
   getRoles() {
     this.apiService.getRoles().subscribe((roles: any) => {
       this.roles = roles;

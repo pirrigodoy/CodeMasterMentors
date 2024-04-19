@@ -1,0 +1,28 @@
+.font-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#profile {
+  transition: all .5s ease;
+}
+
+#profile:hover {
+  transform: scale(1.05);
+}
+
+.link {
+  transition: all .3s ease;
+}
+
+.link:hover {
+  transform: translateY(-1px);
+}
+
+/* Estilos para la imagen del perfil */
+#profile img {
+  transition: transform .5s ease;
+}
+
+#profile:hover img {
+  transform: scale(1.05);
+}
