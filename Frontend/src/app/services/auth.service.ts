@@ -8,7 +8,9 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://5.75.176.124:8000/api/';
+  private apiUrl = 'http://localhost:8000/api/';
+  // private apiUrl = 'http://localhost:8000/api/';
+
 
   private isLoggedInSubject: BehaviorSubject<boolean>; // BehaviorSubject para almacenar el estado actual
   isLoggedIn$: Observable<boolean>; // Observable público para que otros componentes se suscriban

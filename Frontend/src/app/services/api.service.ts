@@ -8,7 +8,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ApiService {
   // URL de tu API en Laravel
-  private apiUrl = 'http://5.75.176.124:8000/api/';
+  private apiUrl = 'http://localhost:8000/api/';
 
   constructor(private http: HttpClient) { }
 
