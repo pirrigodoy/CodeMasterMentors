@@ -16,6 +16,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component'; // Importa tu servicio API
+import { CloudinaryModule } from '@cloudinary/ng';
 
 
 // import { AuthService } from './auth.service';
@@ -41,7 +42,8 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
     RouterModule, // Agrega RouterModule aquí
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CloudinaryModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

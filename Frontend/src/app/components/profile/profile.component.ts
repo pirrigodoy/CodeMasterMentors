@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ export class ProfileComponent implements OnInit {
   isEditing: boolean = false;
   selectedFile: File | null = null; 
   
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private imageCompress: NgxImageCompressService
+    ) { }
 
   ngOnInit(): void {
     const userIdParam = this.route.snapshot.paramMap.get('userId');
@@ -59,7 +61,9 @@ export class ProfileComponent implements OnInit {
           (data) => {
             console.log('Cambios guardados exitosamente:', data);
             this.isEditing = false; // Desactiva la edición después de guardar los cambios
-            Swal.fire('Saved!', '', 'success');
+            Swal.fire('Saved!', '', 'success').then(() => {
+              window.location.reload(); // Recarga la página después de guardar los cambios
+            });
           },
           (error) => {
             console.error('Error al guardar los cambios:', error);
@@ -71,16 +75,23 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.selectedFile = file;
-
-    // Convertir la imagen seleccionada a base64
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.userData.img = e.target.result; // Asignar la cadena base64 a la propiedad 'img'
-    };
-    reader.readAsDataURL(file);
+    
+    const imageURL = URL.createObjectURL(file); // Convertir el archivo a una URL de objeto
+    
+    this.imageCompress.compressFile(imageURL, -1, 50, 50).then(
+      compressedImage => {
+        // El resultado de la compresión es un Blob, puedes asignarlo directamente a userData.img
+        this.userData.img = compressedImage;
+        console.log('Comprimido');
+      }
+    ).catch(error => {
+      console.error('Error al comprimir la imagen:', error);
+    });
   }
+  
 }

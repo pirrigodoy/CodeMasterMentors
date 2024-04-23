@@ -16,7 +16,7 @@
         </button>
       </a>
       <a *ngIf="isLoggedIn" class="ml-2 relative" (click)="toggleDropdown()">
-        <img [src]="users.img" alt="User Image" class="h-8 w-8 rounded-full">
+        <img *ngIf="user && user.img" [src]="user.img" alt="User Image" class="h-8 w-8 rounded-full">
         <div *ngIf="showDropdown"
           class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
           <a *ngIf="isLoggedIn" [routerLink]="['/profile', userId]"
@@ -31,6 +31,7 @@
           </a>
         </div>
       </a>
+    
 
       <!-- Boton util no borrar -->
       <button data-collapse-toggle="navbar-sticky" type="button"
