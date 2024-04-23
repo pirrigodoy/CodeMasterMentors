@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
   users: any = [];
   programmingLanguages: any = [];
   searchQuery: string = '';
+  filteredAdvertisements: any = [];
 
   constructor(private apiService: ApiService) { }
 
@@ -23,23 +24,20 @@ export class HomeComponent implements OnInit {
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
-       console.log('Advertisements:', advertisements);
-
+      // Inicialmente, mostrar todos los anuncios
+      this.filteredAdvertisements = advertisements.data;
     });
   }
 
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-       console.log('Users:', users);
-
     });
   }
 
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-       console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
 
@@ -47,18 +45,13 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
-
-
-
-  // filterTeachersByLanguage(language: string) {
-  //   return this.teachers.filter((teacher: any) => teacher.languages.includes(language));
-  // }
-
-
-
-
-
-
+  filterByLanguage(languageId: string | null) {
+    if (languageId) {
+      // Filtrar por lenguaje si se selecciona uno
+      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => advertisement.programmingLanguage_id === languageId);
+    } else {
+      // Mostrar todos los anuncios si no se selecciona ningún lenguaje
+      this.filteredAdvertisements = this.advertisements.data;
+    }
+  }
 }
-
