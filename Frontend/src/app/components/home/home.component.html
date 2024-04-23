@@ -12,7 +12,6 @@
 </div>
 <br>
 
-
 <div class="antialiased text-gray-900">
   <div class="flex flex-wrap -mx-4">
     <ng-container *ngFor="let advertisement of advertisements.data">
@@ -26,10 +25,11 @@
               </a>
               <div class="p-6">
                 <div class="flex items-baseline">
-                  <span class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">
+                  <span
+                    class="inline-block bg-teal-200 text-teal-800 py-1 px-4 text-xs rounded-full uppercase font-semibold tracking-wide">
                     <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
                       <ng-container *ngIf="programmingLanguage.id === advertisement.programmingLanguage_id">
-                        {{ programmingLanguage.languageName  }}
+                        {{ programmingLanguage.languageName }}
                       </ng-container>
                     </ng-container>
                   </span>
