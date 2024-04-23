@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ export class HomeComponent implements OnInit {
   programmingLanguages: any = [];
   searchQuery: string = '';
   filteredAdvertisements: any = [];
+
 
   constructor(private apiService: ApiService) { }
 
@@ -54,4 +56,5 @@ export class HomeComponent implements OnInit {
       this.filteredAdvertisements = this.advertisements.data;
     }
   }
+
 }
