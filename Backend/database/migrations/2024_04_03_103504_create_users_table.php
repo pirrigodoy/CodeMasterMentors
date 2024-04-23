@@ -25,8 +25,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('born_date')->nullable(); // implementar en las tablas.
             $table->string('area')->nullable(); //code  postal para la ubicacion o poblacion, mejorar el campo que lo ubique mejor
-            $table->string('img')->nullable();
-
+            $table->binary('img')->nullable(); // Cambio de 'string' a 'binary'
 
             $table->timestamps();
         });

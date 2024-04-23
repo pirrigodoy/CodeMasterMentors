@@ -13,7 +13,8 @@ export class ProfileComponent implements OnInit {
   userId: string = '';
   userData: any = {}; // Aquí debes definir la estructura de tu modelo de datos para el usuario
   isEditing: boolean = false;
-
+  selectedFile: File | null = null; 
+  
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -69,5 +70,17 @@ export class ProfileComponent implements OnInit {
         this.isEditing = false; // Desactiva la edición si el usuario elige no guardar los cambios
       }
     });
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    this.selectedFile = file;
+
+    // Convertir la imagen seleccionada a base64
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.userData.img = e.target.result; // Asignar la cadena base64 a la propiedad 'img'
+    };
+    reader.readAsDataURL(file);
   }
 }

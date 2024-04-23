@@ -59,7 +59,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users,email,' . $id,
                 'born_date' => 'required|string',
                 'area' => 'required|string',
-                'img' =>'required|string'
+                // 'img' =>'required|string'
             ]);
             $user->update($request->all());
             return ApiResponse::success('Usuario actualizado exitosamente', 200, $user);
