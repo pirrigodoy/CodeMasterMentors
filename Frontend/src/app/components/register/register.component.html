@@ -102,7 +102,7 @@
           <!-- Area Field -->
           <div>
             <label for="area" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Area</label>
-            <input type="text" name="area" id="area"
+            <input type="text" name="area" id="autocomplete"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Area" [(ngModel)]="area" required #areaInput="ngModel">
             <div *ngIf="areaInput.touched && !area" class="text-red-500">Area is required</div>
@@ -143,3 +143,5 @@
   </div>
 </section>
 <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6XJlR5L8wc0Z9e4UckHi3vPX_fd-eJm8&libraries=places
+&callback=initAutocomplete" async defer></script>
