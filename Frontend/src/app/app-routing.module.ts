@@ -25,7 +25,11 @@ const routes: Routes = [
   {path: 'adManagement', component: AdvertisementManagementComponent},
 
 
+
+
   { path: 'profile/:userId', component: ProfileComponent },
+
+
 
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },

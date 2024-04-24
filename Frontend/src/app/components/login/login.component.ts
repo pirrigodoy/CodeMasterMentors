@@ -17,6 +17,7 @@ export class LoginComponent {
 
   constructor(private apiService: ApiService,  private router: Router) {
     this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
+    // this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
 
    }
 
