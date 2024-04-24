@@ -13,7 +13,7 @@ class Advertisement extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'programming_language_id',
+        'programmingLanguage_id',
         'title',
         'class',
         'about_me',

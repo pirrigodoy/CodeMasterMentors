@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-mis-anuncios',
+  templateUrl: './mis-anuncios.component.html',
+  styleUrls: ['./mis-anuncios.component.css']
 })
-export class HomeComponent implements OnInit {
+export class MisAnunciosComponent implements OnInit{
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
-
+  advertisementData: any = {};
+  
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -46,8 +47,5 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
-
-
+  
 }
-
