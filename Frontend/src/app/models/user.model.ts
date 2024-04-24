@@ -12,7 +12,8 @@ export class User {
   img: string;
   created_at: string;
   updated_at: string;
-  role: Role; // Aquí asumo que tienes una clase Role en Angular que refleja la estructura de tu modelo Role en Laravel
+  role?: Role | null;
+  // Aquí asumo que tienes una clase Role en Angular que refleja la estructura de tu modelo Role en Laravel
 
   constructor(
     id: number,
