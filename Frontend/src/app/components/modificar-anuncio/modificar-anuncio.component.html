@@ -1,0 +1,41 @@
+<div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+  <h2 class="text-2xl font-bold text-gray-900 mb-4">Modificar Anuncio</h2>
+  <form *ngIf="advertisement" (submit)="updateAdvertisement()">
+    <div class="mb-4">
+      <label for="title" class="block text-gray-700 font-bold mb-2">Título</label>
+      <input type="text" id="title" name="title" [(ngModel)]="advertisement.title" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+        <label for="programmingLanguage" class="block text-gray-700 font-bold mb-2">Lenguaje de Programación</label>
+        <select id="programmingLanguage" name="programmingLanguage" [(ngModel)]="advertisement.programmingLanguage_id" class="border border-gray-300 rounded-md px-3 py-2 w-full">
+          <option *ngFor="let lang of programmingLanguages.data" [value]="lang.id">{{ lang.languageName }}</option>
+        </select>
+      </div>
+    <div class="mb-4">
+      <label for="class" class="block text-gray-700 font-bold mb-2">Clase</label>
+      <input type="text" id="class" name="class" [(ngModel)]="advertisement.class" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+        <label for="about_me" class="block text-gray-700 font-bold mb-2">Sobre mí</label>
+        <input type="text" id="about_me" name="about_me" [(ngModel)]="advertisement.about_me" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+      </div>
+    <div class="mb-4">
+      <label for="description" class="block text-gray-700 font-bold mb-2">Descripción</label>
+      <input type="text" id="description" name="description" [(ngModel)]="advertisement.description" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+      <label for="price_hour" class="block text-gray-700 font-bold mb-2">Precio por Hora</label>
+      <input type="text" id="price_hour" name="price_hour" [(ngModel)]="advertisement.price_hour" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+      <label for="disponibility" class="block text-gray-700 font-bold mb-2">Disponibilidad</label>
+      <input type="text" id="disponibility" name="disponibility" [(ngModel)]="advertisement.disponibility" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <div class="mb-4">
+      <label for="experience" class="block text-gray-700 font-bold mb-2">Experiencia</label>
+      <input type="text" id="experience" name="experience" [(ngModel)]="advertisement.experience" class="border border-gray-300 rounded-md px-3 py-2 w-full" />
+    </div>
+    <!-- Agrega los campos adicionales según sea necesario -->
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar Cambios</button>
+  </form>
+</div>

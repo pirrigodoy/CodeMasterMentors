@@ -19,6 +19,7 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
 import { CloudinaryModule } from '@cloudinary/ng';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
+import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 
 
 // import { AuthService } from './auth.service';
@@ -39,6 +40,7 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
     AdvertisementComponent,
     MisAnunciosComponent,
     CrearAnuncioComponent,
+    ModificarAnuncioComponent,
   ],
   imports: [
     BrowserModule,

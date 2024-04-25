@@ -67,7 +67,7 @@ class AdvertisementController extends Controller
     public function update(Request $request, Advertisement $advertisement)
     {
         $request->validate([
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'programmingLanguage_id' => 'required',
             'title' => 'required',
             'class' => 'required',
@@ -80,8 +80,7 @@ class AdvertisementController extends Controller
 
         $advertisement->update($request->all());
 
-        return redirect()->route('advertisements.index')
-            ->with('success', 'Advertisement updated successfully');
+        return ApiResponse::success('Anuncio actualizado exitosamente', 200, $advertisement);
     }
 
     // Función para eliminar un anuncio de la base de datos
@@ -89,7 +88,7 @@ class AdvertisementController extends Controller
     {
         $advertisement->delete();
 
-        return redirect()->route('advertisements.index')
-            ->with('success', 'Advertisement deleted successfully');
+        return ApiResponse::success('Anuncio borrado', 200, $advertisement);
+
     }
 }

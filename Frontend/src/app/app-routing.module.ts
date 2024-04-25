@@ -11,6 +11,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
+import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'profile/:userId', component: ProfileComponent },
   { path: 'mis-anuncios/:userId', component: MisAnunciosComponent},
   { path: 'crear-anuncio', component: CrearAnuncioComponent},
+  { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent},
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: NotfoundComponent } //la darrera!!!

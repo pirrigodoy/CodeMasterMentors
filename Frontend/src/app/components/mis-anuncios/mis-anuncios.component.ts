@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router'; 
+
 
 @Component({
   selector: 'app-mis-anuncios',
@@ -12,7 +14,7 @@ export class MisAnunciosComponent implements OnInit{
   programmingLanguages: any = [];
   advertisementData: any = {};
   
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     this.getAdvertisements();
@@ -43,9 +45,28 @@ export class MisAnunciosComponent implements OnInit{
     });
   }
 
-  createCookie(advertisementId: string): void {
+  modificarAnuncio(advertisementId: string): void {
     localStorage.setItem('advertisement_id', advertisementId);
+    this.router.navigate(['/modificar-anuncio',advertisementId ]);
   }
+
+  borrarAnuncio(advertisementId: string): void {
+    if (confirm('¿Estás seguro de que quieres eliminar este anuncio?')) {
+      this.apiService.deleteAdvertisement(advertisementId).subscribe(
+        () => {
+          // Eliminación exitosa, actualiza la lista de anuncios
+          this.getAdvertisements();
+          console.log('Anuncio eliminado correctamente.');
+        },
+        (error) => {
+          console.error('Error al eliminar el anuncio:', error);
+          // Puedes manejar el error de acuerdo a tus necesidades, por ejemplo, mostrar un mensaje al usuario.
+        }
+      );
+    }
+  }
+  
+
 
   
 }

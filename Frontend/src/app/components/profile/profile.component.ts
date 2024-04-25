@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -14,8 +15,10 @@ export class ProfileComponent implements OnInit {
   userData: any = {};
   isEditing: boolean = false;
   selectedFile: File | null = null; 
+  deleteCheckbox: boolean = false; // Agregar esta línea para definir la variable deleteCheckbox
+  deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     const userIdParam = this.route.snapshot.paramMap.get('userId');
@@ -42,6 +45,10 @@ export class ProfileComponent implements OnInit {
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
+  }
+
+  updateDeleteButtonClass() {
+    this.deleteButtonClass = this.deleteCheckbox ? 'bg-red-700' : 'bg-gray-500';
   }
 
   saveChanges() {
@@ -82,5 +89,50 @@ export class ProfileComponent implements OnInit {
       this.userData.img = e.target.result; // Asignar la cadena base64 a la propiedad 'img'
     };
     reader.readAsDataURL(file);
+  }
+
+  deleteUser() {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará permanentemente tu perfil.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteUser(this.userId).subscribe(
+          (response: any) => { // Declarar explícitamente el tipo de 'response'
+            if (response.success) {
+              Swal.fire(
+                '¡Eliminado!',
+                'Tu perfil ha sido eliminado.',
+                'success'
+              ).then(() => {
+                // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
+                // Por ejemplo:
+                 this.router.navigate(['/']);
+              });
+            } else {
+              Swal.fire(
+                'Error',
+                'Hubo un problema al intentar eliminar tu perfil. Por favor, inténtalo de nuevo más tarde.',
+                'error'
+              );
+            }
+          },
+          (error: any) => { // Declarar explícitamente el tipo de 'error'
+            console.error('Error al eliminar el usuario:', error);
+            Swal.fire(
+              'Error',
+              'Hubo un problema al intentar eliminar tu perfil. Por favor, inténtalo de nuevo más tarde.',
+              'error'
+            );
+          }
+        );
+      }
+    });
   }
 }
