@@ -1,30 +1,58 @@
-<div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+  <div class="container mx-auto py-8">
+    <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+      <div class="col-span-4 sm:col-span-3">
+        <div class="bg-white shadow rounded-lg p-6">
+          <div class="flex flex-col items-center">
 
-  <div>
-    <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ advertisementData.title }}</h2>
+            <ng-container *ngFor="let user of users.data">
+              <ng-container *ngIf="user.id === advertisementData.user_id">
+                <img class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" src="{{ user.img }}" alt="User Image" />
+                <h1 class="text-xl font-bold">{{user.name}}</h1>
 
-    <ng-container *ngFor="let user of users.data">
-      <ng-container *ngIf="user.id === advertisementData.user_id">
-        <img class="text-gray-700 mb-2" src="{{ user.img }}" alt="User Image" />
-        <p class="text-gray-700 mb-2">Nombre: {{ user.name }}</p>
-      </ng-container>
-    </ng-container>
+              </ng-container>
+            </ng-container>
+            <p class="text-gray-700">{{ advertisementData.title }}</p>
+            <p class="text-gray-700 mb-2">Precio por Hora: {{ advertisementData.price_hour }} €/h</p>
+            <p class="text-gray-700 mb-2">Disponibilidad: {{ advertisementData.disponibility }}</p>
+            <p class="text-gray-700 mb-2">Tipo: {{ advertisementData.class }}</p>
 
-    <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
-      <ng-container *ngIf="programmingLanguage.id === advertisementData.programmingLanguage_id">
-        <p class="text-gray-700 mb-2">Lenguaje de Programación: {{ programmingLanguage.languageName }}</p>
-      </ng-container>
-    </ng-container>
 
-    <p class="text-gray-700 mb-2">Precio por Hora: {{ advertisementData.price_hour }} €/h</p>
-    <p class="text-gray-700 mb-2">Disponibilidad: {{ advertisementData.disponibility }}</p>
-    <p class="text-gray-700 mb-2">Clase: {{ advertisementData.class }}</p>
+
+            <div class="mt-6 flex flex-wrap gap-4 justify-center">
+              <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Contratar</a>
+              <a href="#" class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
+            </div>
+          </div>
+          <hr class="my-6 border-t border-gray-300">
+          <div class="flex flex-col">
+            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Skills</span>
+            <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
+              <ng-container *ngIf="programmingLanguage.id === advertisementData.programmingLanguage_id">
+                <p class="text-gray-700 mb-2">{{ programmingLanguage.languageName }}</p>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-4 sm:col-span-9">
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-xl font-bold mb-4">About Me</h2>
+          <p class="text-gray-700">{{ advertisementData.about_me }}
+          </p>
+
+
+
+
+          <h2 class="text-xl font-bold mt-6 mb-4">Experience</h2>
+          <p class="text-gray-700 mb-2">{{ advertisementData.experience }}</p>
+
+          <h2 class="text-xl font-bold mt-6 mb-4">Description</h2>
+
+          <p class="text-gray-700 mb-2">{{ advertisementData.description }}</p>
+
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <p class="text-gray-700 mb-2">Acerca de mí: {{ advertisementData.about_me }}</p>
-    <p class="text-gray-700 mb-2">Descripción: {{ advertisementData.description }}</p>
-    <p class="text-gray-700 mb-2">Experiencia: {{ advertisementData.experience }}</p>
-  </div>
-
 </div>

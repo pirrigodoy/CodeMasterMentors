@@ -15,10 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
-import { AdvertisementComponent } from './components/advertisement/advertisement.component'; // Importa tu servicio API
-import { CloudinaryModule } from '@cloudinary/ng';
-import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
-import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
+
 
 
 // import { AuthService } from './auth.service';
@@ -37,8 +34,7 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
     AboutusComponent,
     ContactComponent,
     AdvertisementComponent,
-    MisAnunciosComponent,
-    CrearAnuncioComponent,
+
   ],
   imports: [
     BrowserModule,

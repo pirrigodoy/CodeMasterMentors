@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ export class HomeComponent implements OnInit {
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
+
 
   constructor(private apiService: ApiService) { }
 
@@ -22,23 +24,20 @@ export class HomeComponent implements OnInit {
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
-       console.log('Advertisements:', advertisements);
-
+      // Inicialmente, mostrar todos los anuncios
+      this.filteredAdvertisements = advertisements.data;
     });
   }
 
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-       console.log('Users:', users);
-
     });
   }
 
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-       console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
 
@@ -48,6 +47,4 @@ export class HomeComponent implements OnInit {
 
 
 
-
 }
-

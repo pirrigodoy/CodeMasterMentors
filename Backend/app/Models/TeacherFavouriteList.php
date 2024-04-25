@@ -28,10 +28,10 @@ class TeacherFavouriteList extends Model
         return 'id';
     }
 
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
+    // public function teacher()
+    // {
+    //     return $this->belongsTo(Teacher::class);
+    // }
 
     public function favouriteList(){
         return $this->belongsTo(FavouriteList::class);

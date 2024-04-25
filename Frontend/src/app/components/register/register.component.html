@@ -1,6 +1,7 @@
-
-<section class="mt-16 md:mt-0 relative z-10"> <!-- Agregar mt-16 para ajustar el margen superior -->
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+<section class="mt-16 md:mt-0 mb-16 relative z-10 dark-mode:bg-gray-800 light-mode:bg-white">
+  <!-- Agregar mt-16 para ajustar el margen superior -->
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 dark-mode:text-white light-mode:text-black">
     <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
       <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
       CodeMasterMentors
@@ -13,25 +14,29 @@
         </h1>
         <form class="space-y-4 md:space-y-6" action="#" (ngSubmit)="onSubmit()">
           <!-- Username Field -->
-    <div>
-      <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-      <input type="text" name="username" id="username"
-        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Username" [(ngModel)]="username" [required]="true" [minlength]="6" #usernameInput="ngModel">
-      <div *ngIf="usernameInput.touched && usernameInput.invalid && (usernameInput.errors?.['required'] || usernameInput.errors?.['minlength'])"
-        class="text-red-500">
-        <div *ngIf="usernameInput.errors?.['required']">Username is required</div>
-        <div *ngIf="usernameInput.errors?.['minlength']">Username must be at least 6 characters long</div>
-      </div>
-    </div>
+          <div>
+            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+            <input type="text" name="username" id="username"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Username" [(ngModel)]="username" [required]="true" [minlength]="6" #usernameInput="ngModel">
+            <div
+              *ngIf="usernameInput.touched && usernameInput.invalid && (usernameInput.errors?.['required'] || usernameInput.errors?.['minlength'])"
+              class="text-red-500">
+              <div *ngIf="usernameInput.errors?.['required']">Username is required</div>
+              <div *ngIf="usernameInput.errors?.['minlength']">Username must be at least 6 characters long</div>
+            </div>
+          </div>
 
           <!-- Password Field -->
           <div>
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
             <input type="password" name="password" id="password" placeholder="••••••••"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              [(ngModel)]="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" #passwordInput="ngModel">
-            <div *ngIf="passwordInput.touched && passwordInput.invalid && (passwordInput.errors?.['required'] || passwordInput.errors?.['minlength'] || passwordInput.errors?.['pattern'])" class="text-red-500">
+              [(ngModel)]="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+              #passwordInput="ngModel">
+            <div
+              *ngIf="passwordInput.touched && passwordInput.invalid && (passwordInput.errors?.['required'] || passwordInput.errors?.['minlength'] || passwordInput.errors?.['pattern'])"
+              class="text-red-500">
               <div *ngIf="passwordInput.errors?.['required']">Password is required</div>
               <div *ngIf="passwordInput.errors?.['minlength']">Password must be at least 8 characters long</div>
               <div *ngIf="passwordInput.errors?.['pattern']">Password must contain letters and numbers</div>
@@ -51,42 +56,47 @@
             <div *ngIf="roleIdInput.touched && !role_id" class="text-red-500">Role is required</div>
           </div>
 
-         <!-- Name Field -->
-<div>
-  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-  <input type="text" name="name" id="name"
-    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    placeholder="Name" [(ngModel)]="name" required minlength="3" #nameInput="ngModel">
-  <div *ngIf="nameInput.touched && nameInput.invalid && (nameInput.errors?.['required'] || nameInput.errors?.['minlength'])"
-    class="text-red-500">
-    <div *ngIf="nameInput.errors?.['required']">Name is required</div>
-    <div *ngIf="nameInput.errors?.['minlength']">Name must be at least 2 characters long</div>
-  </div>
-</div>
+          <!-- Name Field -->
+          <div>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+            <input type="text" name="name" id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Name" [(ngModel)]="name" required minlength="3" #nameInput="ngModel">
+            <div
+              *ngIf="nameInput.touched && nameInput.invalid && (nameInput.errors?.['required'] || nameInput.errors?.['minlength'])"
+              class="text-red-500">
+              <div *ngIf="nameInput.errors?.['required']">Name is required</div>
+              <div *ngIf="nameInput.errors?.['minlength']">Name must be at least 2 characters long</div>
+            </div>
+          </div>
 
-<!-- Email Field -->
-<div>
-  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-  <input type="email" name="email" id="email"
-    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    placeholder="name@company.com" [(ngModel)]="email" required
-    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #emailInput="ngModel">
-  <div *ngIf="emailInput.touched && emailInput.invalid && (emailInput.errors?.['required'] || emailInput.errors?.['pattern'])" class="text-red-500">
-    <div *ngIf="emailInput.errors?.['required']">Email is required</div>
-    <div *ngIf="emailInput.errors?.['pattern']">Invalid email format</div>
-  </div>
-</div>
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+            <input type="email" name="email" id="email"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="name@company.com" [(ngModel)]="email" required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" #emailInput="ngModel">
+            <div
+              *ngIf="emailInput.touched && emailInput.invalid && (emailInput.errors?.['required'] || emailInput.errors?.['pattern'])"
+              class="text-red-500">
+              <div *ngIf="emailInput.errors?.['required']">Email is required</div>
+              <div *ngIf="emailInput.errors?.['pattern']">Invalid email format</div>
+            </div>
+          </div>
 
-         <!-- Born Date Field -->
-<div>
-  <label for="born_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
-  <input type="date" name="born_date" id="born_date"
-    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    placeholder="Date of Birth" [(ngModel)]="born_date" required #bornDateInput="ngModel"
-    (ngModelChange)="validateAge()">
-  <div *ngIf="bornDateInput.touched && !born_date" class="text-red-500">Date of Birth is required</div>
-  <div *ngIf="bornDateInput.touched && born_date && !isValidAge" class="text-red-500">You must be at least 14 years old</div>
-</div>
+          <!-- Born Date Field -->
+          <div>
+            <label for="born_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of
+              Birth</label>
+            <input type="date" name="born_date" id="born_date"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Date of Birth" [(ngModel)]="born_date" required #bornDateInput="ngModel"
+              (ngModelChange)="validateAge()">
+            <div *ngIf="bornDateInput.touched && !born_date" class="text-red-500">Date of Birth is required</div>
+            <div *ngIf="bornDateInput.touched && born_date && !isValidAge" class="text-red-500">You must be at least 14
+              years old</div>
+          </div>
 
 
           <!-- Area Field -->
@@ -121,8 +131,9 @@
           </div>
           <!-- Submit Button -->
           <button type="submit"
-            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create
+            class="w-full text-black bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 dark:text-white border border-black dark:border-white">Create
             an account</button>
+
           <!-- Error Messages -->
           <div *ngIf="errorMessage" class="text-red-500">{{ errorMessage }}</div>
           <div *ngIf="registerSuccess" class="text-green-500">{{ registerSuccess }}</div>

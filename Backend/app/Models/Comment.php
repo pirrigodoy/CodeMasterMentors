@@ -27,8 +27,8 @@ class Comment extends Model
     {
         return 'id';
     }
-    public function teacher(){
-        return $this->belongsTo(Teacher::class);
-    }
+    // public function teacher(){
+    //     return $this->belongsTo(Teacher::class);
+    // }
 
 }
