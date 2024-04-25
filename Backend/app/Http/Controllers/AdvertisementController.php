@@ -17,30 +17,33 @@ class AdvertisementController extends Controller
     }
 
     // Función para mostrar un formulario para crear un nuevo anuncio
-    public function create()
-    {
-        return view('advertisements.create');
-    }
+    // public function create()
+    // {
+    //     return view('advertisements.create');
+    // }
 
     // Función para guardar un nuevo anuncio en la base de datos
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required',
-            'programming_language_id' => 'required',
-            'title' => 'required',
-            'class' => 'required',
-            'about_me' => 'required',
-            'description' => 'required',
-            'price_hour' => 'required',
-            'disponibility' => 'required',
-            'experience' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'user_id' => 'required',
+                // 'programmingLanguage_id' => 'required',
+                'title' => 'required',
+                'class' => 'required',
+                'about_me' => 'required',
+                'description' => 'required',
+                'price_hour' => 'required',
+                'disponibility' => 'required',
+                'experience' => 'required'
+            ]);
 
-        Advertisement::create($request->all());
-
-        return redirect()->route('advertisements.index')
-            ->with('success', 'Advertisement created successfully.');
+            $advertisement = Advertisement::create($request->all());
+            return ApiResponse::success('Anuncio creado exitosamente', 201, $advertisement);
+        } catch (ValidationException $e) {
+            $errors = $e->validator->errors()->toArray();
+            return ApiResponse::error('Error de validación', 422, $errors);
+        }
     }
 
     // Función para mostrar un anuncio específico
@@ -65,7 +68,7 @@ class AdvertisementController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'programming_languages_id' => 'required',
+            'programmingLanguage_id' => 'required',
             'title' => 'required',
             'class' => 'required',
             'about_me' => 'required',

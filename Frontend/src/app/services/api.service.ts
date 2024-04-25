@@ -110,4 +110,16 @@ export class ApiService {
   }) {
     return this.http.post<any>(`${this.apiUrl}register`, credentials);
   }
+
+  crearAnuncio(nuevoAnuncio: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
+  }
+
 }
