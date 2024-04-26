@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { Router, Route } from '@angular/router'; // Importa Route junto con Router y ActivatedRoute
+import Swal from 'sweetalert2'; // Importa SweetAlert
 
 @Component({
   selector: 'app-modificar-anuncio',
@@ -10,12 +12,12 @@ import { ApiService } from '../../services/api.service';
 export class ModificarAnuncioComponent implements OnInit {
   advertisement: any = {};
   programmingLanguages: any = {};
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
     // Obtenemos el advertisementId del localStorage
     const advertisementId = localStorage.getItem('advertisement_id');
-    
+
     // Verificamos si advertisementId no es null
     if (advertisementId !== null) {
       // Llamamos al método getAdvertisementById del ApiService para obtener los datos del anuncio
@@ -33,15 +35,46 @@ export class ModificarAnuncioComponent implements OnInit {
       // Puedes manejar este caso de acuerdo a tus necesidades, por ejemplo, redirigiendo a otra página.
     }
 
-    
+
   }
-  
+  confirmarActualizacion(): void {
+    Swal.fire({
+      title: '¿Estás seguro de guardar los cambios?',
+      text: 'Una vez guardados, los cambios no se podrán deshacer.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, guardar cambios',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.updateAdvertisement();
+      }
+    });
+  }
   updateAdvertisement(): void {
     this.apiService.updateAdvertisement(this.advertisement).subscribe((response: any) => {
-      // Manejar la respuesta del servidor según sea necesario
-      console.log('Advertisement updated:', response);
+      // Muestra una alerta de éxito
+      Swal.fire({
+        icon: 'success',
+        title: '¡Anuncio actualizado!',
+        text: 'El anuncio se ha actualizado correctamente.',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      }).then((result) => {
+        // Redirige a la ruta mis-anuncios con el ID de usuario después de actualizar el anuncio
+        this.router.navigate(['/mis-anuncios', this.advertisement.user_id]);
+      });
     }, (error: any) => {
-      // Manejar el error
+      // Muestra una alerta de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Ocurrió un error al actualizar el anuncio.',
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Ok'
+      });
       console.error('Error updating advertisement:', error);
     });
   }
