@@ -15,6 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 
 
 
@@ -43,7 +44,6 @@ import { ContactComponent } from './components/contact/contact.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CloudinaryModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
