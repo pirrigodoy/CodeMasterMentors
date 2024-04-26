@@ -15,9 +15,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
-import { AdvertisementComponent } from './components/advertisement/advertisement.component';
-import { UserManagementComponent } from './components/user-management/user-management.component';
-import { AdvertisementManagementComponent } from './components/advertisement-management/advertisement-management.component'; // Importa tu servicio API
+
 
 
 // import { AuthService } from './auth.service';
@@ -36,8 +34,7 @@ import { AdvertisementManagementComponent } from './components/advertisement-man
     AboutusComponent,
     ContactComponent,
     AdvertisementComponent,
-    UserManagementComponent,
-    AdvertisementManagementComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -45,7 +42,8 @@ import { AdvertisementManagementComponent } from './components/advertisement-man
     RouterModule, // Agrega RouterModule aquí
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CloudinaryModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

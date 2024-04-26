@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-mis-anuncios',
+  templateUrl: './mis-anuncios.component.html',
+  styleUrls: ['./mis-anuncios.component.css']
 })
-export class HomeComponent implements OnInit {
+export class MisAnunciosComponent implements OnInit{
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
-
-
+  advertisementData: any = {};
+  
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -24,20 +23,23 @@ export class HomeComponent implements OnInit {
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
-      // Inicialmente, mostrar todos los anuncios
-      this.filteredAdvertisements = advertisements.data;
+       console.log('Advertisements:', advertisements);
+
     });
   }
 
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
+       console.log('Users:', users);
+
     });
   }
 
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
+       console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
 
@@ -45,6 +47,5 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
-
+  
 }

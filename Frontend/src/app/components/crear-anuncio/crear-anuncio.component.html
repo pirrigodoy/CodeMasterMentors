@@ -1,0 +1,59 @@
+<!-- mis-anuncios.component.html -->
+
+<div class="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+    <!-- Formulario para crear un nuevo anuncio -->
+    <form (ngSubmit)="crearAnuncio()" #formularioAnuncio="ngForm">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700 font-bold mb-2">Título</label>
+        <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.title" required>
+      </div>
+  
+      <div class="mb-4">
+        <label for="class" class="block text-gray-700 font-bold mb-2">Clase</label>
+        <input type="text" id="class" name="class" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.class" required>
+      </div>
+  
+      <!-- Agregar más campos para el formulario -->
+      <div class="mb-4">
+        <label for="aboutMe" class="block text-gray-700 font-bold mb-2">Acerca de mí</label>
+        <input type="text" id="aboutMe" name="aboutMe" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.about_me" required>
+      </div>
+      
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 font-bold mb-2">Descripción</label>
+        <input type="text" id="description" name="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.description" required>
+      </div>
+      
+      <div class="mb-4">
+        <label for="priceHour" class="block text-gray-700 font-bold mb-2">Precio por Hora</label>
+        <input type="text" id="priceHour" name="priceHour" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.price_hour" required>
+      </div>
+      
+      <div class="mb-4">
+        <label for="disponibility" class="block text-gray-700 font-bold mb-2">Disponibilidad</label>
+        <input type="text" id="disponibility" name="disponibility" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.disponibility" required>
+      </div>
+      
+      <div class="mb-4">
+        <label for="experience" class="block text-gray-700 font-bold mb-2">Experiencia</label>
+        <input type="text" id="experience" name="experience" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.experience" required>
+      </div>
+
+      <!-- <div class="mb-4">
+        <label for="userId" class="block text-gray-700 font-bold mb-2">ID de Usuario</label>
+        <input type="number" id="userId" name="userId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.user_id" required>
+      </div> -->
+  
+      <div class="mb-4">
+        <label for="programmingLanguageId" class="block text-gray-700 font-bold mb-2">Lenguaje de Programación</label>
+        <select id="programmingLanguageId" name="programmingLanguage_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" [(ngModel)]="nuevoAnuncio.programmingLanguage_id" required>
+          <option *ngFor="let language of programmingLanguages" [value]="language.id">{{ language.languageName }}</option>
+        </select>
+    </div>
+    
+    
+      
+      <!-- Botón para enviar el formulario -->
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear Anuncio</button>
+    </form>
+  </div>

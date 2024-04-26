@@ -11,10 +11,10 @@ import Swal from 'sweetalert2';
 })
 export class ProfileComponent implements OnInit {
   userId: string = '';
-  userData: any = {}; // Aquí debes definir la estructura de tu modelo de datos para el usuario
+  userData: any = {};
   isEditing: boolean = false;
   selectedFile: File | null = null; 
-  
+
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -40,7 +40,6 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  // Método para activar/desactivar la edición
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }
@@ -52,14 +51,15 @@ export class ProfileComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Save',
       denyButtonText: `Don't save`,
-    }).then((result: any) => { // Aquí especificamos el tipo de 'result' como 'any'
-      /* Read more about isConfirmed, isDenied below */
+    }).then((result: any) => {
       if (result.isConfirmed) {
         this.apiService.updateUserData(this.userData).subscribe(
           (data) => {
             console.log('Cambios guardados exitosamente:', data);
-            this.isEditing = false; // Desactiva la edición después de guardar los cambios
-            Swal.fire('Saved!', '', 'success');
+            this.isEditing = false;
+            Swal.fire('Saved!', '', 'success').then(() => {
+              window.location.reload();
+            });
           },
           (error) => {
             console.error('Error al guardar los cambios:', error);
@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
         );
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
-        this.isEditing = false; // Desactiva la edición si el usuario elige no guardar los cambios
+        this.isEditing = false;
       }
     });
   }
