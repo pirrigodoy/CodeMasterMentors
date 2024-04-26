@@ -17,6 +17,7 @@ export class ProfileComponent implements OnInit {
   selectedFile: File | null = null; 
   deleteCheckbox: boolean = false; // Agregar esta línea para definir la variable deleteCheckbox
   deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
+  imagePath: string = '';
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 

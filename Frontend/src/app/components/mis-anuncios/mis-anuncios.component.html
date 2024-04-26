@@ -1,5 +1,5 @@
 <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div *ngFor="let advertisement of advertisements.data">
+    <div *ngFor="let advertisement of advertisements">
       <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ advertisement.title }}</h2>
       
       <ng-container *ngFor="let user of users.data">

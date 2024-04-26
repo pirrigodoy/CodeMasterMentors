@@ -23,12 +23,46 @@ export class MisAnunciosComponent implements OnInit{
   }
 
   getAdvertisements() {
-    this.apiService.getAdvertisements().subscribe((advertisements: any) => {
-      this.advertisements = advertisements;
-       console.log('Advertisements:', advertisements);
-
-    });
+    this.apiService.getAdvertisements().subscribe(
+      (response: any) => {
+        console.log('Response:', response); // Log the response
+        // Ensure response.data is an array before assigning
+        if (Array.isArray(response.data)) {
+          const userId = localStorage.getItem('user_id');
+          console.log('User ID from localStorage:', userId);
+          if (userId) {
+            this.advertisements = [];
+            console.log('Before filtering, User ID:', userId);
+            for (const ad of response.data) {
+              console.log('Advertisement user_id:', ad.user_id);
+              if (ad.user_id == userId) {
+                this.advertisements.push(ad);
+                console.log('Match found:', ad);
+              }
+            }
+            console.log('After filtering, Advertisements:', this.advertisements);
+          } else {
+            this.advertisements = [];
+          }
+        } else {
+          // Handle the case when response.data is not an array
+          console.error('Error: Response data is not an array');
+          this.advertisements = [];
+        }
+      },
+      (error) => {
+        console.error('Error fetching advertisements:', error);
+        // Handle error as per your requirement
+        this.advertisements = [];
+      }
+    );
   }
+  
+  
+  
+  
+  
+  
 
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
