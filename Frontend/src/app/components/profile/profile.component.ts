@@ -17,11 +17,12 @@ export class ProfileComponent implements OnInit {
   selectedFile: File | null = null; 
   deleteCheckbox: boolean = false; // Agregar esta línea para definir la variable deleteCheckbox
   deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
-  imagePath: string = '';
+  deleteButtonColor: string = 'bg-gray-500'; // Inicialmente gris
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
+    
     const userIdParam = this.route.snapshot.paramMap.get('userId');
     if (userIdParam) {
       this.userId = userIdParam;
@@ -49,7 +50,11 @@ export class ProfileComponent implements OnInit {
   }
 
   updateDeleteButtonClass() {
-    this.deleteButtonClass = this.deleteCheckbox ? 'bg-red-700' : 'bg-gray-500';
+    if (this.deleteCheckbox) {
+      this.deleteButtonColor = 'bg-red-700'; // Cambia a rojo si el checkbox está marcado
+    } else {
+      this.deleteButtonColor = 'bg-gray-500'; // Vuelve a gris si el checkbox está desmarcado
+    }
   }
 
   saveChanges() {
