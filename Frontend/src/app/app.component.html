@@ -16,9 +16,8 @@
         </button>
       </a>
       <a *ngIf="isLoggedIn" class="ml-2 relative" (click)="toggleDropdown()">
-        <img [src]="users.img" alt="User Image" class="h-8 w-8 rounded-full">
-        <div *ngIf="showDropdown"
-          class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
+        <img *ngIf="user && user.img" [src]="user.img" alt="User Image" class="h-8 w-8 rounded-full">
+        <div *ngIf="showDropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
           <a *ngIf="isLoggedIn" [routerLink]="['/profile', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Profile</a>
           <a href="#"
@@ -26,12 +25,16 @@
             Favoritos</a>
           <a href="#"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mensajes</a>
+          <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/mis-anuncios', userId]"
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis Anuncios</a>
           <a *ngIf="isLoggedIn" routerLink="/logout" class="ml-2" (click)="logout()">
             <button type="button"
               class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Logout</button>
           </a>
         </div>
+        
       </a>
+    
 
       <!-- Boton util no borrar -->
       <button data-collapse-toggle="navbar-sticky" type="button"
