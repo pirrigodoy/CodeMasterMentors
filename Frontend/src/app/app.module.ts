@@ -16,6 +16,9 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
+import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
+import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
+import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 
 
 
@@ -35,7 +38,9 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
     AboutusComponent,
     ContactComponent,
     AdvertisementComponent,
-
+    MisAnunciosComponent,
+    CrearAnuncioComponent,
+    ModificarAnuncioComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +49,7 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

@@ -13,6 +13,7 @@ import { AdvertisementManagementComponent } from './components/advertisement-man
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
+import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 
 const routes: Routes = [
 
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'profile/:userId', component: ProfileComponent },
   { path: 'mis-anuncios/:userId', component: MisAnunciosComponent},
   { path: 'crear-anuncio', component: CrearAnuncioComponent},
+  { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent},
 
 
 
