@@ -11,6 +11,8 @@ export class HomeComponent implements OnInit {
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
+  searchQuery: string = '';
+  filteredAdvertisements: any = [];
 
 
   constructor(private apiService: ApiService) { }
@@ -45,6 +47,14 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
+  filterByLanguage(languageId: string | null) {
+    if (languageId) {
+      // Filtrar por lenguaje si se selecciona uno
+      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => advertisement.programmingLanguage_id === languageId);
+    } else {
+      // Mostrar todos los anuncios si no se selecciona ningún lenguaje
+      this.filteredAdvertisements = this.advertisements.data;
+    }
+  }
 
 }

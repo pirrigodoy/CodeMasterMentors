@@ -10,25 +10,20 @@ import { ApiService } from './services/api.service';
 export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   showDropdown: boolean = false;
-  user: any = null;
+  users: any = [];
   userId: string | null = null;
   showFooter: boolean = true;
 
   constructor(private authService: AuthService, private apiService: ApiService) {}
 
   ngOnInit() {
+    this.getUsers();
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
       if (isLoggedIn) {
         this.userId = localStorage.getItem('user_id');
-        if (this.userId) {
-          this.getUserData(this.userId);
-        } else {
-          console.error('User ID is null');
-        }
       } else {
         this.userId = null;
-        this.user = null;
       }
     });
   }
@@ -41,17 +36,10 @@ export class AppComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
 
-  getUserData(userId: string) {
-    this.apiService.getUserData(userId).subscribe(
-      (response) => {
-        if (!response.error) {
-          this.user = response.data;
-        }
-      },
-      (error) => {
-        console.error('Error al obtener los datos del usuario:', error);
-      }
-    );
+  getUsers() {
+    return this.apiService.getUsers().subscribe((users: {}) => {
+      this.users = users;
+    });
   }
 
   onHideFooter(hide: boolean) {
