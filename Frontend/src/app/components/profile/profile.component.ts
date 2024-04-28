@@ -87,15 +87,24 @@ export class ProfileComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.selectedFile = file;
-
-    // Convertir la imagen seleccionada a base64
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.userData.img = e.target.result; // Asignar la cadena base64 a la propiedad 'img'
-    };
-    reader.readAsDataURL(file);
+  
+    // Subir la imagen al servidor
+    this.apiService.uploadImage(file).subscribe(
+      (response: any) => {
+        if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
+          // Guarda la ruta de la imagen en userData
+          this.userData.img = response.url;
+        } else {
+          console.error('Error al subir la imagen:', response.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error al subir la imagen:', error);
+      }
+    );
   }
+  
+  
 
   deleteUser() {
     Swal.fire({

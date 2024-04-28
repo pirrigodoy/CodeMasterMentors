@@ -81,4 +81,27 @@ class UserController extends Controller
             return ApiResponse::error('Usuario no encontrado', 404);
         }
     }
+
+    public function uploadImage(Request $request)
+    {
+        // Valida la solicitud
+        $request->validate([
+            'image' => 'required', // Ajusta las reglas de validación según tus necesidades
+        ]);
+    
+        // Obtiene el archivo de imagen
+        $image = $request->file('image');
+    
+        // Genera un nombre único para la imagen
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+    
+        // Mueve la imagen a la carpeta public/images
+        $image->move(public_path('images'), $imageName);
+    
+        // Retorna la URL de la imagen para que Angular pueda acceder a ella
+        return response()->json(['url' => asset('images/' . $imageName)]);
+    }
+    
+    
+
 }

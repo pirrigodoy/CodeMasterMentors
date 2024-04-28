@@ -146,4 +146,12 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
   }
   
+
+  uploadImage(image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', image);
+  
+    // Realiza la solicitud POST al servidor para subir la imagen
+    return this.http.post<any>(`${this.apiUrl}uploadImage`, formData);
+  }
 }

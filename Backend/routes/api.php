@@ -35,3 +35,4 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 
+Route::post('uploadImage', [UserController::class, 'uploadImage']);
