@@ -28,7 +28,7 @@ class UserController extends Controller
                 'email' => 'required|email|unique:users',
                 'born_date' => 'required|string',
                 'area' => 'required|string',
-                'img' =>'required|string'
+                'img' => 'required|string'
             ]);
 
             $user = User::create($request->all());

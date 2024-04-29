@@ -1,8 +1,7 @@
 // mis-anuncios.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-
+import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-mis-anuncios',
   templateUrl: './crear-anuncio.component.html',
@@ -16,7 +15,7 @@ export class CrearAnuncioComponent implements OnInit{
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-   
+
     this.getProgrammingLanguages();
   }
   crearAnuncio(): void {

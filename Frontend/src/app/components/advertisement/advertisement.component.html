@@ -13,15 +13,12 @@
               </ng-container>
             </ng-container>
             <p class="text-gray-700">{{ advertisementData.title }}</p>
-            <p class="text-gray-700 mb-2">Precio por Hora: {{ advertisementData.price_hour }} €/h</p>
-            <p class="text-gray-700 mb-2">Disponibilidad: {{ advertisementData.disponibility }}</p>
-            <p class="text-gray-700 mb-2">Tipo: {{ advertisementData.class }}</p>
-
 
 
             <div class="mt-6 flex flex-wrap gap-4 justify-center">
               <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Contratar</a>
-              <a href="#" class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Resume</a>
+              <a href="#" class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Añadir una
+                Valoración</a>
             </div>
           </div>
           <hr class="my-6 border-t border-gray-300">
@@ -32,6 +29,12 @@
                 <p class="text-gray-700 mb-2">{{ programmingLanguage.languageName }}</p>
               </ng-container>
             </ng-container>
+            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Precio/hora</span>
+            <p class="text-gray-700 mb-2">{{ advertisementData.price_hour }} €/h</p>
+            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Disponibilidad</span>
+            <p class="text-gray-700 mb-2">{{ advertisementData.disponibility }}</p>
+            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Tipo de clase</span>
+            <p class="text-gray-700 mb-2">{{ advertisementData.class }}</p>
           </div>
         </div>
       </div>
@@ -52,7 +55,18 @@
           <p class="text-gray-700 mb-2">{{ advertisementData.description }}</p>
 
         </div>
+        <!-- Sección para mostrar los comentarios -->
+        <div class="mt-6">
+          <h2 class="text-xl font-bold mb-4 text-white">Comentarios</h2>
+          <div *ngFor="let comment of comments.data" class="bg-gray-100 rounded-lg p-4 mb-4">
+            <div class="flex items-center justify-between">
+              <p class="font-bold">{{ comment.receiver }} - {{ comment.fecha }}</p>
+            </div>
+            <p class="text-gray-700">Rating: {{ comment.rating }}</p>
+            <p class="text-gray-700">{{ comment.comment }}</p>
+          </div>
+          <br>
+        </div>
       </div>
     </div>
   </div>
-</div>

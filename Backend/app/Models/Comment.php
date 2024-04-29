@@ -4,14 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Teacher;
+use App\Models\Advertisement;
 
 
 class Comment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
+        'advertisement_id',
+        'transmitter',
+        'receiver',
         'rating',
         'content',
         'date'
@@ -27,8 +29,8 @@ class Comment extends Model
     {
         return 'id';
     }
-    // public function teacher(){
-    //     return $this->belongsTo(Teacher::class);
-    // }
+    public function advertisement(){
+        return $this->belongsTo(Advertisement::class);
+    }
 
 }

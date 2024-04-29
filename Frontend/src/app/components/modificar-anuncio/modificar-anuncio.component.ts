@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from 'src/app/services/api.service';
 import { Router, Route } from '@angular/router'; // Importa Route junto con Router y ActivatedRoute
 import Swal from 'sweetalert2'; // Importa SweetAlert
 

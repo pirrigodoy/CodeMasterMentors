@@ -12,13 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ApiService } from './services/api.service';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProfileComponent } from './components/profile/profile.component';
 import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
+import { CommentManagementComponent } from './components/comment-management/comment-management.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 
@@ -34,13 +35,14 @@ import { ModificarAnuncioComponent } from './components/modificar-anuncio/modifi
     NotfoundComponent,
     LogoutComponent,
     NavbarComponent,
-    ProfileComponent,
     AboutusComponent,
     ContactComponent,
     AdvertisementComponent,
     MisAnunciosComponent,
     CrearAnuncioComponent,
     ModificarAnuncioComponent,
+    CommentManagementComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ import { ModificarAnuncioComponent } from './components/modificar-anuncio/modifi
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    
+
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

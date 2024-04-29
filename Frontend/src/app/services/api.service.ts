@@ -43,6 +43,12 @@ export class ApiService {
   }
 
   //----------------------------------------------------------------------
+
+  getComments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}comments`);
+  }
+
+  //----------------------------------------------------------------------
   // Método para realizar una solicitud POST
   postData(data: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
@@ -144,5 +150,13 @@ export class ApiService {
 
   deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
+  }
+
+  uploadImage(image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    // Realiza la solicitud POST al servidor para subir la imagen
+    return this.http.post<any>(`${this.apiUrl}uploadImage`, formData);
   }
 }
