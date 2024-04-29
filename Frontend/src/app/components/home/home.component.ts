@@ -8,9 +8,14 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+searchQuery: any;
+filterByLanguage(arg0: any) {
+throw new Error('Method not implemented.');
+}
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
+  filteredAdvertisements: any;
 
 
   constructor(private apiService: ApiService) { }

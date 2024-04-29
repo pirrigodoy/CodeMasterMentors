@@ -21,20 +21,19 @@
           <a *ngIf="isLoggedIn" [routerLink]="['/profile', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Profile</a>
           <a href="#"
-            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Lista de
-            Favoritos</a>
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Lista de Favoritos</a>
           <a href="#"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mensajes</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/mis-anuncios', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis Anuncios</a>
           <a *ngIf="isLoggedIn" routerLink="/logout" class="ml-2" (click)="logout()">
             <button type="button"
-              class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Logout</button>
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</button>
           </a>
         </div>
-        
+
       </a>
-    
+
 
       <!-- Boton util no borrar -->
       <button data-collapse-toggle="navbar-sticky" type="button"
@@ -65,38 +64,18 @@
           <a routerLink="/contact"
             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
         </li>
-        <li>
-          <a routerLink="/userManagement" *ngIf="isLoggedIn"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Lista
-            de Usuarios</a>
-        </li>
-        <li>
-          <a routerLink="/adManagement" *ngIf="isLoggedIn"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Lista
-            de Anuncios</a>
-        </li>
       </ul>
     </div>
   </div>
 </nav>
-
 <br>
 <br>
 <br>
 <br>
-<br>
-
-
-
-
 <!-- Espacio para el contenido de la página -->
 <router-outlet></router-outlet>
 
 
-
-
-
-<br><br><br>
 <div *ngIf="showFooter" class="relative mt-16 dark:bg-gray-900">
   <svg class="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-gray-900" preserveAspectRatio="none"
     viewBox="0 0 1440 54">

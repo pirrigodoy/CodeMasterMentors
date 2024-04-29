@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use App\Models\Advertisement;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -67,7 +68,7 @@ class AdvertisementController extends Controller
     public function update(Request $request, Advertisement $advertisement)
     {
         $request->validate([
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'programmingLanguage_id' => 'required',
             'title' => 'required',
             'class' => 'required',

@@ -43,6 +43,12 @@ export class ApiService {
   }
 
   //----------------------------------------------------------------------
+
+  getComments(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}comments`);
+  }
+
+  //----------------------------------------------------------------------
   // Método para realizar una solicitud POST
   postData(data: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
@@ -122,4 +128,35 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
   }
 
+
+  getAdvertisementById(advertisementId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);
+  }
+
+
+  updateAdvertisement(advertisement: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put<any>(`${this.apiUrl}advertisements/${advertisement.id}`, advertisement, httpOptions);
+  }
+
+  deleteAdvertisement(advertisementId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}advertisements/${advertisementId}`);
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
+  }
+
+  uploadImage(image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    // Realiza la solicitud POST al servidor para subir la imagen
+    return this.http.post<any>(`${this.apiUrl}uploadImage`, formData);
+  }
 }
