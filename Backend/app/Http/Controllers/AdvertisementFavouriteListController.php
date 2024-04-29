@@ -22,7 +22,7 @@ class AdvertisementFavouriteListController extends Controller
         try {
             $request->validate([
                 'advertisement_id' => 'required',
-                'favourite_list_id' => 'required',
+                'favouriteList_id' => 'required',
             ]);
 
             $advertisementFavouriteList = AdvertisementFavouriteList::create($request->all());

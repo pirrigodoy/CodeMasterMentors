@@ -8,12 +8,12 @@ use App\Models\Advertisement;
 use App\Models\FavouriteList;
 
 
-class TeacherFavouriteList extends Model
+class AdvertisementFavouriteList extends Model
 {
     use HasFactory;
     protected $fillable = [
         'advertisement_id',
-        'favourite_list_id',
+        'favouriteList_id',
     ];
     protected $guarded = [
         'id',

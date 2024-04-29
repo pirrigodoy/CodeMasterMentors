@@ -1,1 +1,10 @@
-<p>favourite-list works!</p>
+<div *ngFor="let favouriteList of favouriteLists.data">
+    <p style="font-size: 20px; color:red">{{ favouriteList.name }}</p>
+    <ul>
+      <li *ngFor="let advertisementList of advertisementFavouriteLists.data">
+        <ng-container *ngIf="advertisementList.favouriteList_id === favouriteList.id">
+          <span>{{ getAdvertisementTitle(advertisementList.advertisement_id) }}</span>
+        </ng-container>
+      </li>
+    </ul>
+</div>

@@ -122,6 +122,35 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
   }
 
+  crearListaFavoritos(nuevaLista: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}favourite_lists`, nuevaLista, httpOptions);
+  }
+
+  crearAnuncioListaFavoritos(nuevaAnuncioLista: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}advertisementsfavourite_lists`, nuevaAnuncioLista, httpOptions);
+  }
+  
+  getFavouriteLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}favourite_lists`);
+  }
+
+  getAdvertisementFavouriteLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}advertisementsfavourite_lists`);
+  }
 
   getAdvertisementById(advertisementId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);
