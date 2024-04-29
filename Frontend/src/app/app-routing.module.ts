@@ -12,6 +12,7 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,8 @@ const routes: Routes = [
 
 
   { path: 'profile/:userId', component: ProfileComponent },
+  { path: 'lista-favoritos/:userId', component: FavouriteListComponent },
+
   { path: 'mis-anuncios/:userId', component: MisAnunciosComponent},
   { path: 'crear-anuncio', component: CrearAnuncioComponent},
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent},

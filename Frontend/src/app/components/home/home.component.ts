@@ -46,7 +46,31 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
+  openModal(advertisementId: string): void {
+    // Obtener el modal
+    const modal = document.getElementById('myModal');
+  
+    // Verificar si el modal existe antes de intentar acceder a él
+    if (modal) {
+      // Mostrar el modal
+      modal.style.display = 'block';
+    } else {
+      console.error('Modal element not found');
+    }
+  }
+  
+  closeModal(): void {
+    // Obtener el modal
+    const modal = document.getElementById('myModal');
+  
+    // Verificar si el modal existe antes de intentar acceder a él
+    if (modal) {
+      // Ocultar el modal
+      modal.style.display = 'none';
+    } else {
+      console.error('Modal element not found');
+    }
+  }
 
 
 }

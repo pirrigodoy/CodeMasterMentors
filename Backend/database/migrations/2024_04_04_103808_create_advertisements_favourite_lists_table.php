@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teacher_favourite_lists', function (Blueprint $table) {
+        Schema::create('advertisements_favourite_lists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
+            $table->unsignedBigInteger('advertisement_id');
+            $table->foreign('advertisement_id')
                 ->references('id')
-                ->on('users')
+                ->on('advertisements')
                 ->cascadeOnDelete();
             $table->unsignedBigInteger('favouriteList_id');
             $table->foreign('favouriteList_id')

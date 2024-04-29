@@ -20,6 +20,7 @@ import { CloudinaryModule } from '@cloudinary/ng';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 
 // import { AuthService } from './auth.service';
@@ -41,6 +42,7 @@ import { ModificarAnuncioComponent } from './components/modificar-anuncio/modifi
     MisAnunciosComponent,
     CrearAnuncioComponent,
     ModificarAnuncioComponent,
+    FavouriteListComponent,
   ],
   imports: [
     BrowserModule,

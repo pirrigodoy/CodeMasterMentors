@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { Router, Route } from '@angular/router'; // Importa Route junto con Router y ActivatedRoute
-import Swal from 'sweetalert2'; // Importa SweetAlert
+import { Router, Route } from '@angular/router'; 
+import Swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-modificar-anuncio',

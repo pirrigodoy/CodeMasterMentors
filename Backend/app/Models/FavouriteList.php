@@ -11,6 +11,7 @@ class FavouriteList extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'name',
         'user_id'
     ];
     protected $guarded = [
@@ -23,5 +24,10 @@ class FavouriteList extends Model
     public function getRouteKeyName()
     {
         return 'id';
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
