@@ -157,6 +157,7 @@ export class ApiService {
     formData.append('image', image);
 
     // Realiza la solicitud POST al servidor para subir la imagen
-    return this.http.post<any>(`${this.apiUrl}uploadImage`, formData);
-  }
+    return this.http.post<any>(`${this.apiUrl}uploadimage`, formData);
+}
+
 }

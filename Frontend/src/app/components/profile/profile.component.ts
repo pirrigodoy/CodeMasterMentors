@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +14,15 @@ export class ProfileComponent implements OnInit {
   userId: string = '';
   userData: any = {};
   isEditing: boolean = false;
-  selectedFile: File | null = null; 
+  selectedFile: File | null = null;
+  deleteCheckbox: boolean = false; // Agregar esta línea para definir la variable deleteCheckbox
+  deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
+  deleteButtonColor: string = 'bg-gray-500'; // Inicialmente gris
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
+
     const userIdParam = this.route.snapshot.paramMap.get('userId');
     if (userIdParam) {
       this.userId = userIdParam;
@@ -42,6 +47,14 @@ export class ProfileComponent implements OnInit {
 
   toggleEdit() {
     this.isEditing = !this.isEditing;
+  }
+
+  updateDeleteButtonClass() {
+    if (this.deleteCheckbox) {
+      this.deleteButtonColor = 'bg-red-700'; // Cambia a rojo si el checkbox está marcado
+    } else {
+      this.deleteButtonColor = 'bg-gray-500'; // Vuelve a gris si el checkbox está desmarcado
+    }
   }
 
   saveChanges() {
@@ -74,13 +87,67 @@ export class ProfileComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.selectedFile = file;
 
-    // Convertir la imagen seleccionada a base64
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.userData.img = e.target.result; // Asignar la cadena base64 a la propiedad 'img'
-    };
-    reader.readAsDataURL(file);
+    // Subir la imagen al servidor
+    this.apiService.uploadImage(file).subscribe(
+      (response: any) => {
+        if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
+          // Guarda la ruta de la imagen en userData
+          this.userData.img = response.url;
+        } else {
+          console.error('Error al subir la imagen:', response.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error al subir la imagen:', error);
+      }
+    );
+  }
+
+
+
+  deleteUser() {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará permanentemente tu perfil.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiService.deleteUser(this.userId).subscribe(
+          (response: any) => { // Declarar explícitamente el tipo de 'response'
+            if (response.success) {
+              Swal.fire(
+                '¡Eliminado!',
+                'Tu perfil ha sido eliminado.',
+                'success'
+              ).then(() => {
+                // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
+                // Por ejemplo:
+                 this.router.navigate(['/']);
+              });
+            } else {
+              Swal.fire(
+                'Error',
+                'Hubo un problema al intentar eliminar tu perfil. Por favor, inténtalo de nuevo más tarde.',
+                'error'
+              );
+            }
+          },
+          (error: any) => { // Declarar explícitamente el tipo de 'error'
+            console.error('Error al eliminar el usuario:', error);
+            Swal.fire(
+              'Error',
+              'Hubo un problema al intentar eliminar tu perfil. Por favor, inténtalo de nuevo más tarde.',
+              'error'
+            );
+          }
+        );
+      }
+    });
   }
 }

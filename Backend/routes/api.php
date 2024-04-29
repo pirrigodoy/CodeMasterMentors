@@ -26,13 +26,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::middleware(['auth:sanctum'])->group(function() {
+Route::middleware(['auth:sanctum'])->group(function () {
 
-   Route::get('logout', [AuthController::class, 'logout']);
-
+    Route::get('logout', [AuthController::class, 'logout']);
 });
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 Route::apiResource('comments', CommentController::class);
+Route::post('uploadimage', [UserController::class, 'uploadimage']);

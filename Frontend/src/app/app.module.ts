@@ -20,6 +20,8 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 import { CommentManagementComponent } from './components/comment-management/comment-management.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
+import { AdvertisementManagementComponent } from './components/advertisement-management/advertisement-management.component';
 
 
 
@@ -37,12 +39,14 @@ import { ProfileComponent } from './components/profile/profile.component';
     NavbarComponent,
     AboutusComponent,
     ContactComponent,
-    AdvertisementComponent,
     MisAnunciosComponent,
     CrearAnuncioComponent,
     ModificarAnuncioComponent,
+    ProfileComponent,
+    AdvertisementComponent,
+    UserManagementComponent,
     CommentManagementComponent,
-    ProfileComponent
+    AdvertisementManagementComponent
   ],
   imports: [
     BrowserModule,

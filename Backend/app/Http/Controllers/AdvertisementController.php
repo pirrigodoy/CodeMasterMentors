@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use App\Models\Advertisement;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+
+
 
 class AdvertisementController extends Controller
 {
@@ -81,8 +83,7 @@ class AdvertisementController extends Controller
 
         $advertisement->update($request->all());
 
-        return redirect()->route('advertisements.index')
-            ->with('success', 'Advertisement updated successfully');
+        return ApiResponse::success('Anuncio actualizado exitosamente', 200, $advertisement);
     }
 
     // Función para eliminar un anuncio de la base de datos
@@ -90,7 +91,7 @@ class AdvertisementController extends Controller
     {
         $advertisement->delete();
 
-        return redirect()->route('advertisements.index')
-            ->with('success', 'Advertisement deleted successfully');
+        return ApiResponse::success('Anuncio borrado', 200, $advertisement);
+
     }
 }
