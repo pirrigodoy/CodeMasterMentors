@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { NgModule } from '@angular/core';
 
 
 @Component({
@@ -14,13 +15,12 @@ export class AdvertisementManagementComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.loadAdvertisement();
+    this.loadComments();
   }
 
-  loadAdvertisement() {
+  loadComments() {
     this.apiService.getAdvertisements().subscribe((advertisements: any[]) => {
       this.advertisements = advertisements;
     });
   }
 }
-

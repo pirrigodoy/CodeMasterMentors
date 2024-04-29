@@ -14,6 +14,7 @@ import { UserManagementComponent } from './components/user-management/user-manag
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
+import { CommentManagementComponent } from './components/comment-management/comment-management.component';
 
 const routes: Routes = [
 
@@ -24,8 +25,12 @@ const routes: Routes = [
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
+
+
   {path: 'userManagement', component: UserManagementComponent},
   {path: 'adManagement', component: AdvertisementManagementComponent},
+  {path: 'commentManagement', component: CommentManagementComponent},
+
 
 
 
