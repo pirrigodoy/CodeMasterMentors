@@ -1,5 +1,9 @@
 <div *ngFor="let favouriteList of favouriteLists.data">
-    <p style="font-size: 20px; color:red">{{ favouriteList.name }}</p>
+  <ng-container *ngIf="favouriteList.user_id === currentUserID"> 
+    <p style="font-size: 20px; color:red">{{ favouriteList.name }}
+      <button (click)="openEditModal(favouriteList)">Editar</button>
+      <button (click)="deleteList(favouriteList)">Borrar</button>
+    </p>
     <ul>
       <li *ngFor="let advertisementList of advertisementFavouriteLists.data">
         <ng-container *ngIf="advertisementList.favouriteList_id === favouriteList.id">
@@ -7,4 +11,17 @@
         </ng-container>
       </li>
     </ul>
+  </ng-container>
 </div>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="modal">
+  <div class="modal-content">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h2>Editar Lista de Favoritos</h2>
+    <input type="text" [(ngModel)]="editedListName" placeholder="Nuevo nombre de lista">
+    <button (click)="saveEditedList()">Guardar</button>
+  </div>
+</div>
+
+

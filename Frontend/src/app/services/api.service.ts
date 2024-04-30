@@ -167,8 +167,22 @@ export class ApiService {
     return this.http.put<any>(`${this.apiUrl}advertisements/${advertisement.id}`, advertisement, httpOptions);
   }
 
+  updateFavouriteList(favourite_list: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put<any>(`${this.apiUrl}favourite_lists/${favourite_list.id}`, favourite_list, httpOptions);
+  }
+
   deleteAdvertisement(advertisementId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}advertisements/${advertisementId}`);
+  }
+
+  deleteFavourite_list(favouriteList_id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}favourite_lists/${favouriteList_id}`);
   }
 
   deleteUser(userId: string): Observable<any> {
