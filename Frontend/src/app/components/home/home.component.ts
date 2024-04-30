@@ -15,10 +15,12 @@ export class HomeComponent implements OnInit {
   showModal: boolean = false;
   newFavoriteListName: string = ''; // Variable para almacenar el nombre de la nueva lista de favoritos
   selectedFavoriteList: any = '';
+  currentUserID: number | null = null;
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.currentUserID = parseInt(localStorage.getItem('user_id') ?? '', 10);
     this.getAdvertisements();
     this.getUsers();
     this.getProgrammingLanguages();

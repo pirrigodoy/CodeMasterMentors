@@ -185,6 +185,10 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiUrl}favourite_lists/${favouriteList_id}`);
   }
 
+  deleteAdvertisementFavourite_list(favouriteList_id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}advertisementsfavourite_lists/${favouriteList_id}`);
+  }
+
   deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
   }

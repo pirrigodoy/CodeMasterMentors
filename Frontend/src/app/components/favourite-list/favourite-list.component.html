@@ -8,6 +8,8 @@
       <li *ngFor="let advertisementList of advertisementFavouriteLists.data">
         <ng-container *ngIf="advertisementList.favouriteList_id === favouriteList.id">
           <span>{{ getAdvertisementTitle(advertisementList.advertisement_id) }}</span>
+          <button (click)="deleteAdvertisementFavourite_list(advertisementList.id)">X</button>
+
         </ng-container>
       </li>
     </ul>

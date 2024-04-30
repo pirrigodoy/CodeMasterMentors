@@ -111,5 +111,21 @@ export class FavouriteListComponent implements OnInit {
       // Puedes mostrar un mensaje al usuario o realizar otra acción apropiada
     }
   }
+
+  deleteAdvertisementFavourite_list(advertisementListId: string){
+    this.apiService.deleteAdvertisementFavourite_list(advertisementListId)
+      .subscribe(
+        response => {
+          console.log('El anuncio ha sido eliminado de la lista de favoritos exitosamente.');
+          // Eliminar el anuncio de la lista local advertisementFavouriteLists
+          this.advertisementFavouriteLists.data = this.advertisementFavouriteLists.data.filter((item: any) => item.id !== advertisementListId);
+        },
+        error => {
+          console.error('Ocurrió un error al eliminar el anuncio de la lista de favoritos:', error);
+          // Manejo de errores, si es necesario
+        }
+      );
+  }
+  
   
 }

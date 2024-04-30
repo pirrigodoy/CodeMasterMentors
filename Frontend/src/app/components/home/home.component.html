@@ -52,16 +52,18 @@
 </div>
 
 <!-- Mueve este bloque de modal fuera del contenedor anterior -->
-<div id="myModal" [ngClass]="{'hidden': !showModal}" class="fixed inset-0 flex items-center justify-center">
+<div id="myModal" class="fixed inset-0 flex items-center justify-center" *ngIf="showModal">
   <div class="bg-gray-500 bg-opacity-75 fixed inset-0"></div>
   <div class="bg-white p-8 rounded-lg relative z-10">
     <h2 class="text-lg font-semibold mb-4">Add to Favorite List</h2>
-    <form (submit)="createFavoriteList()"> <!-- Llama al método createFavoriteList al enviar el formulario -->
+    <form (submit)="createFavoriteList()">
       <div class="mb-4">
         <label for="favoriteList">Choose or Create New:</label>
         <select id="favoriteList" name="favoriteList" class="border rounded px-2 py-1" [(ngModel)]="selectedFavoriteList">
           <option value="">Select a Favorite List</option>
-          <option *ngFor="let list of favoriteLists.data" [value]="list.id">{{ list.name }}</option>
+          <ng-container *ngFor="let list of favoriteLists.data">
+            <option [value]="list.id" *ngIf="list.user_id === currentUserID">{{ list.name }}</option>
+          </ng-container>
         </select>
       </div>
       <div class="mb-4">
@@ -73,4 +75,3 @@
     <button (click)="closeForm()" class="absolute top-0 right-0 m-2 bg-red-500 text-white px-2 py-1 rounded-full border border-red-600">&times;</button>
   </div>
 </div>
-
