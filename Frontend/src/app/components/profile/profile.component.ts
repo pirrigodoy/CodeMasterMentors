@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
               ).then(() => {
                 // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
                 // Por ejemplo:
-                 this.router.navigate(['/']);
+                 this.router.navigate(['/login']);
               });
             } else {
               Swal.fire(

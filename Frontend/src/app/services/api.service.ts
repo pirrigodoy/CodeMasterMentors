@@ -159,7 +159,11 @@ export class ApiService {
   }
 
   deleteUser(userId: string): Observable<any> {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
+
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
+
   }
 
   uploadImage(image: File): Observable<any> {
@@ -168,6 +172,6 @@ export class ApiService {
 
     // Realiza la solicitud POST al servidor para subir la imagen
     return this.http.post<any>(`${this.apiUrl}uploadimage`, formData);
-}
+  }
 
 }

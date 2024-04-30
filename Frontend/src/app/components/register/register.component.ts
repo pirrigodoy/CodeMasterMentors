@@ -22,14 +22,15 @@ export class RegisterComponent implements OnInit {
   errorMessage: string = '';
   emailPattern: any;
   roles: any = [];
+  userData: any = {};
+
 
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
-  userData: any;
 
 
   constructor(private apiService: ApiService, private router: Router) {
     this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
-   }
+  }
 
   ngOnInit(): void {
     this.getRoles();
@@ -112,8 +113,8 @@ export class RegisterComponent implements OnInit {
     this.apiService.uploadImage(file).subscribe(
       (response: any) => {
         if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
-          // Guarda la ruta de la imagen en userData
-          this.userData.img = response.url;
+          // Guarda la ruta de la imagen en this.img
+          this.img = response.url;
         } else {
           console.error('Error al subir la imagen:', response.message);
         }
@@ -123,6 +124,7 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
+
 
 
 
