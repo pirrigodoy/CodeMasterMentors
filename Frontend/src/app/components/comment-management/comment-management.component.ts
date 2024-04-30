@@ -19,7 +19,6 @@ export class CommentManagementComponent implements OnInit {
   loadComments() {
     this.apiService.getComments().subscribe((comments: any[]) => {
       this.comments = comments;
-    console.log(this.comments)
 
     });
   }
