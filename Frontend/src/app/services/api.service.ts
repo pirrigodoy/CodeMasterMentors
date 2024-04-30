@@ -128,6 +128,16 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
   }
 
+  crearComentario(nuevoComentario: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}comments`, nuevoComentario, httpOptions);
+  }
 
   getAdvertisementById(advertisementId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);

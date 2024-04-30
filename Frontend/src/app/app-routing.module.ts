@@ -15,6 +15,9 @@ import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.com
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 import { CommentManagementComponent } from './components/comment-management/comment-management.component';
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { EditAdvertisementComponent } from './components/edit-advertisement/edit-advertisement.component';
+import { AddRatingComponent } from './components/add-rating/add-rating.component';
 
 const routes: Routes = [
 
@@ -25,11 +28,13 @@ const routes: Routes = [
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
-
+  { path: 'addRating', component: AddRatingComponent},
 
   {path: 'userManagement', component: UserManagementComponent},
   {path: 'adManagement', component: AdvertisementManagementComponent},
   {path: 'commentManagement', component: CommentManagementComponent},
+  {path: 'editUser', component: EditUserComponent},
+  {path: 'editAdd', component: EditAdvertisementComponent},
 
 
 

@@ -22,8 +22,9 @@ import { CommentManagementComponent } from './components/comment-management/comm
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { AdvertisementManagementComponent } from './components/advertisement-management/advertisement-management.component';
-
-
+import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { EditAdvertisementComponent } from './components/edit-advertisement/edit-advertisement.component';
+import { AddRatingComponent } from './components/add-rating/add-rating.component';
 
 // import { AuthService } from './auth.service';
 
@@ -46,7 +47,10 @@ import { AdvertisementManagementComponent } from './components/advertisement-man
     AdvertisementComponent,
     UserManagementComponent,
     CommentManagementComponent,
-    AdvertisementManagementComponent
+    AdvertisementManagementComponent,
+    EditUserComponent,
+    EditAdvertisementComponent,
+    AddRatingComponent
   ],
   imports: [
     BrowserModule,

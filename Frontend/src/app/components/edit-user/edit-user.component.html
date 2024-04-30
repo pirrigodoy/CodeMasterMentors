@@ -1,0 +1,62 @@
+<div class="max-w-md mx-auto bg-white shadow-md rounded-md p-6 dark:bg-gray-800">
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Modificar Anuncio</h2>
+  <form *ngIf="userData" (submit)="saveChanges()">
+    <!-- Username -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" [(ngModel)]="userData.username" name="username" id="username"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
+        placeholder=" " required />
+      <label for="username"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Title</label>
+    </div>
+    <!-- Name -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="text" [(ngModel)]="userData.name" name="name" id="name"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
+        placeholder=" " required />
+      <label for="name"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Title</label>
+    </div>
+    <!-- Email -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="email" [(ngModel)]="userData.email" name="email" id="email"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
+        placeholder=" " required />
+      <label for="email"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Class</label>
+    </div>
+    <!-- Born Date -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="date" [(ngModel)]="userData.born_date" name="bornDate" id="bornDate"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
+        placeholder=" " required />
+      <label for="bornDate"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Class</label>
+    </div>
+
+    <!-- Area -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input type="area" [(ngModel)]="userData.area" name="area" id="area"
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
+        placeholder=" " required />
+      <label for="area"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Class</label>
+    </div>
+
+    <!-- Img -->
+    <div class="relative z-0 w-full mb-5 group flex items-center">
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" class="hidden" id="imageInput">
+      <label for="imageInput" class="cursor-pointer mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 hover:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+      </label>
+      <span class="text-sm text-gray-500">Subir Imagen</span>
+    </div>
+
+
+
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar
+      Cambios</button>
+  </form>
+</div>

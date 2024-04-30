@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
   roles: any = [];
 
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  userData: any;
 
 
   constructor(private apiService: ApiService, private router: Router) {
@@ -103,7 +104,26 @@ export class RegisterComponent implements OnInit {
 
     });
   }
-  
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    // Subir la imagen al servidor
+    this.apiService.uploadImage(file).subscribe(
+      (response: any) => {
+        if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
+          // Guarda la ruta de la imagen en userData
+          this.userData.img = response.url;
+        } else {
+          console.error('Error al subir la imagen:', response.message);
+        }
+      },
+      (error: any) => {
+        console.error('Error al subir la imagen:', error);
+      }
+    );
+  }
+
 
 
 

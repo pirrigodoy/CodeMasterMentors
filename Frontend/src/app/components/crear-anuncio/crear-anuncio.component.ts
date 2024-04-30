@@ -1,5 +1,4 @@
 // mis-anuncios.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 @Component({
@@ -29,6 +28,6 @@ export class CrearAnuncioComponent implements OnInit{
         this.programmingLanguages = response.data;
         console.log('ProgrammingLanguages:', this.programmingLanguages);
     });
-}
+  }
 
 }

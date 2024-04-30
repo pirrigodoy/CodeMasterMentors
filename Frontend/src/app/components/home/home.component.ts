@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -8,15 +7,11 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-searchQuery: any;
-filterByLanguage(arg0: any) {
-throw new Error('Method not implemented.');
-}
   advertisements: any = [];
   users: any = [];
   programmingLanguages: any = [];
-  filteredAdvertisements: any;
-
+  searchQuery: string = '';
+  filteredAdvertisements: any = [];
 
   constructor(private apiService: ApiService) { }
 
@@ -50,6 +45,13 @@ throw new Error('Method not implemented.');
     localStorage.setItem('advertisement_id', advertisementId);
   }
 
-
-
+  filterByLanguage(languageId: string | null) {
+    if (languageId) {
+      // Filtrar por lenguaje si se selecciona uno
+      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => advertisement.programmingLanguage_id === languageId);
+    } else {
+      // Mostrar todos los anuncios si no se selecciona ningún lenguaje
+      this.filteredAdvertisements = this.advertisements.data;
+    }
+  }
 }
