@@ -9,6 +9,7 @@ use App\Http\Controllers\ProgrammingLanguageController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\FavouriteListController;
 use App\Http\Controllers\AdvertisementFavouriteListController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,3 +41,4 @@ Route::apiResource('favourite_lists', FavouriteListController::class);
 Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
 
 Route::post('uploadImage', [UserController::class, 'uploadImage']);
+Route::post('process-payment', [PaymentController::class, 'processPayment']);

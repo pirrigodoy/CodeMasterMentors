@@ -202,4 +202,20 @@ export class ApiService {
     // Realiza la solicitud POST al servidor para subir la imagen
     return this.http.post<any>(`${this.apiUrl}uploadImage`, formData);
   }
+
+  processPayment(paymentMethodId: string, amount: number): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    // Crea un objeto con el ID del método de pago y el monto del pago
+    const paymentData = { paymentMethodId, amount };
+
+    // Realiza la solicitud POST con los datos del método de pago y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}process-payment`, paymentData, httpOptions);
+  }
+
 }
