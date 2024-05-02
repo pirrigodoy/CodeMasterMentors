@@ -67,6 +67,28 @@ export class FavouriteListComponent implements OnInit {
       );
   }
 
+  deleteAdvertisementFavourite(advertisementFavouriteLists: any){
+    const advertisementFavouriteListsId = advertisementFavouriteLists.id;
+    
+    this.apiService.deleteAdvertisementFavourite_list(advertisementFavouriteListsId)
+      .subscribe(
+        response => {
+          console.log('El anuncio ha sido eliminado de la lista de favoritos exitosamente.');
+          console.log("Hola", advertisementFavouriteListsId);
+          window.location.reload();
+
+        },
+        error => {
+          console.error('Ocurrió un error al eliminar el anuncio de la lista de favoritos:', error);
+          // Manejo de errores, si es necesario
+        },
+        () => {
+          console.log('No se recibió ninguna respuesta del backend después de eliminar el elemento.');
+        }
+      );
+  }
+  
+
  openEditModal(favouriteList: any) {
   this.selectedFavouriteList = favouriteList;
     this.editedListName = favouriteList.name;
@@ -112,20 +134,8 @@ export class FavouriteListComponent implements OnInit {
     }
   }
 
-  deleteAdvertisementFavourite_list(advertisementListId: string){
-    this.apiService.deleteAdvertisementFavourite_list(advertisementListId)
-      .subscribe(
-        response => {
-          console.log('El anuncio ha sido eliminado de la lista de favoritos exitosamente.');
-          // Eliminar el anuncio de la lista local advertisementFavouriteLists
-          this.advertisementFavouriteLists.data = this.advertisementFavouriteLists.data.filter((item: any) => item.id !== advertisementListId);
-        },
-        error => {
-          console.error('Ocurrió un error al eliminar el anuncio de la lista de favoritos:', error);
-          // Manejo de errores, si es necesario
-        }
-      );
-  }
+ 
+
   
   
 }

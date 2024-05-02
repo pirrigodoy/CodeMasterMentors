@@ -21,6 +21,7 @@ import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.com
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
+import { PaymentComponent } from './components/payment/payment.component';
 
 
 // import { AuthService } from './auth.service';
@@ -43,6 +44,7 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
     CrearAnuncioComponent,
     ModificarAnuncioComponent,
     FavouriteListComponent,
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,

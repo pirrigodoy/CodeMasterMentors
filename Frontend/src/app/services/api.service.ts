@@ -141,7 +141,7 @@ export class ApiService {
       })
     };
     // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
-    return this.http.post<any>(`${this.apiUrl}advertisementsfavourite_lists`, nuevaAnuncioLista, httpOptions);
+    return this.http.post<any>(`${this.apiUrl}advertisement_favourite_lists`, nuevaAnuncioLista, httpOptions);
   }
   
   getFavouriteLists(): Observable<any[]> {
@@ -149,7 +149,7 @@ export class ApiService {
   }
 
   getAdvertisementFavouriteLists(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}advertisementsfavourite_lists`);
+    return this.http.get<any[]>(`${this.apiUrl}advertisement_favourite_lists`);
   }
 
   getAdvertisementById(advertisementId: string): Observable<any> {
@@ -185,9 +185,10 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiUrl}favourite_lists/${favouriteList_id}`);
   }
 
-  deleteAdvertisementFavourite_list(favouriteList_id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}advertisementsfavourite_lists/${favouriteList_id}`);
-  }
+  deleteAdvertisementFavourite_list(advertisementFavouriteListsId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}advertisement_favourite_lists/${advertisementFavouriteListsId}`);
+}
+
 
   deleteUser(userId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);

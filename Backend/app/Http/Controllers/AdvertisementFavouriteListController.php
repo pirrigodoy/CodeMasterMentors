@@ -48,7 +48,9 @@ class AdvertisementFavouriteListController extends Controller
     public function destroy(AdvertisementFavouriteList $advertisementFavouriteList)
     {
         $advertisementFavouriteList->delete();
-
-        return ApiResponse::success('Elemento de relación eliminado', 200, $advertisementFavouriteList);
+    
+        return response()->json(['message' => 'El elemento de relación ha sido eliminado correctamente.'], 200);
     }
+    
+    
 }

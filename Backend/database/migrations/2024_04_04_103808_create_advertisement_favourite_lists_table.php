@@ -17,21 +17,22 @@ return new class extends Migration
             $table->foreign('advertisement_id')
                 ->references('id')
                 ->on('advertisements')
-                ->cascadeOnDelete();
+                ->onDelete('cascade'); // Cambiado a onDelete('cascade')
             $table->unsignedBigInteger('favouriteList_id');
             $table->foreign('favouriteList_id')
                 ->references('id')
                 ->on('favourite_lists')
-                ->cascadeOnDelete();
+                ->onDelete('restrict'); // Cambiado a onDelete('restrict')
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('teacher_favourite_lists');
+        Schema::dropIfExists('advertisement_favourite_lists');
     }
 };

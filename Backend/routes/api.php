@@ -37,6 +37,6 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 Route::apiResource('favourite_lists', FavouriteListController::class);
-Route::apiResource('advertisementsfavourite_lists', AdvertisementFavouriteListController::class);
+Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
 
 Route::post('uploadImage', [UserController::class, 'uploadImage']);
