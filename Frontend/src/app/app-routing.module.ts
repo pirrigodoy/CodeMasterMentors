@@ -18,6 +18,8 @@ import { CommentManagementComponent } from './components/comment-management/comm
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { EditAdvertisementComponent } from './components/edit-advertisement/edit-advertisement.component';
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 const routes: Routes = [
 
@@ -36,6 +38,8 @@ const routes: Routes = [
   {path: 'editUser', component: EditUserComponent},
   {path: 'editAdd', component: EditAdvertisementComponent},
 
+  {path: 'payment', component: PaymentComponent},
+  { path: 'lista-favoritos/:userId', component: FavouriteListComponent },
 
 
 

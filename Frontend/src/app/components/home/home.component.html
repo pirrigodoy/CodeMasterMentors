@@ -12,15 +12,12 @@
 <br>
 
 <div class="flex justify-center mt-4">
-  <button type="button"
-          (click)="filterByLanguage(null)"
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+  <button type="button" (click)="filterByLanguage(null)"
+    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
     Todos
   </button>
-  <button *ngFor="let language of programmingLanguages.data"
-          type="button"
-          (click)="filterByLanguage(language.id)"
-          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+  <button *ngFor="let language of programmingLanguages.data" type="button" (click)="filterByLanguage(language.id)"
+    class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
     {{ language.languageName }}
   </button>
 </div>
@@ -29,7 +26,12 @@
   <div class="flex flex-wrap -mx-4">
     <ng-container *ngFor="let advertisement of filteredAdvertisements">
       <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 px-4 mb-8">
-        <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
+        <div class="bg-white rounded-lg overflow-hidden shadow-2xl relative">
+          <!-- Agregamos el botón aquí -->
+          <button class="absolute top-0 right-0 m-4 bg-red-500 text-white px-2 py-1 rounded"
+            (click)="openForm(advertisement.id)">
+            <i class="fas fa-heart"></i> <!-- Ícono de corazón -->
+          </button>
           <ng-container *ngFor="let user of users.data">
             <div *ngIf="user.id === advertisement.user_id">
               <a [routerLink]="['/advertisement', advertisement.id]" (click)="createCookie(advertisement.id)">
@@ -72,5 +74,34 @@
         </div>
       </div>
     </ng-container>
+  </div>
+</div>
+
+
+<!-- Mueve este bloque de modal fuera del contenedor anterior -->
+<div id="myModal" class="fixed inset-0 flex items-center justify-center" *ngIf="showModal">
+  <div class="bg-gray-500 bg-opacity-75 fixed inset-0"></div>
+  <div class="bg-white p-8 rounded-lg relative z-10">
+    <h2 class="text-lg font-semibold mb-4">Add to Favorite List</h2>
+    <form (submit)="createFavoriteList()">
+      <div class="mb-4">
+        <label for="favoriteList">Choose or Create New:</label>
+        <select id="favoriteList" name="favoriteList" class="border rounded px-2 py-1"
+          [(ngModel)]="selectedFavoriteList">
+          <option value="">Select a Favorite List</option>
+          <ng-container *ngFor="let list of favoriteLists.data">
+            <option [value]="list.id" *ngIf="list.user_id === currentUserID">{{ list.name }}</option>
+          </ng-container>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="newListName">Or Create New List:</label>
+        <input type="text" id="newListName" name="newListName" class="border rounded px-2 py-1"
+          [(ngModel)]="newFavoriteListName">
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
+    </form>
+    <button (click)="closeForm()"
+      class="absolute top-0 right-0 m-2 bg-red-500 text-white px-2 py-1 rounded-full border border-red-600">&times;</button>
   </div>
 </div>

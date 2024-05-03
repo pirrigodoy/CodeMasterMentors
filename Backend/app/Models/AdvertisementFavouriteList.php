@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Advertisement;
+use App\Models\FavouriteList;
 
 
-
-class FavouriteList extends Model
+class AdvertisementFavouriteList extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'user_id'
+        'advertisement_id',
+        'favouriteList_id',
     ];
     protected $guarded = [
         'id',
@@ -25,8 +26,14 @@ class FavouriteList extends Model
     {
         return 'id';
     }
-    public function user()
+
+    public function advertisement()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Advertisement::class);
+    }
+
+    public function favouriteList()
+    {
+        return $this->belongsTo(FavouriteList::class);
     }
 }

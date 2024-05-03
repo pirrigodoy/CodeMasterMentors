@@ -7,7 +7,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProgrammingLanguageController;
 use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\AdvertisementFavouriteListController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FavouriteListController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +39,7 @@ Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 Route::apiResource('comments', CommentController::class);
 Route::post('uploadimage', [UserController::class, 'uploadimage']);
+Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
+Route::apiResource('favourite_lists', FavouriteListController::class);
+
+Route::post('process-payment', [PaymentController::class, 'processPayment']);

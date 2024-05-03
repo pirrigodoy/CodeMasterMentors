@@ -25,6 +25,8 @@ import { AdvertisementManagementComponent } from './components/advertisement-man
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { EditAdvertisementComponent } from './components/edit-advertisement/edit-advertisement.component';
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
+import { PaymentComponent } from './components/payment/payment.component';
+import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 
 // import { AuthService } from './auth.service';
 
@@ -50,7 +52,9 @@ import { AddRatingComponent } from './components/add-rating/add-rating.component
     AdvertisementManagementComponent,
     EditUserComponent,
     EditAdvertisementComponent,
-    AddRatingComponent
+    AddRatingComponent,
+    PaymentComponent,
+    FavouriteListComponent
   ],
   imports: [
     BrowserModule,

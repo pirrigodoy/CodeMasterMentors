@@ -116,6 +116,7 @@ export class ApiService {
   }) {
     return this.http.post<any>(`${this.apiUrl}register`, credentials);
   }
+  // ------------------------------------------------------------------------------------------------
 
   crearAnuncio(nuevoAnuncio: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
@@ -127,6 +128,7 @@ export class ApiService {
     // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
     return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
   }
+  // ------------------------------------------------------------------------------------------------
 
   crearComentario(nuevoComentario: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
@@ -138,10 +140,12 @@ export class ApiService {
     // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
     return this.http.post<any>(`${this.apiUrl}comments`, nuevoComentario, httpOptions);
   }
+  // ------------------------------------------------------------------------------------------------
 
   getAdvertisementById(advertisementId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);
   }
+  // ------------------------------------------------------------------------------------------------
 
 
   updateAdvertisement(advertisement: any): Observable<any> {
@@ -153,10 +157,12 @@ export class ApiService {
 
     return this.http.put<any>(`${this.apiUrl}advertisements/${advertisement.id}`, advertisement, httpOptions);
   }
+  // ------------------------------------------------------------------------------------------------
 
   deleteAdvertisement(advertisementId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}advertisements/${advertisementId}`);
   }
+  // ------------------------------------------------------------------------------------------------
 
   deleteUser(userId: string): Observable<any> {
     localStorage.removeItem('access_token');
@@ -165,6 +171,7 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
 
   }
+  // ------------------------------------------------------------------------------------------------
 
   uploadImage(image: File): Observable<any> {
     const formData = new FormData();
@@ -173,5 +180,76 @@ export class ApiService {
     // Realiza la solicitud POST al servidor para subir la imagen
     return this.http.post<any>(`${this.apiUrl}uploadimage`, formData);
   }
+  // ------------------------------------------------------------------------------------------------
 
+  crearListaFavoritos(nuevaLista: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}favourite_lists`, nuevaLista, httpOptions);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  crearAnuncioListaFavoritos(nuevaAnuncioLista: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}advertisement_favourite_lists`, nuevaAnuncioLista, httpOptions);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  getFavouriteLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}favourite_lists`);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  getAdvertisementFavouriteLists(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}advertisement_favourite_lists`);
+  }
+  // ------------------------------------------------------------------------------------------------
+  updateFavouriteList(favourite_list: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put<any>(`${this.apiUrl}favourite_lists/${favourite_list.id}`, favourite_list, httpOptions);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+
+
+  deleteFavourite_list(favouriteList_id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}favourite_lists/${favouriteList_id}`);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  deleteAdvertisementFavourite_list(advertisementFavouriteListsId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}advertisement_favourite_lists/${advertisementFavouriteListsId}`);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  processPayment(paymentMethodId: string, amount: number): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    // Crea un objeto con el ID del método de pago y el monto del pago
+    const paymentData = { paymentMethodId, amount };
+
+    // Realiza la solicitud POST con los datos del método de pago y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}process-payment`, paymentData, httpOptions);
+  }
 }
