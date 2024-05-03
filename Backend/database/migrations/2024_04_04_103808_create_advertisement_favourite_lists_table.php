@@ -17,12 +17,12 @@ return new class extends Migration
             $table->foreign('advertisement_id')
                 ->references('id')
                 ->on('advertisements')
-                ->onDelete('cascade'); // Cambiado a onDelete('cascade')
+                ->onDelete('cascade'); 
             $table->unsignedBigInteger('favouriteList_id');
             $table->foreign('favouriteList_id')
                 ->references('id')
                 ->on('favourite_lists')
-                ->onDelete('restrict'); // Cambiado a onDelete('restrict')
+                ->onDelete('cascade'); 
             $table->timestamps();
         });
     }

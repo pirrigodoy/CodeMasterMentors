@@ -14,6 +14,7 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { PaymentComponent } from './components/payment/payment.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
+  { path: 'messages', component: MessagesComponent },
 
 
   { path: 'profile/:userId', component: ProfileComponent },
