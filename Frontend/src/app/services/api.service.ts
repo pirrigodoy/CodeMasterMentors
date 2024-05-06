@@ -235,8 +235,10 @@ export class ApiService {
 
   getUserIdByAdvertisementId(advertisementId: string): Observable<number | undefined> {
     return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`).pipe(
-      map(advertisement => advertisement.user_id),
-    );
+      tap(advertisement => console.log('Valor de advertisement.user_id:', advertisement.data.user_id)),
+      tap(advertisement => console.log('Valor de advertisement.user_id:', advertisement)),
+
+      map(advertisement => advertisement.data.user_id)    );
   }
   
 
