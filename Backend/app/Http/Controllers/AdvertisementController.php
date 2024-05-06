@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Advertisement;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -53,9 +54,19 @@ class AdvertisementController extends Controller
     public function show($id)
     {
         try {
+            // Encuentra el anuncio por su ID
             $advertisement = Advertisement::findOrFail($id);
+
+            // Obtiene el nombre del usuario asociado al anuncio
+            $userName = DB::table('users')->where('id', $advertisement->user_id)->value('name');
+
+            // Agrega el nombre del usuario a la respuesta del anuncio
+            $advertisement->user_name = $userName;
+
+            // Retorna la respuesta exitosa con el anuncio, incluyendo el nombre del usuario
             return ApiResponse::success('Anuncio obtenido', 200, $advertisement);
         } catch (ModelNotFoundException $e) {
+            // Maneja la excepción si no se encuentra el anuncio
             return ApiResponse::error('Anuncio no encontrado', 404);
         }
     }
@@ -92,6 +103,5 @@ class AdvertisementController extends Controller
         $advertisement->delete();
 
         return ApiResponse::success('Anuncio borrado', 200, $advertisement);
-
     }
 }

@@ -1,0 +1,6 @@
+<div>
+  <h1>Recibo</h1>
+  <p>ID de Recibo: {{ receipt.id }}</p>
+  <p>Fecha: {{ receipt.date | date:'medium' }}</p>
+  <p>Monto: ${{ receipt.amount / 100 }}</p>
+</div>

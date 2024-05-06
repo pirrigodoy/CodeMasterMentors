@@ -27,7 +27,8 @@ import { EditAdvertisementComponent } from './components/edit-advertisement/edit
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
-
+import { loginGuard } from './components/guards/login.guard';
+import { ReciboComponent } from './components/recibo/recibo.component';
 // import { AuthService } from './auth.service';
 
 
@@ -54,7 +55,8 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
     EditAdvertisementComponent,
     AddRatingComponent,
     PaymentComponent,
-    FavouriteListComponent
+    FavouriteListComponent,
+    ReciboComponent,
   ],
   imports: [
     BrowserModule,

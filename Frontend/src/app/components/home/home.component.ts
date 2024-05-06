@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
   newFavoriteListName: string = ''; // Variable para almacenar el nombre de la nueva lista de favoritos
   selectedFavoriteList: any = '';
   currentUserID: number | null = null;
-
+  minPrice: number = 0;
+  maxPrice: number = 0;
 
 
 
@@ -158,5 +159,18 @@ export class HomeComponent implements OnInit {
     this.showModal = false;
   }
 
+  // Función para aplicar el filtro de precio
+  applyPriceFilter() {
+    // Verificar si this.advertisements es un array
+    if (Array.isArray(this.advertisements)) {
+      // Filtra los anuncios basados en el rango de precios seleccionado
+      this.filteredAdvertisements = this.advertisements.filter((advertisement: any) => {
+        const price = advertisement.price_hour; // Supongo que el precio está en 'price_hour'
+        return price >= this.minPrice && price <= this.maxPrice;
+      });
+    } else {
+      console.error('this.advertisements no es un array.');
+    }
+  }
 
 }

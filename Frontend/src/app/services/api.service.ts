@@ -252,4 +252,19 @@ export class ApiService {
     // Realiza la solicitud POST con los datos del método de pago y las opciones de encabezado
     return this.http.post<any>(`${this.apiUrl}process-payment`, paymentData, httpOptions);
   }
+  // ------------------------------------------------------------------------------------------------
+
+  getReceipt(receiptId: string): Observable<any> {
+    const url = `${this.apiUrl}/receipts/${receiptId}`; // Suponiendo que la ruta para obtener un recibo sea /api/receipts/:id
+    return this.http.get<any>(url);
+  }
+
+
+
+
+
+
+
+
+
 }

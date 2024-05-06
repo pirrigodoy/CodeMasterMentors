@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-advertisement',
   templateUrl: './advertisement.component.html',
   styleUrls: ['./advertisement.component.css']
 })
 export class AdvertisementComponent implements OnInit {
+nuevaValoracion(arg0: any) {
+throw new Error('Method not implemented.');
+}
   advertisementId: string = '';
   advertisementData: any = {};
   programmingLanguages: any = [];
@@ -17,10 +20,10 @@ export class AdvertisementComponent implements OnInit {
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    const advertisementIdParam = this.route.snapshot.paramMap.get('advertisementId');
-    if (advertisementIdParam) {
-      this.advertisementId = advertisementIdParam;
-    } else {
+    const advertisementIdParam = this.route.snapshot.paramMap.get('advertisementId') ?? '';
+    this.advertisementId = advertisementIdParam;
+
+    if (!this.advertisementId) {
       console.error("No se proporcionó un ID de anuncio en la URL");
       return;
     }
@@ -47,14 +50,14 @@ export class AdvertisementComponent implements OnInit {
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
-       console.log('ProgrammingLanguages:', programmingLanguages);
+      console.log('ProgrammingLanguages:', programmingLanguages);
     });
   }
 
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-       console.log('Users:', users);
+      console.log('Users:', users);
     });
   }
 
@@ -66,3 +69,4 @@ export class AdvertisementComponent implements OnInit {
   }
 
 }
+

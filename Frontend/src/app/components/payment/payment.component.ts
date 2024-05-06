@@ -1,6 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -11,8 +12,9 @@ export class PaymentComponent implements AfterViewInit {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
+  receipt: any; // Variable para almacenar el recibo
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   async ngAfterViewInit() {
     // Cargar la biblioteca de Stripe de forma asíncrona
@@ -52,13 +54,17 @@ export class PaymentComponent implements AfterViewInit {
         .subscribe(
           (response: any) => {
             console.log('Pago procesado correctamente:', response);
-            // Mostrar mensaje de éxito al usuario
+            // Guardar el recibo devuelto por el backend
+            this.receipt = response.receipt;
+            // Redirigir al componente de recibo
+            this.router.navigate(['/recibo', { receiptId: this.receipt.id }]);
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);
             // Mostrar mensaje de error al usuario
           }
         );
+
     }
   }
 }

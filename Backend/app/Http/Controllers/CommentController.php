@@ -20,14 +20,22 @@ class CommentController extends Controller
     {
         try {
             $request->validate([
-                'transmitter' => 'required',
-                'receiver' => 'required',
                 'rating' => 'required|integer|min:1|max:5',
-                'content' => 'required|string',
-                'date' => 'required|date_format:Y-m-d',
+                'comment' => 'required|string',
+                'fecha' => 'required|date_format:Y-m-d',
+                'receiver' => 'required' // Asegúrate de validar el campo 'receiver' en la solicitud
             ]);
 
-            $comment = Comment::create($request->all());
+            $user_id = auth()->id(); // Obtener el ID del usuario autenticado
+
+            $comment = new Comment();
+            $comment->transmitter = $user_id;
+            $comment->receiver = $request->receiver; // Utiliza el valor recibido del campo 'receiver' de la solicitud
+            $comment->rating = $request->rating;
+            $comment->comment = $request->comment;
+            $comment->fecha = $request->fecha;
+            $comment->save();
+
             return ApiResponse::success('Comentario creado exitosamente', 201, $comment);
         } catch (ValidationException $e) {
             $errors = $e->validator->errors()->toArray();

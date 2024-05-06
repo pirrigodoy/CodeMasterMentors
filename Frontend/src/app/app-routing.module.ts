@@ -20,37 +20,38 @@ import { EditAdvertisementComponent } from './components/edit-advertisement/edit
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
+import { loginGuard } from './components/guards/login.guard';
+import { ReciboComponent } from './components/recibo/recibo.component';
 
 const routes: Routes = [
 
+  // Routing del login registro y logout.
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
   { path: 'logout', component: LogoutComponent },
+
+  //Parte que puede visualizar cliente sin registrar
+  { path: 'home', component: HomeComponent },
   { path: 'aboutus', component: AboutusComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
-  { path: 'addRating', component: AddRatingComponent},
 
-  {path: 'userManagement', component: UserManagementComponent},
-  {path: 'adManagement', component: AdvertisementManagementComponent},
-  {path: 'commentManagement', component: CommentManagementComponent},
-  {path: 'editUser', component: EditUserComponent},
-  {path: 'editAdd', component: EditAdvertisementComponent},
+  //Parte del cliente ya registrado que puede visualizar
+  { path: 'userManagement', component: UserManagementComponent, canActivate: [loginGuard] },
+  { path: 'adManagement', component: AdvertisementManagementComponent, canActivate: [loginGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [loginGuard] },
+  { path: 'lista-favoritos/:userId', component: FavouriteListComponent, canActivate: [loginGuard] },
+  { path: 'addRating', component: AddRatingComponent, canActivate: [loginGuard] },
+  { path: 'commentManagement', component: CommentManagementComponent, canActivate: [loginGuard] },
+  { path: 'editUser', component: EditUserComponent, canActivate: [loginGuard] },
+  { path: 'editAdd', component: EditAdvertisementComponent, canActivate: [loginGuard] },
+  { path: 'profile/:userId', component: ProfileComponent, canActivate: [loginGuard] },
+  { path: 'mis-anuncios/:userId', component: MisAnunciosComponent, canActivate: [loginGuard] },
+  { path: 'crear-anuncio', component: CrearAnuncioComponent, canActivate: [loginGuard] },
+  { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [loginGuard] },
+  { path: 'recibo', component: ReciboComponent, canActivate: [loginGuard] },
 
-  {path: 'payment', component: PaymentComponent},
-  { path: 'lista-favoritos/:userId', component: FavouriteListComponent },
-
-
-
-
-  { path: 'profile/:userId', component: ProfileComponent },
-  { path: 'mis-anuncios/:userId', component: MisAnunciosComponent},
-  { path: 'crear-anuncio', component: CrearAnuncioComponent},
-  { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent},
-
-
-
+  //En caso de una ruta erronea te redirige al home
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: NotfoundComponent } //la darrera!!!
 ];
