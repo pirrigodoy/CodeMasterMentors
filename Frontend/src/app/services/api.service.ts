@@ -218,4 +218,26 @@ export class ApiService {
     return this.http.post<any>(`${this.apiUrl}process-payment`, paymentData, httpOptions);
   }
 
+  sendMessage(message: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<any>(`${this.apiUrl}messages/send`, message, httpOptions);
+  }
+  
+
+  // Método para obtener los mensajes entre dos usuarios
+  getMessages(senderId: number, recipientId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}messages/${senderId}/${recipientId}`);
+  }
+
+  getUserIdByAdvertisementId(advertisementId: string): Observable<number | undefined> {
+    return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`).pipe(
+      map(advertisement => advertisement.user_id),
+    );
+  }
+  
+
 }

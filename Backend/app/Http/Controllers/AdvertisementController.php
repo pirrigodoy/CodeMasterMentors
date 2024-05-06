@@ -91,4 +91,16 @@ class AdvertisementController extends Controller
         return ApiResponse::success('Anuncio borrado', 200, $advertisement);
 
     }
+
+    public function getUserIdByAdvertisementId($advertisementId)
+    {
+        try {
+            $advertisement = Advertisement::findOrFail($advertisementId);
+            return ApiResponse::success('User ID obtenido', 200, $advertisement->user_id);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('El ID del anuncio no existe', 404);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Error al obtener el user_id', 500);
+        }
+    }
 }

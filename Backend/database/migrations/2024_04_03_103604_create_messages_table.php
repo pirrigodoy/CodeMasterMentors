@@ -23,8 +23,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
-            $table->text('content');
-            $table->timestamp('date');
+            $table->string('content');
+            $table->string('date');
             $table->unsignedBigInteger('estado');
             $table->foreign('estado')
                 ->references('id')

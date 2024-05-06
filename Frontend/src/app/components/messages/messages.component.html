@@ -1,1 +1,13 @@
-<p>messages works!</p>
+<div class="chat-container">
+    <!-- Lista de mensajes -->
+    <div *ngFor="let message of messages" class="message">
+        <div class="sender">{{ message.remitente }}</div>
+        <div class="content">{{ message.content }}</div>
+    </div>
+
+    <!-- Formulario para enviar un nuevo mensaje -->
+    <form (submit)="sendMessage($event)">
+        <input type="text" #messageInput placeholder="Escribe un mensaje...">
+        <button type="submit">Enviar</button>
+    </form> 
+</div>

@@ -10,6 +10,8 @@ use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\FavouriteListController;
 use App\Http\Controllers\AdvertisementFavouriteListController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\MessageController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,8 @@ use App\Http\Controllers\PaymentController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -42,3 +46,6 @@ Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListCo
 
 Route::post('uploadImage', [UserController::class, 'uploadImage']);
 Route::post('process-payment', [PaymentController::class, 'processPayment']);
+
+Route::post('messages/send', [MessageController::class, 'sendMessage']);
+Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
