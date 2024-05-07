@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavouriteListController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\StateController;
 
@@ -47,9 +48,19 @@ Route::apiResource('states', StateController::class);
 
 Route::post('uploadimage', [UserController::class, 'uploadimage']);
 Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
+Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
+
+
+
 Route::apiResource('favourite_lists', FavouriteListController::class);
 
 Route::post('process-payment', [PaymentController::class, 'processPayment']);
 
 
 Route::apiResource('receipts', ReceiptController::class);
+
+
+Route::post('messages/send', [MessageController::class, 'sendMessage']);
+Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
+
+Route::get('/messages/recipients/{senderId}', [MessageController::class, 'getUniqueRecipients']);

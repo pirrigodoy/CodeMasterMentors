@@ -60,7 +60,7 @@ export class PaymentComponent implements AfterViewInit {
             // Mostrar alerta de pago completado
             Swal.fire('¡Pago completado!', 'El pago se ha realizado correctamente.', 'success');
             // Redirigir al componente de inicio (home)
-            this.router.navigate(['/']); // Aquí especifica la ruta de tu componente de inicio
+            this.router.navigate(['/messages']); // Aquí especifica la ruta de tu componente de inicio
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);

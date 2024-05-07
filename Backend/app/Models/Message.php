@@ -11,10 +11,11 @@ class Message extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
+        'remitente',
+        'destinatario',
         'content',
         'date',
-        'status'
+        'estado'
     ];
     protected $guarded = [
         'id',
@@ -28,4 +29,13 @@ class Message extends Model
         return 'id';
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
 }

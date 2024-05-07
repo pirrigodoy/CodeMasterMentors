@@ -23,7 +23,7 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
 import { loginGuard } from './components/guards/login.guard';
 import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
-
+import { MessagesComponent } from './components/messages/messages.component';
 
 const routes: Routes = [
 
@@ -53,6 +53,8 @@ const routes: Routes = [
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [loginGuard] },
   { path: 'recibo', component: ReciboComponent, canActivate: [loginGuard] },
   {path: 'application', component: ApplicationComponent, canActivate: [loginGuard]},
+  {path: 'messages', component: MessagesComponent, canActivate: [loginGuard]},
+
   //En caso de una ruta erronea te redirige al home
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: NotfoundComponent } //la darrera!!!

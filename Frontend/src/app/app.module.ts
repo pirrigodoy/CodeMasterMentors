@@ -29,6 +29,7 @@ import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
+import { MessagesComponent } from './components/messages/messages.component';
 // import { AuthService } from './auth.service';
 
 
@@ -58,6 +59,7 @@ import { ApplicationComponent } from './components/application/application.compo
     FavouriteListComponent,
     ReciboComponent,
     ApplicationComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,

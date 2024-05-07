@@ -287,8 +287,37 @@ export class ApiService {
     return this.http.delete<any>(`${this.apiUrl}applications/${applicationId}`);
   }
 
+  sendMessage(message: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<any>(`${this.apiUrl}messages/send`, message, httpOptions);
+  }
+  // ------------------------------------------------------------------------------------------------
 
 
+  // Método para obtener los mensajes entre dos usuarios
+  getMessages(senderId: number, recipientId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}messages/${senderId}/${recipientId}`);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  getUserIdByAdvertisementId(advertisementId: string): Observable<number | undefined> {
+    return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`).pipe(
+      tap(advertisement => console.log('Valor de advertisement.user_id:', advertisement.data.user_id)),
+      tap(advertisement => console.log('Valor de advertisement.user_id:', advertisement)),
+
+      map(advertisement => advertisement.data.user_id));
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  getUniqueRecipients(senderId: number): Observable<any[]> {
+    const url = `${this.apiUrl}messages/recipients/${senderId}`;
+    console.log('URL de la solicitud:', url); // Agregar este console.log para verificar la URL de la solicitud
+    return this.http.get<any[]>(url);
+  }
 
 
 

@@ -13,22 +13,20 @@ return new class extends Migration
     {
         Schema::create('advertisement_favourite_lists', function (Blueprint $table) {
             $table->id();
-
             $table->unsignedBigInteger('advertisement_id');
             $table->foreign('advertisement_id')
                 ->references('id')
                 ->on('advertisements')
-                ->cascadeOnDelete(); // Cambiado a onDelete('cascade')
-
+                ->onDelete('cascade');
             $table->unsignedBigInteger('favouriteList_id');
             $table->foreign('favouriteList_id')
                 ->references('id')
                 ->on('favourite_lists')
-                ->cascadeOnDelete(); // Cambiado a onDelete('cascade')
-
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

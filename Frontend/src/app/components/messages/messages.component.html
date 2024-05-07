@@ -1,0 +1,20 @@
+<div class="chat-container">
+  <!-- Lista de destinatarios -->
+  <div *ngFor="let recipient of recipients" class="recipient" (click)="loadMessagesForRecipient(recipient.data.id)">
+      <div class="recipient-name">{{ recipient.data.name }}</div>
+  </div>
+
+  <!-- Lista de mensajes -->
+  <ng-container *ngFor="let message of messages">
+
+          <div class="sender">{{ message.senderName }}</div>
+          <div class="content">{{ message.content }}</div>
+
+  </ng-container>
+
+  <!-- Formulario para enviar un nuevo mensaje -->
+  <form (submit)="sendMessage($event)">
+      <input type="text" #messageInput placeholder="Escribe un mensaje...">
+      <button type="submit">Enviar</button>
+  </form>
+</div>
