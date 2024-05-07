@@ -1,0 +1,27 @@
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">Num de Petición</th>
+        <th scope="col" class="px-6 py-3">State</th>
+        <th scope="col" class="px-6 py-3">Transmitter</th>
+        <th scope="col" class="px-6 py-3">Receiver</th>
+        <th scope="col" class="px-6 py-3">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let application of applications.data" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td class="px-6 py-4">{{ application.id }}</td>
+        <td class="px-6 py-4">{{application.state }}</td>
+        <!-- Utilizar la función getStateName para mostrar el nombre del estado -->
+        <td class="px-6 py-4">{{ application.transmitter }}</td>
+        <td class="px-6 py-4">{{ application.receiver }}</td>
+        <td class="px-6 py-4">
+          <button type="button" (click)="deleteApplication(application.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

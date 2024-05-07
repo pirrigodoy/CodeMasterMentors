@@ -49,6 +49,22 @@ export class ApiService {
   }
 
   //----------------------------------------------------------------------
+
+  getApplications(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}applications`);
+  }
+
+  //----------------------------------------------------------------------
+  getReceipts(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}receipts`);
+  }
+
+  //----------------------------------------------------------------------
+  getStates(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}states`);
+  }
+
+  //----------------------------------------------------------------------
   // Método para realizar una solicitud POST
   postData(data: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
@@ -91,9 +107,12 @@ export class ApiService {
     return this.http.get<any>(`${this.apiUrl}users/${userId}`);
   }
 
+  //----------------------------------------------------------------------
+
   getAdvertisementData(advertisementId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}advertisements/${advertisementId}`);
   }
+
   //----------------------------------------------------------------------
   // Método para actualizar los datos del usuario
   updateUserData(userData: any): Observable<any> {
@@ -255,10 +274,18 @@ export class ApiService {
   // ------------------------------------------------------------------------------------------------
 
   getReceipt(receiptId: string): Observable<any> {
-    const url = `${this.apiUrl}/receipts/${receiptId}`; // Suponiendo que la ruta para obtener un recibo sea /api/receipts/:id
+    if (!receiptId) {
+      throw new Error('El ID del recibo es nulo o no válido');
+    }
+    const url = `${this.apiUrl}receipts/${receiptId}`;
     return this.http.get<any>(url);
   }
 
+  // ------------------------------------------------------------------------------------------------
+
+  deleteApplication(applicationId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}applications/${applicationId}`);
+  }
 
 
 

@@ -10,7 +10,7 @@ import { ApiService } from '../../services/api.service';
 export class ReciboComponent implements OnInit {
   receiptId!: string; // Usamos el operador de coerción "!"
 
-  receipt: any;
+  receipts: any;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
@@ -21,7 +21,7 @@ export class ReciboComponent implements OnInit {
     // Hacer la solicitud al backend para obtener el recibo correspondiente
     this.apiService.getReceipt(this.receiptId).subscribe(
       (response: any) => {
-        this.receipt = response;
+        this.receipts = response;
       },
       (error: any) => {
         console.error('Error al obtener el recibo:', error);
@@ -30,3 +30,5 @@ export class ReciboComponent implements OnInit {
     );
   }
 }
+
+

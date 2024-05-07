@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment',
@@ -56,12 +57,15 @@ export class PaymentComponent implements AfterViewInit {
             console.log('Pago procesado correctamente:', response);
             // Guardar el recibo devuelto por el backend
             this.receipt = response.receipt;
-            // Redirigir al componente de recibo
-            this.router.navigate(['/recibo', { receiptId: this.receipt.id }]);
+            // Mostrar alerta de pago completado
+            Swal.fire('¡Pago completado!', 'El pago se ha realizado correctamente.', 'success');
+            // Redirigir al componente de inicio (home)
+            this.router.navigate(['/']); // Aquí especifica la ruta de tu componente de inicio
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);
             // Mostrar mensaje de error al usuario
+            Swal.fire('Error', 'Ha ocurrido un error al procesar el pago.', 'error');
           }
         );
 

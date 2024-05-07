@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\State;
 use App\Models\User;
 
-class Aplication extends Model
+class Application extends Model
 {
     use HasFactory;
     protected $fillable = [
