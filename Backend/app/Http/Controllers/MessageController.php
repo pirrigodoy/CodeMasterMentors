@@ -45,6 +45,17 @@ class MessageController extends Controller
     return response()->json($messages, 200);
 }
 
+public function getUniqueRecipients($senderId)
+{
+    $recipients = Message::where('remitente', $senderId)
+        ->distinct('destinatario')
+        ->pluck('destinatario');
+
+    return response()->json($recipients)->header('Access-Control-Allow-Origin', '*');
+}
+
+
+
 
    
 }

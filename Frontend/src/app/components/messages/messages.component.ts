@@ -10,6 +10,7 @@ export class MessagesComponent implements OnInit {
   senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10);; // Inicializa senderId
   recipientId: number = 11; // Inicializa recipientId
   messages: any[] = []; // Inicializa messages como un arreglo vacío
+  recipients: any[] = [];
 
   @ViewChild('messageInput', { static: true }) messageInput!: ElementRef<HTMLInputElement>;
 
@@ -17,6 +18,7 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadMessages();
+    this.loadRecipients();
     this.loadRecipientId(); // Llama a esta función para cargar el senderId
 
   }
@@ -24,15 +26,64 @@ export class MessagesComponent implements OnInit {
   // Función para cargar los mensajes entre senderId y recipientId
   loadMessages(): void {
     this.apiService.getMessages(this.senderId, this.recipientId).subscribe(
-      (response: any) => {
-        this.messages = response;
-        console.log('Messages',response);
+      (response: any[]) => {
+        // Recorre cada mensaje y solicita los detalles del remitente de forma secuencial
+        response.forEach((message, index) => {
+          this.apiService.getUserData(message.remitente.toString()).subscribe(
+            (senderDetail: any) => {
+              // Asigna el nombre del remitente al mensaje
+              message.senderName = senderDetail.data.name || 'Desconocido';
+              // Si este es el último mensaje, actualiza la lista de mensajes
+              if (index === response.length - 1) {
+                this.messages = response;
+              }
+            },
+            (error: any) => {
+              console.error('Error al cargar los detalles del remitente:', error);
+            }
+          );
+        });
       },
       (error: any) => { // Define el tipo de error como 'any'
         console.error('Error al cargar los mensajes:', error);
       }
     );
   }
+  
+
+  loadRecipients(): void {
+    this.apiService.getUniqueRecipients(this.senderId).subscribe(
+      (recipientIds: number[]) => {
+        // Itera sobre cada ID de destinatario y obtén sus detalles
+        recipientIds.forEach(recipientId => {
+          // Haz una solicitud al servicio para obtener los detalles del destinatario
+          this.apiService.getUserData(recipientId.toString()).subscribe(
+            (recipientData: any) => {
+              // Agrega los detalles del destinatario a la lista de destinatarios
+              this.recipients.push(recipientData);
+              console.log('fdfd',recipientData);
+            },
+            (error: any) => {
+              console.error('Error al cargar los detalles del destinatario:', error);
+            }
+          );
+        });
+      },
+      (error: any) => {
+        console.error('Error al cargar los destinatarios:', error);
+      }
+    );
+  }
+  
+  
+
+  loadMessagesForRecipient(recipientId: number): void {
+    this.recipientId = recipientId; 
+    console.log('Recipient ID:', recipientId);
+    this.loadMessages(); 
+  }
+  
+  
 
   // Función para enviar un nuevo mensaje
     sendMessage(event: Event): void {

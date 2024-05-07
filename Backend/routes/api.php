@@ -23,7 +23,6 @@ use App\Http\Controllers\MessageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -48,4 +47,6 @@ Route::post('uploadImage', [UserController::class, 'uploadImage']);
 Route::post('process-payment', [PaymentController::class, 'processPayment']);
 
 Route::post('messages/send', [MessageController::class, 'sendMessage']);
+Route::get('/messages/recipients/{senderId}', [MessageController::class, 'getUniqueRecipients']);
 Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
+

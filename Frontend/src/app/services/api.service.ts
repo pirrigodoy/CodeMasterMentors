@@ -240,6 +240,13 @@ export class ApiService {
 
       map(advertisement => advertisement.data.user_id)    );
   }
+
+  getUniqueRecipients(senderId: number): Observable<any[]> {
+    const url = `${this.apiUrl}messages/recipients/${senderId}`;
+    console.log('URL de la solicitud:', url); // Agregar este console.log para verificar la URL de la solicitud
+    return this.http.get<any[]>(url);
+  }
+  
   
 
 }
