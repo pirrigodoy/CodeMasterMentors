@@ -34,7 +34,7 @@
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Profile</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/lista-favoritos', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Lista de Favoritos</a>
-          <a href="#"
+          <a [routerLink]="['/messages']"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mensajes</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/mis-anuncios', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis Anuncios</a>

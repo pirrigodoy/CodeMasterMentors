@@ -1,7 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ApiService } from '../../services/api.service';
-import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import { Router } from '@angular/router';
+import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,15 +9,16 @@ import Swal from 'sweetalert2';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements AfterViewInit {
+export class PaymentComponent {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
-  receipt: any; // Variable para almacenar el recibo
+  advertisementPrice: number | null = null;
+  paymentSuccess: boolean = false;
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService, private router: Router) {}
 
-  async ngAfterViewInit() {
+  async ngOnInit() {
     // Cargar la biblioteca de Stripe de forma asíncrona
     const stripePromise = loadStripe('pk_live_51PBvY4Rq5tXwNMj9gK7A3gAnVqucWSpwh3LWut9PKZSQm0VQIZlQbrqSBkUvjHxoM0sD0tHdDXEGiHQnd8JnhzBo00BOgKK6XA');
     this.stripe = await stripePromise;
@@ -31,44 +32,68 @@ export class PaymentComponent implements AfterViewInit {
     } else {
       console.error('Stripe is not initialized');
     }
+
+    // Obtener advertisement_id del localStorage
+    const advertisementId = localStorage.getItem('advertisement_id');
+    if (advertisementId) {
+      // Obtener datos del anuncio del backend
+      this.apiService.getAdvertisementData(advertisementId).subscribe(
+        (response) => {
+          if (!response.error) {
+            // Convertir el precio de euros a centavos
+            this.advertisementPrice = response.data.price_hour * 100;
+          } else {
+            console.error('Error al obtener los datos del anuncio:', response.message);
+          }
+        },
+        (error) => {
+          console.error('Error al obtener los datos del anuncio:', error);
+        }
+      );
+    } else {
+      console.error('advertisement_id no encontrado en el localStorage');
+    }
   }
 
   async submitPayment() {
-    if (!this.stripe || !this.cardElement) {
-      console.error('Stripe is not initialized or card element is missing');
+    if (!this.stripe || !this.cardElement || this.advertisementPrice === null) {
+      console.error('Stripe is not initialized, card element is missing, or advertisement price is not available');
       return;
     }
 
-    // Obtener el token de la tarjeta
-    const { token, error } = await this.stripe.createToken(this.cardElement);
+    const { paymentMethod, error } = await this.stripe.createPaymentMethod({
+      type: 'card',
+      card: this.cardElement,
+    });
 
     if (error) {
       console.error(error);
+      alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
     } else {
-      console.log(token);
+      console.log(paymentMethod);
 
-      // Obtener el monto del pago (por ejemplo, desde un formulario)
-      const amount = 1000; // Supongamos que el monto es de 1000 (en centavos)
+      // Utilizar el precio del anuncio como el monto del pago
+      const amount = this.advertisementPrice;
 
       // Envía el token de pago y el monto al backend para procesar el pago
-      this.apiService.processPayment(token.id, amount)
+      this.apiService.processPayment(paymentMethod.id, amount)
         .subscribe(
           (response: any) => {
             console.log('Pago procesado correctamente:', response);
-            // Guardar el recibo devuelto por el backend
-            this.receipt = response.receipt;
+            // Redirigir a otra vista y enviar un mensaje al profesor
+            this.paymentSuccess = true;
             // Mostrar alerta de pago completado
             Swal.fire('¡Pago completado!', 'El pago se ha realizado correctamente.', 'success');
-            // Redirigir al componente de inicio (home)
             this.router.navigate(['/messages']); // Aquí especifica la ruta de tu componente de inicio
+
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);
-            // Mostrar mensaje de error al usuario
+            // Mostrar un alerta con el mensaje de error
             Swal.fire('Error', 'Ha ocurrido un error al procesar el pago.', 'error');
+            // Redirigir a otra vista de error
           }
         );
-
     }
   }
 }
