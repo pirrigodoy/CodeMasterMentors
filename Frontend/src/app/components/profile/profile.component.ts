@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service'; // Importa el servicio de autenticación
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -19,7 +21,7 @@ export class ProfileComponent implements OnInit {
   deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
   deleteButtonColor: string = 'bg-gray-500'; // Inicialmente gris
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     
@@ -119,26 +121,24 @@ export class ProfileComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.apiService.deleteUser(this.userId).subscribe(
-          (response: any) => { // Declarar explícitamente el tipo de 'response'
-            if (response.success) {
+          (response: any) => {
+            console.log('pppppp',response)
+            if (response) {
+              
+              // Usuario eliminado con éxito
               Swal.fire(
                 '¡Eliminado!',
                 'Tu perfil ha sido eliminado.',
                 'success'
               ).then(() => {
                 // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
-                // Por ejemplo:
-                 this.router.navigate(['/']);
+                this.authService.logout();
+                this.router.navigate(['/']);
               });
-            } else {
-              Swal.fire(
-                'Error',
-                'Hubo un problema al intentar eliminar tu perfil. Por favor, inténtalo de nuevo más tarde.',
-                'error'
-              );
             }
           },
-          (error: any) => { // Declarar explícitamente el tipo de 'error'
+          (error: any) => {
+            // Si hay un error en la solicitud HTTP
             console.error('Error al eliminar el usuario:', error);
             Swal.fire(
               'Error',
@@ -147,6 +147,7 @@ export class ProfileComponent implements OnInit {
             );
           }
         );
+        
       }
     });
   }
