@@ -54,6 +54,16 @@ public function getUniqueRecipients($senderId)
     return response()->json($recipients)->header('Access-Control-Allow-Origin', '*');
 }
 
+public function getUniqueSenders($recipientId)
+{
+    // Obtiene los IDs de los remitentes únicos relacionados con el destinatario
+    $senders = Message::where('destinatario', $recipientId)
+        ->distinct('remitente')
+        ->pluck('remitente');
+
+    return response()->json($senders, 200)->header('Access-Control-Allow-Origin', '*');
+}
+
 
 
 

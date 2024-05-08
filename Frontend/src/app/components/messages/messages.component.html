@@ -5,16 +5,17 @@
     </div>
 
     <!-- Lista de mensajes -->
-    <ng-container *ngFor="let message of messages">
-       
+    <ng-container *ngIf="showMessages">
+        <div *ngFor="let message of messages">
             <div class="sender">{{ message.senderName }}</div>
             <div class="content">{{ message.content }}</div>
-        
-    </ng-container>
+        </div>
 
-    <!-- Formulario para enviar un nuevo mensaje -->
-    <form (submit)="sendMessage($event)">
-        <input type="text" #messageInput placeholder="Escribe un mensaje...">
-        <button type="submit">Enviar</button>
-    </form> 
+        <!-- Formulario para enviar un nuevo mensaje -->
+        <form (submit)="sendMessage($event)">
+            <input type="text" #messageInput placeholder="Escribe un mensaje...">
+            <button type="submit">Enviar</button>
+        </form>
+    </ng-container>
+   
 </div>

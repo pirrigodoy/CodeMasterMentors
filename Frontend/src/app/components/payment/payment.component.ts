@@ -14,10 +14,14 @@ export class PaymentComponent {
   cardElement: StripeCardElement | null = null;
   advertisementPrice: number | null = null;
   paymentSuccess: boolean = false;
+  messageToProgrammer: string = '';
+  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10);; // Inicializa senderId
+  recipientId: number = 11;
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   async ngOnInit() {
+    this.loadRecipientId();
     // Cargar la biblioteca de Stripe de forma asíncrona
     const stripePromise = loadStripe('pk_live_51PBvY4Rq5tXwNMj9gK7A3gAnVqucWSpwh3LWut9PKZSQm0VQIZlQbrqSBkUvjHxoM0sD0tHdDXEGiHQnd8JnhzBo00BOgKK6XA');
     this.stripe = await stripePromise;
@@ -81,9 +85,9 @@ export class PaymentComponent {
             console.log('Pago procesado correctamente:', response);
             // Redirigir a otra vista y enviar un mensaje al profesor
             this.paymentSuccess = true;
-            setTimeout(() => {
-              this.router.navigate(['/messages']);
-            }, 3000); // Redirigir después de 3 segundos
+            // setTimeout(() => {
+            //   this.router.navigate(['/messages']);
+            // }, 3000); // Redirigir después de 3 segundos
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);
@@ -93,5 +97,87 @@ export class PaymentComponent {
           }
         );
     }
+  }
+
+  sendMessageToProgrammer() {
+    // Verifica si el nuevo mensaje tiene contenido antes de enviarlo
+    if (!this.messageToProgrammer.trim()) {
+      console.error('El contenido del mensaje es requerido.');
+      return;
+    }
+
+    // Obtiene la fecha actual
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString('en-US', { timeZone: 'UTC', hour12: false });
+
+    const newMessage = {
+      remitente: this.senderId,
+      destinatario: this.recipientId, // Aquí debes definir el ID del programador contratado
+      content: this.messageToProgrammer,
+      date: formattedDate,
+      estado: 1
+    };
+
+    this.apiService.sendMessage(newMessage).subscribe(
+      (response: any) => {
+        console.log('Mensaje enviado al programador:', response);
+        this.router.navigate(['/messages']);
+        // Limpia el campo de texto del nuevo mensaje
+        this.messageToProgrammer = '';
+        // Cierra el modal
+        this.paymentSuccess = false;
+      },
+      (error: any) => {
+        console.error('Error al enviar el mensaje al programador:', error);
+        // Puedes manejar el error de acuerdo a tus necesidades
+      }
+    );
+  }
+
+  loadRecipientId(): void {
+    const advertisementId = localStorage.getItem('advertisement_id');
+    console.log('hey', advertisementId);
+
+    if (advertisementId === null) {
+      console.error('El ID del anuncio no está disponible en el localStorage.');
+      return;
+    }
+
+    // Intenta parsear el ID del anuncio a un número
+    const parsedAdvertisementId = parseInt(advertisementId, 10);
+    if (isNaN(parsedAdvertisementId)) {
+      console.error('El ID del anuncio no es un número válido.');
+      return;
+    }
+
+   // console.log('ID del anuncio parseado:', parsedAdvertisementId);
+
+    // Si el parseo fue exitoso, asigna el valor a recipientId
+    this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
+      (userId: number | undefined) => { // <- Cambio aquí
+        console.log('ID del usuario obtenido:', userId);
+        if (userId === undefined || userId === null) {
+          console.error('El ID del usuario obtenido es inválido.');
+          return;
+        }
+        this.recipientId = userId;
+        console.log('hola', this.recipientId);
+        //this.loadMessages();
+      },
+      (error: any) => {
+        console.error('Error al obtener el user_id:', error);
+      }
+    );
+    
+  }
+
+  openModal() {
+    this.paymentSuccess = true;
+  }
+
+  closeModalAndRedirect() {
+    // Cierra el modal y redirige a la página de mensajes
+    this.paymentSuccess = false;
+    this.router.navigate(['/messages']);
   }
 }

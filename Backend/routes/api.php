@@ -48,5 +48,6 @@ Route::post('process-payment', [PaymentController::class, 'processPayment']);
 
 Route::post('messages/send', [MessageController::class, 'sendMessage']);
 Route::get('/messages/recipients/{senderId}', [MessageController::class, 'getUniqueRecipients']);
+Route::get('/messages/senders/{recipientId}', [MessageController::class, 'getUniqueSenders']);
 Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
 

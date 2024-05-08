@@ -247,6 +247,12 @@ export class ApiService {
     return this.http.get<any[]>(url);
   }
   
+
+  getUniqueSenders(senderId: number): Observable<any[]> {
+    const url = `${this.apiUrl}messages/senders/${senderId}`;
+    console.log('URL de la solicitud:', url); // Para verificar la URL de la solicitud, puedes eliminar este console.log una vez confirmado que la URL es correcta
+    return this.http.get<any[]>(url);
+  }
   
 
 }

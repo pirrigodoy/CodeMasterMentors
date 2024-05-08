@@ -11,15 +11,19 @@ export class MessagesComponent implements OnInit {
   recipientId: number = 11; // Inicializa recipientId
   messages: any[] = []; // Inicializa messages como un arreglo vacío
   recipients: any[] = [];
+  showMessages: boolean = false; // Variable de bandera para mostrar los mensajes
 
-  @ViewChild('messageInput', { static: true }) messageInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('messageInput') messageInput!: ElementRef<HTMLInputElement>;
 
   constructor(private apiService: ApiService) { }
-
+  
   ngOnInit(): void {
+
     this.loadMessages();
     this.loadRecipients();
     this.loadRecipientId(); // Llama a esta función para cargar el senderId
+    
 
   }
 
@@ -52,35 +56,63 @@ export class MessagesComponent implements OnInit {
   
 
   loadRecipients(): void {
-    this.apiService.getUniqueRecipients(this.senderId).subscribe(
+    const userId = parseInt(localStorage.getItem('user_id') || '0', 10);
+  
+    // Si no se puede obtener el ID del usuario logueado, mostrar un error y salir de la función
+    if (!userId) {
+      console.error('No se pudo obtener el ID del usuario logueado.');
+      return;
+    }
+  
+    // Crear un conjunto para almacenar los IDs únicos de destinatarios y remitentes
+    const uniqueUserIds = new Set<number>();
+  
+    // Obtener los IDs de destinatarios únicos
+    this.apiService.getUniqueRecipients(userId).subscribe(
       (recipientIds: number[]) => {
-        // Itera sobre cada ID de destinatario y obtén sus detalles
         recipientIds.forEach(recipientId => {
-          // Haz una solicitud al servicio para obtener los detalles del destinatario
-          this.apiService.getUserData(recipientId.toString()).subscribe(
-            (recipientData: any) => {
-              // Agrega los detalles del destinatario a la lista de destinatarios
-              this.recipients.push(recipientData);
-              console.log('fdfd',recipientData);
-            },
-            (error: any) => {
-              console.error('Error al cargar los detalles del destinatario:', error);
-            }
-          );
+          uniqueUserIds.add(recipientId);
         });
       },
       (error: any) => {
         console.error('Error al cargar los destinatarios:', error);
       }
     );
+  
+    // Obtener los IDs de remitentes únicos
+    this.apiService.getUniqueSenders(userId).subscribe(
+      (senderIds: number[]) => {
+        senderIds.forEach(senderId => {
+          uniqueUserIds.add(senderId);
+        });
+  
+        // Para cada ID de usuario único, obtener sus detalles
+        uniqueUserIds.forEach(id => {
+          this.apiService.getUserData(id.toString()).subscribe(
+            (userData: any) => {
+              // Agregar los detalles del usuario a la lista de destinatarios
+              this.recipients.push(userData);
+            },
+            (error: any) => {
+              console.error('Error al cargar los detalles del usuario:', error);
+            }
+          );
+        });
+      },
+      (error: any) => {
+        console.error('Error al cargar los remitentes:', error);
+      }
+    );
   }
+  
   
   
 
   loadMessagesForRecipient(recipientId: number): void {
     this.recipientId = recipientId; 
-    console.log('Recipient ID:', recipientId);
+    //console.log('Recipient ID:', recipientId);
     this.loadMessages(); 
+    this.showMessages = true;
   }
   
   
@@ -109,13 +141,14 @@ export class MessagesComponent implements OnInit {
         estado: 1 // Establece el estado predeterminado como 1
       };
 
-      console.log('Mensaje a enviar:', newMessage);
+      //console.log('Mensaje a enviar:', newMessage);
 
       this.apiService.sendMessage(newMessage).subscribe(
         (response: any) => {
-          console.log('Mensaje enviado:', response);
+         // console.log('Mensaje enviado:', response);
           // Recarga los mensajes después de enviar el mensaje
           this.loadMessages();
+          
           // Limpia el campo de texto del nuevo mensaje
           this.messageInput.nativeElement.value = '';
         },
@@ -141,7 +174,7 @@ export class MessagesComponent implements OnInit {
         return;
       }
 
-      console.log('ID del anuncio parseado:', parsedAdvertisementId);
+     // console.log('ID del anuncio parseado:', parsedAdvertisementId);
 
       // Si el parseo fue exitoso, asigna el valor a recipientId
       this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
