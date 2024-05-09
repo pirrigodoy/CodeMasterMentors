@@ -105,9 +105,6 @@ console.log ('oooooooooo: ', uniqueUserIds)
     );
   }
 
-
-
-
   loadMessagesForRecipient(recipientId: number): void {
     this.recipientId = recipientId;
     //console.log('Recipient ID:', recipientId);
@@ -194,7 +191,5 @@ console.log ('oooooooooo: ', uniqueUserIds)
     );
 
   }
-
-
 
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
 
 class MessageController extends Controller
 {
@@ -13,56 +15,84 @@ class MessageController extends Controller
         $request->validate([
             'remitente' => 'required|integer',
             'destinatario' => 'required|integer',
-            // 'content' => 'required|string',
+            'content' => 'required|string', // Añadido: Validación del contenido del mensaje
         ]);
 
-        // Crea un nuevo mensaje con los datos proporcionados
-        $message = new Message();
-        $message->remitente = $request->remitente;
-        $message->destinatario = $request->destinatario;
-        $message->content = $request->content;
-        $message->date = $request->date;
-        $message->estado = $request->estado;
+        try {
+            // Crea un nuevo mensaje con los datos proporcionados
+            $message = new Message();
+            $message->remitente = $request->remitente;
+            $message->destinatario = $request->destinatario;
+            $message->content = $request->content;
+            $message->date = $request->date;
+            $message->estado = $request->estado;
 
-        $message->save();
+            $message->save();
 
-        // Devuelve una respuesta de éxito
-        return response()->json(['message' => 'Message sent successfully'], 200);
+            // Devuelve una respuesta de éxito
+            return response()->json(['message' => 'Message sent successfully'], 200);
+        } catch (QueryException $e) {
+            // Si ocurre un error al guardar el mensaje, registra un error y devuelve una respuesta de error
+            Log::error('Error al enviar el mensaje: ' . $e->getMessage());
+            return response()->json(['error' => 'Error al enviar el mensaje'], 500);
+        }
     }
 
     public function getMessages($senderId, $recipientId)
     {
-        // Obtén los mensajes entre dos usuarios
-        $messages = Message::where(function ($query) use ($senderId, $recipientId) {
-            $query->where('remitente', $senderId)
-                ->where('destinatario', $recipientId);
-        })->orWhere(function ($query) use ($senderId, $recipientId) {
-            $query->where('remitente', $recipientId)
-                ->where('destinatario', $senderId);
-        })->orderBy('created_at', 'asc')->get();
+        try {
+            // Obtén los mensajes entre dos usuarios
+            $messages = Message::where(function ($query) use ($senderId, $recipientId) {
+                $query->where('remitente', $senderId)
+                    ->where('destinatario', $recipientId);
+            })->orWhere(function ($query) use ($senderId, $recipientId) {
+                $query->where('remitente', $recipientId)
+                    ->where('destinatario', $senderId);
+            })->orderBy('created_at', 'asc')->get();
 
-        // Devuelve los mensajes
-        return response()->json($messages, 200);
+            // Devuelve los mensajes
+            return response()->json($messages, 200);
+        } catch (QueryException $e) {
+            // Si ocurre un error al obtener los mensajes, registra un error y devuelve una respuesta de error
+            Log::error('Error al obtener los mensajes: ' . $e->getMessage());
+            return response()->json(['error' => 'Error al obtener los mensajes'], 500);
+        }
     }
-
     public function getUniqueRecipients($senderId)
     {
-        // Obtener los destinatarios únicos relacionados con el remitente
         $recipients = Message::where('remitente', $senderId)
-            ->distinct('destinatario')
-            ->pluck('destinatario');
+            ->groupBy('destinatario')
+            ->select('destinatario')
+            ->get();
 
-        return response()->json($recipients, 200)->header('Access-Control-Allow-Origin', '*');
+        // Agrega una declaración de registro para ver los datos recuperados
+        Log::info('Recipients: ' . $recipients);
+
+        $uniqueRecipients = $recipients->pluck('destinatario');
+
+        // Agrega otra declaración de registro para ver los destinatarios únicos
+        Log::info('Unique Recipients: ' . $uniqueRecipients);
+
+        if ($uniqueRecipients->isEmpty()) {
+            return response()->json(['error' => 'No recipients found for the sender.'], 404);
+        }
+
+        return response()->json($uniqueRecipients)->header('Access-Control-Allow-Origin', '*');
     }
-
 
     public function getUniqueSenders($recipientId)
     {
-        // Obtiene los IDs de los remitentes únicos relacionados con el destinatario
         $senders = Message::where('destinatario', $recipientId)
-            ->distinct('remitente')
-            ->pluck('remitente');
+            ->groupBy('remitente')
+            ->select('remitente')
+            ->get();
 
-        return response()->json($senders, 200)->header('Access-Control-Allow-Origin', '*');
+        $uniqueSenders = $senders->pluck('remitente');
+
+        if ($uniqueSenders->isEmpty()) {
+            return response()->json(['error' => 'No senders found for the recipient.'], 404);
+        }
+
+        return response()->json($uniqueSenders, 200)->header('Access-Control-Allow-Origin', '*');
     }
 }
