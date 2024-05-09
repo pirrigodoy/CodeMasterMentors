@@ -44,23 +44,15 @@ Route::apiResource('programminglanguages', ProgrammingLanguageController::class)
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('applications', ApplicationController::class);
 Route::apiResource('states', StateController::class);
-
-
-Route::post('uploadimage', [UserController::class, 'uploadimage']);
 Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
-Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
-
-
-
 Route::apiResource('favourite_lists', FavouriteListController::class);
-
-Route::post('process-payment', [PaymentController::class, 'processPayment']);
-
-
 Route::apiResource('receipts', ReceiptController::class);
 
+Route::post('process-payment', [PaymentController::class, 'processPayment']);
+Route::post('uploadimage', [UserController::class, 'uploadimage']);
 
+Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
 Route::post('messages/send', [MessageController::class, 'sendMessage']);
 Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
-
+Route::get('/messages/senders/{recipientId}', [MessageController::class, 'getUniqueSenders']);
 Route::get('/messages/recipients/{senderId}', [MessageController::class, 'getUniqueRecipients']);

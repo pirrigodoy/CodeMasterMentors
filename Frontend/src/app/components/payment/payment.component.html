@@ -1,13 +1,27 @@
-<div class="max-w-sm mx-auto mt-20 bg-white rounded-md shadow-md overflow-hidden">
-  <form (ngSubmit)="submitPayment()">
-    <div class="px-6 py-4 bg-gray-900 text-white">
-      <h1 class="text-lg font-bold">Credit Card</h1>
-    </div><br><br>
-      <!-- Elemento de tarjeta -->
-      <div id="card-element" class="mb-4"></div>
-      <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-        Pay Now
-      </button>
-  </form>
+<form (ngSubmit)="submitPayment()">
+  <div id="card-element"></div>
+  <button type="submit">Pagar</button>
+</form>
+<div *ngIf="paymentSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="text-lg font-semibold">Pago Exitoso</h3>
+        <button (click)="closeModalAndRedirect()" class="absolute top-0 right-0 mt-2 mr-2">
+          <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-gray-700">El pago se ha procesado correctamente. Por favor, escribe un mensaje al programador contratado:</p>
+        <textarea [(ngModel)]="messageToProgrammer" class="w-full h-32 mt-2 p-2 border border-gray-300 rounded"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button (click)="sendMessageToProgrammer()" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600">Enviar Mensaje</button>
+        <button (click)="closeModalAndRedirect()" class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600">Cancelar</button>
+      </div>
+    </div>
+  </div>
 </div>
 

@@ -44,13 +44,25 @@ class MessageController extends Controller
         // Devuelve los mensajes
         return response()->json($messages, 200);
     }
-    
+
     public function getUniqueRecipients($senderId)
     {
+        // Obtener los destinatarios únicos relacionados con el remitente
         $recipients = Message::where('remitente', $senderId)
             ->distinct('destinatario')
             ->pluck('destinatario');
 
-        return response()->json($recipients)->header('Access-Control-Allow-Origin', '*');
+        return response()->json($recipients, 200)->header('Access-Control-Allow-Origin', '*');
+    }
+
+
+    public function getUniqueSenders($recipientId)
+    {
+        // Obtiene los IDs de los remitentes únicos relacionados con el destinatario
+        $senders = Message::where('destinatario', $recipientId)
+            ->distinct('remitente')
+            ->pluck('remitente');
+
+        return response()->json($senders, 200)->header('Access-Control-Allow-Origin', '*');
     }
 }
