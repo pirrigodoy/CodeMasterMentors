@@ -8,8 +8,8 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ApiService {
   // URL de tu API en Laravel
-  // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'http://www.slimedungeon.es/api/';
+  private apiUrl = 'http://localhost:8000/api/';
+  // private apiUrl = 'http://www.slimedungeon.es/api/';
 
   constructor(private http: HttpClient) { }
 

@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   priceFilter: number = 0;
   showPriceModal: boolean = false;
   currentPriceFilter: number = 0;
+  showDropdown: boolean = false;
 
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
@@ -160,5 +161,9 @@ export class HomeComponent implements OnInit {
 
   onPriceFilterChange() {
     this.currentPriceFilter = this.priceFilter;
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
   }
 }
