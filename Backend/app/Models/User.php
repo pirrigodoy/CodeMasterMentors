@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject; // Importar la interfaz JWTSubject
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Role;
+use App\Models\City;
+
 
 class User extends Authenticatable implements JWTSubject // Implementar la interfaz JWTSubject
 {
@@ -21,7 +23,7 @@ class User extends Authenticatable implements JWTSubject // Implementar la inter
         'name',
         'email',
         'born_date',
-        'area',
+        'city',
         'img'
 
     ];
@@ -47,6 +49,10 @@ class User extends Authenticatable implements JWTSubject // Implementar la inter
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
     // Métodos de la interfaz JWTSubject
