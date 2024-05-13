@@ -16,7 +16,8 @@ export class RegisterComponent implements OnInit {
   name: string = '';
   email: string = '';
   born_date: string = '';
-  area: string = '';
+  city_id: string = '';
+  cities: any = [];
   img: string = '';
   registerSuccess: string = '';
   errorMessage: string = '';
@@ -34,6 +35,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getRoles();
+    this.getCities();
   }
 
   validateAge() {
@@ -50,7 +52,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     // Validar si todos los campos están llenos
-    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.area || !this.img) {
+    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.city_id || !this.img) {
       this.errorMessage = 'Por favor, complete todos los campos.';
       return; // Detener la ejecución si algún campo está vacío
     }
@@ -79,7 +81,7 @@ export class RegisterComponent implements OnInit {
       email: this.email,
       password: this.password,
       born_date: this.born_date,
-      area: this.area,
+      city_id: this.city_id,
       img: this.img
     }).subscribe(
       response => {
@@ -93,7 +95,9 @@ export class RegisterComponent implements OnInit {
         // Manejar errores de la solicitud de registro
         this.errorMessage = 'Error en el registro. Por favor, inténtalo de nuevo.';
         console.error('Error en el registro:', error);
+
       }
+
     );
 
   }
@@ -102,9 +106,20 @@ export class RegisterComponent implements OnInit {
     this.apiService.getRoles().subscribe((roles: any) => {
       this.roles = roles;
       console.log('roles:', roles);
+      console.log('eeeeeeeee')
 
     });
   }
+
+  getCities() {
+    this.apiService.getCities().subscribe((cities: any) => {
+      this.cities = cities;
+      console.log('cities:', cities);
+      console.log('eeeeeeeee')
+
+    });
+  }
+
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];

@@ -8,7 +8,7 @@ export class User {
   name: string;
   email: string;
   born_date: string;
-  area: string;
+  city: string;
   img: string;
   created_at: string;
   updated_at: string;
@@ -23,7 +23,7 @@ export class User {
     name: string,
     email: string,
     born_date: string,
-    area: string,
+    city: string,
     img: string,
     created_at: string,
     updated_at: string,
@@ -36,7 +36,7 @@ export class User {
     this.name = name;
     this.email = email;
     this.born_date = born_date;
-    this.area = area;
+    this.city = city;
     this.img = img;
     this.created_at = created_at;
     this.updated_at = updated_at;

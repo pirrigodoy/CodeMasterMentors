@@ -27,7 +27,7 @@ class UserController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users',
                 'born_date' => 'required|string',
-                'area' => 'required|string',
+                'city_id' => 'required',
                 'img' =>'required|string'
             ]);
 
@@ -58,7 +58,7 @@ class UserController extends Controller
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email,' . $id,
                 'born_date' => 'required|string',
-                'area' => 'required|string',
+                'city_id' => 'required',
                 // 'img' =>'required|string'
             ]);
             $user->update($request->all());

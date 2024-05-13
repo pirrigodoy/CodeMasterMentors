@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject // Implementar la inter
         'name',
         'email',
         'born_date',
-        'city',
+        'city_id',
         'img'
 
     ];

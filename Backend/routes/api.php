@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavouriteListController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\StateController;
@@ -38,6 +39,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
 });
 Route::apiResource('roles', RoleController::class);
+Route::apiResource('cities', CityController::class);
+
 Route::apiResource('users', UserController::class);
 Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);

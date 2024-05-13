@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('born_date')->nullable(); // implementar en las tablas.
-            $table->unsignedBigInteger('city');
-            $table->foreign('city')
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('city_id')
                 ->references('id')
                 ->on('cities')
                 ->cascadeOnDelete();

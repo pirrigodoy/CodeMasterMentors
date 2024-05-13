@@ -42,7 +42,11 @@ export class ApiService {
   getRoles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}roles`);
   }
+  //----------------------------------------------------------------------
 
+  getCities(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}cities`);
+  }
   //----------------------------------------------------------------------
 
   getComments(): Observable<any[]> {
@@ -131,7 +135,7 @@ export class ApiService {
     name: string,
     email: string,
     born_date: string,
-    area: string,
+    city_id: string,
     img: string
   }) {
     return this.http.post<any>(`${this.apiUrl}register`, credentials);
