@@ -60,18 +60,7 @@
             <div *ngIf="roleIdInput.touched && !role_id" class="text-red-500">Role is required</div>
           </div>
 
-
-
           <!-- -------------------------------------------------------------------------------------- -->
-
-
-
-
-          <!-- -------------------------------------------------------------------------------------- -->
-
-
-
-
 
           <!-- Name Field -->
           <div class="relative z-0 w-full mb-5 group">
@@ -132,12 +121,11 @@
               class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
               <option value="" disabled>Select a city</option>
               <ng-container *ngFor="let city of cities.data">
-                <option [value]="city.id">{{ city.name }}</option>
+                <option [ngValue]="city.id">{{ city.name }}</option>
               </ng-container>
             </select>
             <div *ngIf="city_id === ''" class="text-red-500">City is required</div>
           </div>
-
 
 
           <!-- -------------------------------------------------------------------------------------- -->

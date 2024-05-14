@@ -22,7 +22,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'born_date' => 'required|string',
-            'city' => 'required|string',
+            'city_id' => 'required',
             'img' =>'required|string'
         ]);
 
@@ -39,7 +39,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'born_date' => $request->born_date,
-            'city' => $request->city,
+            'city_id' => $request->city_id,
             'img' => $request->img
         ]);
 

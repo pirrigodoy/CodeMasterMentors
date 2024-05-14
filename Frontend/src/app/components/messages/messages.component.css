@@ -1,0 +1,19 @@
+.text-right {
+    text-align: right;
+  }
+
+  .ml-auto {
+    margin-left: auto;
+  }
+
+  .mr-auto {
+    margin-right: auto;
+  }
+
+  .justify-end {
+    justify-content: flex-end;
+  }
+
+  .justify-start {
+    justify-content: flex-start;
+  }

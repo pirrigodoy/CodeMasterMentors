@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     // Validar si todos los campos están llenos
-    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.img) {
+    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.city_id || !this.img) {
       this.errorMessage = 'Por favor, complete todos los campos.';
       return; // Detener la ejecución si algún campo está vacío
     }

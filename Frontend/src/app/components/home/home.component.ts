@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   showPriceModal: boolean = false;
   currentPriceFilter: number = 0;
   showDropdown: boolean = false;
+  cities: any = [];
 
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
@@ -32,10 +33,20 @@ export class HomeComponent implements OnInit {
 
     this.getAdvertisements();
     this.getUsers();
+    this.getCities();
     this.getProgrammingLanguages();
     this.getFavoriteLists();
+
   }
 
+
+  getCities() {
+    this.apiService.getCities().subscribe((cities: any) => {
+      this.cities = cities;
+      console.log('cities:', cities);
+
+    });
+  }
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;

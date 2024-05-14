@@ -55,7 +55,7 @@ Route::post('process-payment', [PaymentController::class, 'processPayment']);
 Route::post('uploadimage', [UserController::class, 'uploadimage']);
 
 Route::get('advertisements/{advertisementId}/user_id', [AdvertisementController::class, 'getUserIdByAdvertisementId']);
-Route::post('messages/send', [MessageController::class, 'sendMessage']);
-Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
 Route::get('/messages/senders/{recipientId}', [MessageController::class, 'getUniqueSenders']);
+Route::post('messages/send', [MessageController::class, 'sendMessage']);
 Route::get('/messages/recipients/{senderId}', [MessageController::class, 'getUniqueRecipients']);
+Route::get('messages/{senderId}/{recipientId}', [MessageController::class, 'getMessages']);
