@@ -191,7 +191,7 @@ export class ApiService {
       })
     };
 
-    return this.http.put<any>(`${this.apiUrl}programminglanguages/${programmingLanguage.id}`, programminglanguage, httpOptions);
+    return this.http.put<any>(`${this.apiUrl}programminglanguages/${programminglanguage.id}`, programminglanguage, httpOptions);
   }
 
   // ------------------------------------------------------------------------------------------------
@@ -352,3 +352,5 @@ export class ApiService {
 
 
 }
+
+
