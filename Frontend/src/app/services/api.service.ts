@@ -8,8 +8,8 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ApiService {
   // URL de tu API en Laravel
-  // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'http://www.slimedungeon.es/api/';
+  private apiUrl = 'http://localhost:8000/api/';
+  // private apiUrl = 'http://www.slimedungeon.es/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -181,10 +181,28 @@ export class ApiService {
 
     return this.http.put<any>(`${this.apiUrl}advertisements/${advertisement.id}`, advertisement, httpOptions);
   }
+
+  // ------------------------------------------------------------------------------------------------
+
+  updateProgrammingLaunguage(programminglanguage: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put<any>(`${this.apiUrl}programminglanguages/${programmingLanguage.id}`, programminglanguage, httpOptions);
+  }
+
   // ------------------------------------------------------------------------------------------------
 
   deleteAdvertisement(advertisementId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}advertisements/${advertisementId}`);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+  deleteProgrammingLanguage(programmingLanguageId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}programminglanguages/${programmingLanguageId}`);
   }
   // ------------------------------------------------------------------------------------------------
 

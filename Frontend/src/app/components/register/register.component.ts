@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   roles: any = [];
   userData: any = {};
 
-
+  // Evento emitido para ocultar el footer
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 

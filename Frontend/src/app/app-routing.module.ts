@@ -24,6 +24,9 @@ import { loginGuard } from './components/guards/login.guard';
 import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { CondicionesComponent } from './components/condiciones/condiciones.component';
+import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
+import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
 
 const routes: Routes = [
 
@@ -35,6 +38,7 @@ const routes: Routes = [
   //Parte que puede visualizar cliente sin registrar
   { path: 'home', component: HomeComponent },
   { path: 'aboutus', component: AboutusComponent },
+  { path: 'condiciones', component: CondicionesComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'advertisement/:advertisementId', component: AdvertisementComponent },
 
@@ -52,8 +56,11 @@ const routes: Routes = [
   { path: 'crear-anuncio', component: CrearAnuncioComponent, canActivate: [loginGuard] },
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [loginGuard] },
   { path: 'recibo', component: ReciboComponent, canActivate: [loginGuard] },
-  {path: 'application', component: ApplicationComponent, canActivate: [loginGuard]},
-  {path: 'messages', component: MessagesComponent, canActivate: [loginGuard]},
+  { path: 'application', component: ApplicationComponent, canActivate: [loginGuard] },
+  { path: 'messages', component: MessagesComponent, canActivate: [loginGuard] },
+  { path: 'addProgramingLenguages', component: AddProgramingLanguageComponent, canActivate: [loginGuard] },
+  { path: 'programingLanguagesManagement', component: ProgramingLanguageManagementComponent, canActivate: [loginGuard] },
+
 
   //En caso de una ruta erronea te redirige al home
   { path: '', redirectTo: '/home', pathMatch: 'full' },

@@ -30,6 +30,9 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
 import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { CondicionesComponent } from './components/condiciones/condiciones.component';
+import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
+import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
 // import { AuthService } from './auth.service';
 
 
@@ -60,6 +63,9 @@ import { MessagesComponent } from './components/messages/messages.component';
     ReciboComponent,
     ApplicationComponent,
     MessagesComponent,
+    CondicionesComponent,
+    ProgramingLanguageManagementComponent,
+    AddProgramingLanguageComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,11 @@
     </a>
     <div class="flex md:order-2 rtl:space-x-reverse">
       <!-- Mostrar botones de inicio de sesión y registro solo si el usuario no está autenticado -->
+      <a *ngIf="!isLoggedIn" routerLink="/condiciones" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+        ¿Quieres unirte a nosotros?
+      </a>
+
+      <!-- Mostrar botones de inicio de sesión y registro solo si el usuario no está autenticado -->
       <a *ngIf="!isLoggedIn" routerLink="/login" class="ml-2">
         <button type="button"
           class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
@@ -27,21 +33,27 @@
           </span>
         </button>
       </a>
+
       <a *ngIf="isLoggedIn" class="ml-2 relative" (click)="toggleDropdown()">
         <img *ngIf="user && user.img" [src]="user.img" alt="User Image" class="h-8 w-8 rounded-full">
-        <div *ngIf="showDropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
+        <div *ngIf="showDropdown"
+          class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg z-10">
           <a *ngIf="isLoggedIn" [routerLink]="['/profile', userId]"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Profile</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/lista-favoritos', userId]"
-            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Lista de Favoritos</a>
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Lista de
+            Favoritos</a>
           <a [routerLink]="['/messages']"
             class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mensajes</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/mis-anuncios', userId]"
-            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis Anuncios</a>
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis
+            Anuncios</a>
           <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/application']"
-            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Peticiones de Clases</a>
-            <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/recibo']"
-            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis Clases</a>
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Peticiones de
+            Clases</a>
+          <a *ngIf="isLoggedIn && user.role_id === 2" [routerLink]="['/recibo']"
+            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800">Mis
+            Clases</a>
           <a *ngIf="isLoggedIn" routerLink="/logout" class="ml-2" (click)="logout()">
             <button type="button"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</button>
@@ -75,15 +87,23 @@
         </li>
         <li>
           <a routerLink="/userManagement" *ngIf="isLoggedIn && user.role_id === 3"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">User Management</a>
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">User
+            Management</a>
         </li>
         <li>
           <a routerLink="/adManagement" *ngIf="isLoggedIn && user.role_id === 3"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Advertiment Management</a>
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Advertiment
+            Management</a>
         </li>
         <li>
           <a routerLink="/commentManagement" *ngIf="isLoggedIn && user.role_id === 3"
-            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Comments Management</a>
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Comments
+            Management</a>
+        </li>
+        <li>
+          <a routerLink="/programingLanguagesManagement" *ngIf="isLoggedIn && user.role_id === 3"
+            class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Programming
+            Management</a>
         </li>
       </ul>
     </div>
