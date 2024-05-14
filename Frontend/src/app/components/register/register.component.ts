@@ -52,9 +52,15 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     // Validar si todos los campos están llenos
-    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.city_id || !this.img) {
+    if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.img) {
       this.errorMessage = 'Por favor, complete todos los campos.';
       return; // Detener la ejecución si algún campo está vacío
+    }
+
+    // Validar si city_id tiene un valor seleccionado
+    if (!this.city_id) {
+      this.errorMessage = 'Por favor, selecciona una ciudad.';
+      return; // Detener la ejecución si city_id está vacío
     }
 
     // Validar formato de correo electrónico utilizando una expresión regular
@@ -70,9 +76,6 @@ export class RegisterComponent implements OnInit {
       return; // Detener la ejecución si la contraseña no cumple con los requisitos
     }
 
-    // Convertir la fecha al formato inglés (YYYY-MM-DD)
-    //const formattedDate = new Date(this.born_date).toLocaleDateString('en-GB');
-
     // Enviar la solicitud de registro al servicio API
     this.apiService.register({
       username: this.username,
@@ -83,24 +86,22 @@ export class RegisterComponent implements OnInit {
       born_date: this.born_date,
       city_id: this.city_id,
       img: this.img
-    }).subscribe(
-      response => {
+    }).subscribe({
+      next: (response) => {
         // Manejar la respuesta de éxito
         console.log('Registro exitoso:', response);
         // Mostrar mensaje de éxito y redirigir al componente de inicio de sesión
         this.registerSuccess = 'Registro exitoso. Ahora puedes iniciar sesión.';
         this.router.navigate(['/login']);
       },
-      error => {
+      error: (error) => {
         // Manejar errores de la solicitud de registro
         this.errorMessage = 'Error en el registro. Por favor, inténtalo de nuevo.';
         console.error('Error en el registro:', error);
-
       }
-
-    );
-
+    });
   }
+
 
   getRoles() {
     this.apiService.getRoles().subscribe((roles: any) => {

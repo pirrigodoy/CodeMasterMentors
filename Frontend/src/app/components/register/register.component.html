@@ -127,16 +127,17 @@
 
           <!-- City Field -->
           <div class="mb-4">
-            <label for="city" class="block text-gray-700 font-bold mb-2 dark:text-white">City</label>
-            <select name="city_id" id="city_id" [(ngModel)]="city_id" required #cityInput="ngModel"
+            <label for="city_id" class="block text-gray-700 font-bold mb-2 dark:text-white">City</label>
+            <select name="city_id" id="city_id" [(ngModel)]="city_id" required
               class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
               <option value="" disabled>Select a city</option>
               <ng-container *ngFor="let city of cities.data">
-                <option>{{ city.name }}</option>
+                <option [value]="city.id">{{ city.name }}</option>
               </ng-container>
             </select>
-            <div *ngIf="cityInput.touched && !city_id" class="text-red-500">City is required</div>
+            <div *ngIf="city_id === ''" class="text-red-500">City is required</div>
           </div>
+
 
 
           <!-- -------------------------------------------------------------------------------------- -->
