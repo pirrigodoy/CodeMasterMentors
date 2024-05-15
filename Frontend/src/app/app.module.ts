@@ -27,12 +27,12 @@ import { EditAdvertisementComponent } from './components/edit-advertisement/edit
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
-import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
+import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
 // import { AuthService } from './auth.service';
 
 
@@ -60,12 +60,12 @@ import { ProgramingLanguageManagementComponent } from './components/programing-l
     AddRatingComponent,
     PaymentComponent,
     FavouriteListComponent,
-    ReciboComponent,
     ApplicationComponent,
     MessagesComponent,
     CondicionesComponent,
     ProgramingLanguageManagementComponent,
     AddProgramingLanguageComponent,
+    PaymentCrearAnuncioComponent,
   ],
   imports: [
     BrowserModule,

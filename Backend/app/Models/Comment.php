@@ -15,7 +15,7 @@ class Comment extends Model
         'transmitter',
         'receiver',
         'rating',
-        'content',
+        'comment',
         'date'
     ];
     protected $guarded = [

@@ -20,9 +20,9 @@ class CommentController extends Controller
     {
         try {
             $request->validate([
-                'rating' => 'required|integer|min:1|max:5',
-                'comment' => 'required|string',
-                'fecha' => 'required|date_format:Y-m-d',
+                'rating' => 'required',
+                'comment' => 'required',
+                'fecha' => 'required',
                 'receiver' => 'required' // Asegúrate de validar el campo 'receiver' en la solicitud
             ]);
 

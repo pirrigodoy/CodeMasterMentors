@@ -21,12 +21,12 @@ import { AddRatingComponent } from './components/add-rating/add-rating.component
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { loginGuard } from './components/guards/login.guard';
-import { ReciboComponent } from './components/recibo/recibo.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
 import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
+import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
 
 const routes: Routes = [
 
@@ -46,6 +46,8 @@ const routes: Routes = [
   { path: 'userManagement', component: UserManagementComponent, canActivate: [loginGuard] },
   { path: 'adManagement', component: AdvertisementManagementComponent, canActivate: [loginGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [loginGuard] },
+  { path: 'paymentCrearAnuncio', component: PaymentCrearAnuncioComponent, canActivate: [loginGuard] },
+
   { path: 'lista-favoritos/:userId', component: FavouriteListComponent, canActivate: [loginGuard] },
   { path: 'addRating', component: AddRatingComponent, canActivate: [loginGuard] },
   { path: 'commentManagement', component: CommentManagementComponent, canActivate: [loginGuard] },
@@ -55,10 +57,9 @@ const routes: Routes = [
   { path: 'mis-anuncios/:userId', component: MisAnunciosComponent, canActivate: [loginGuard] },
   { path: 'crear-anuncio', component: CrearAnuncioComponent, canActivate: [loginGuard] },
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [loginGuard] },
-  { path: 'recibo', component: ReciboComponent, canActivate: [loginGuard] },
   { path: 'application', component: ApplicationComponent, canActivate: [loginGuard] },
   { path: 'messages', component: MessagesComponent, canActivate: [loginGuard] },
-  { path: 'addProgramingLenguages', component: AddProgramingLanguageComponent, canActivate: [loginGuard] },
+  { path: 'addProgramingLanguages', component: AddProgramingLanguageComponent, canActivate: [loginGuard] },
   { path: 'programingLanguagesManagement', component: ProgramingLanguageManagementComponent, canActivate: [loginGuard] },
 
 

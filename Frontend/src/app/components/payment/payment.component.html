@@ -1,6 +1,6 @@
-<form (ngSubmit)="submitPayment()">
-  <div id="card-element"></div>
-  <button type="submit">Pagar</button>
+<form (ngSubmit)="submitPayment()" class="payment-form">
+  <div id="card-element" class="my-4 p-2 border rounded payment-element"></div>
+  <button type="submit" class="payment-button">Pagar</button>
 </form>
 <div *ngIf="paymentSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white p-8 rounded-lg shadow-lg">

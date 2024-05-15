@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
   currentPriceFilter: number = 0;
   showDropdown: boolean = false;
   cities: any = [];
-
+  showZoneModal: boolean = false; // Para el modal de filtro por zona
+  selectedCity: number | null = null; // Ciudad seleccionada para el filtro
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
 
@@ -36,17 +38,15 @@ export class HomeComponent implements OnInit {
     this.getCities();
     this.getProgrammingLanguages();
     this.getFavoriteLists();
-
   }
-
 
   getCities() {
     this.apiService.getCities().subscribe((cities: any) => {
       this.cities = cities;
       console.log('cities:', cities);
-
     });
   }
+
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
@@ -68,6 +68,13 @@ export class HomeComponent implements OnInit {
 
   createCookie(advertisementId: string): void {
     localStorage.setItem('advertisement_id', advertisementId);
+
+    // Obtener el user_id asociado al advertisement
+    const advertisement = this.advertisements.data.find((advertisement: any) => advertisement.id === advertisementId);
+    if (advertisement) {
+      const userId = advertisement.user_id;
+      localStorage.setItem('receiver', userId);
+    }
   }
 
   filterByLanguage(languageId: string | null) {
@@ -176,5 +183,30 @@ export class HomeComponent implements OnInit {
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
+  }
+
+  // Métodos para el filtro por zona
+  openZoneModal() {
+    this.showZoneModal = true;
+  }
+
+  closeZoneModal() {
+    this.showZoneModal = false;
+  }
+
+  applyZoneFilter() {
+    this.searchByZone();
+    this.closeZoneModal();
+  }
+
+  searchByZone() {
+    if (this.selectedCity !== null) {
+      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => {
+        const user = this.users.data.find((user: any) => user.id === advertisement.user_id);
+        return user && user.city_id === this.selectedCity;
+      });
+    } else {
+      this.filteredAdvertisements = this.advertisements.data;
+    }
   }
 }

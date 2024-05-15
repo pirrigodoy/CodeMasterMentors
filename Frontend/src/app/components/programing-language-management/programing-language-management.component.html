@@ -4,6 +4,8 @@
             <tr>
                 <th scope="col" class="px-6 py-3">Id</th>
                 <th scope="col" class="px-6 py-3">Name</th>
+                <th scope="col" class="px-6 py-3">Editar</th>
+                <th scope="col" class="px-6 py-3">Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -11,19 +13,29 @@
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="px-6 py-4">{{ programmingLanguage.id }}</td>
                 <td class="px-6 py-4">{{ programmingLanguage.languageName }}</td>
-
-                <td class="px-6 py-4"> <a [routerLink]="['/editUser']"
-                        [queryParams]="{ programmingLanguageId: programmingLanguage.id }" class="ml-2">
+                <td class="px-6 py-4">
+                    <a [routerLink]="['/editUser']" [queryParams]="{ programmingLanguageId: programmingLanguage.id }" class="ml-2">
                         <button type="button"
-                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Edit</button>
-                    </a></td>
-                <!-- <td class="px-6 py-4"><button type="button"
+                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
+                            Edit
+                        </button>
+                    </a>
+                </td>
+                <td class="px-6 py-4">
+                    <button type="button"
                         class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        (click)="deleteLanguage(programmingLanguage.id)">
+                        (click)="eliminarPrograma(programmingLanguage.id)">
                         Delete
                     </button>
-                </td> -->
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+<div class="flex justify-center mt-4">
+    <a [routerLink]="'/addProgramingLanguages'"
+        class="inline-block focus:outline-none bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 text-white dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800">
+        Add New Programming Language
+    </a>
+</div>
+

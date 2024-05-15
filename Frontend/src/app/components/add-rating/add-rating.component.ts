@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-add-rating',
@@ -8,77 +8,96 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./add-rating.component.css']
 })
 export class AddRatingComponent implements OnInit {
+  advertisementId: string = '';
+  rating: number = 0;
   comment: string = '';
-  rating: number = 1;
-  fecha: string = new Date().toISOString().slice(0, 10);
-  advertisementId: string | null = null;
-  nombreReceptor: string = '';
-  nombreUsuario: string = '';
-
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
-    const paramAdvertisementId = this.route.snapshot.paramMap.get('advertisementId');
-    if (paramAdvertisementId) {
-      this.advertisementId = paramAdvertisementId;
-    }
-  }
+  receiver: string = ''; // Nombre del receptor
+  receiver_id: string = '';
+  users: any = [];
+  currentDate: string = ''; // Fecha actual
+  remitente: number = parseInt(localStorage.getItem('user_id') || '0', 10);
+  constructor(private router: Router, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    if (this.advertisementId) {
-      this.apiService.getAdvertisementData(this.advertisementId).subscribe(
-        (advertisementData: any) => {
-          this.nombreReceptor = advertisementData.receiverName;
-          const userId = advertisementData.user_id;
-          if (userId) {
-            this.apiService.getUserData(userId).subscribe(
-              (userData: any) => {
-                this.nombreUsuario = userData.name;
-              },
-              (error: any) => {
-                console.error('Error al obtener los datos del usuario:', error);
-              }
-            );
-          } else {
-            console.error('El ID del usuario en el anuncio es nulo');
-          }
-        },
-        (error: any) => {
-          console.error('Error al obtener los datos del anuncio:', error);
+    const advertisementIdString = localStorage.getItem('advertisement_id');
+    if (advertisementIdString) {
+      this.advertisementId = advertisementIdString;
+    } else {
+      console.error('advertisement_id no está presente en localStorage');
+      return;
+    }
+
+    // Obtener el nombre del receptor desde el localStorage
+    const receiver = localStorage.getItem('receiver');
+    if (receiver) {
+      this.receiver = receiver;
+    } else {
+      console.error('receiver no está presente en localStorage');
+      return;
+    }
+
+    // Obtener la fecha actual
+    const currentDate = new Date();
+    this.currentDate = currentDate.toISOString().split('T')[0];
+
+
+    this.apiService.getUserData(this.receiver).subscribe(
+      (response) => {
+        if (response.error) {
+          console.error('Error al obtener los datos del anuncio:', response.message);
+        } else {
+          this.receiver = response.data.username; // Asignar el nombre del receptor
+          this.receiver_id = response.data.id; // Asignar el nombre del receptor
+
+          console.log(this.receiver);
         }
-      );
-    }
-  }
-
-  crearComentario(): void {
-    if (!this.advertisementId) {
-      console.error('Advertisement ID es null');
-      return;
-    }
-
-    // Verificar que el usuario haya ingresado un comentario
-    if (!this.comment) {
-      console.error('Debe ingresar un comentario');
-      return;
-    }
-
-    // Crear el objeto de comentario
-    const nuevoComentario = {
-      advertisement_id: this.advertisementId,
-      transmitter: localStorage.getItem('user_id'), // Suponiendo que el transmisor es el usuario actual
-      receiver: this.nombreReceptor,
-      comment: this.comment,
-      rating: this.rating,
-      fecha: this.fecha
-    };
-
-    // Llamar al método en el servicio API para crear el comentario
-    this.apiService.crearComentario(nuevoComentario).subscribe(
-      (response: any) => {
-        console.log('Comentario creado:', response);
-        // Aquí puedes realizar acciones adicionales después de crear el comentario, como mostrar un mensaje de éxito o actualizar la lista de comentarios
       },
-      (error: any) => {
-        console.error('Error al crear el comentario:', error);
+      (error) => {
+        console.error('Error al obtener los datos del anuncio:', error);
       }
     );
+  }
+
+  onSubmit() {
+    console.log('Rating:', this.rating);
+    console.log('Comentario:', this.comment);
+    console.log('Receptor:', this.receiver);
+    console.log('Remitente: ', this.remitente)
+
+    if (!this.rating || !this.comment || !this.receiver || !this.remitente) {
+      console.error('Por favor, complete el rating, el comentario y asegúrate de tener un destinatario');
+      return;
+    }
+    // Construir el mensaje
+    const message = {
+      trasnmitter: localStorage.getItem('user_id'),
+      advertisement_id: localStorage.getItem('advertisement_id'),
+      receiver: this.receiver_id,
+      rating: this.rating,
+      comment: this.comment,
+      fecha: this.currentDate,
+
+
+    };
+    console.log(message)
+    // Llamar al servicio de la API para enviar el mensaje
+    this.apiService.sendMessage(message).subscribe(
+      response => {
+        console.log('Mensaje enviado exitosamente', response);
+        // Redirigir al usuario al anuncio
+        this.router.navigate(['/anuncios', this.advertisementId]);
+      },
+      error => {
+        console.error('Error al enviar el mensaje', error);
+        // Aquí puedes manejar el error de acuerdo a tus necesidades
+      }
+    );
+  }
+
+  getUsers() {
+    this.apiService.getUsers().subscribe((users: any) => {
+      this.users = users;
+      console.log('Users:', users);
+    });
   }
 }
