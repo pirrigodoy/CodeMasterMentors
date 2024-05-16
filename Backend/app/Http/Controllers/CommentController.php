@@ -20,17 +20,19 @@ class CommentController extends Controller
     {
         try {
             $request->validate([
-                'rating' => 'required',
-                'comment' => 'required',
-                'fecha' => 'required',
-                'receiver' => 'required' // Asegúrate de validar el campo 'receiver' en la solicitud
+                'advertisement_id' => 'required|integer|exists:advertisements,id', // Validar advertisement_id
+                'rating' => 'required|integer|min:1|max:5',
+                'comment' => 'required|string',
+                'fecha' => 'required|date_format:Y-m-d',
+                'receiver' => 'required|integer|exists:users,id' // Validar el campo 'receiver' como entero
             ]);
 
-            $user_id = auth()->id(); // Obtener el ID del usuario autenticado
+            // Obtener el ID del usuario autenticado
 
             $comment = new Comment();
-            $comment->transmitter = $user_id;
-            $comment->receiver = $request->receiver; // Utiliza el valor recibido del campo 'receiver' de la solicitud
+            $comment->transmitter = $request-> transmitter;
+            $comment->advertisement_id = $request->advertisement_id; // Asignar advertisement_id
+            $comment->receiver = $request->receiver;
             $comment->rating = $request->rating;
             $comment->comment = $request->comment;
             $comment->fecha = $request->fecha;
@@ -59,7 +61,7 @@ class CommentController extends Controller
             $comment = Comment::findOrFail($id);
             $request->validate([
                 'rating' => 'required|integer|min:1|max:5',
-                'content' => 'required|string',
+                'comment' => 'required|string',
                 'date' => 'required|date_format:Y-m-d',
             ]);
             $comment->update($request->all());

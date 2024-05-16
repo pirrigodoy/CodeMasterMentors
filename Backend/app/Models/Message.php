@@ -13,7 +13,7 @@ class Message extends Model
     protected $fillable = [
         'remitente',
         'destinatario',
-        'content',
+        'comment',
         'date',
         'estado'
     ];

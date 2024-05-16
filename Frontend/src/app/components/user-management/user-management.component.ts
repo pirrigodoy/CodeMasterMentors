@@ -50,7 +50,7 @@ export class UserManagementComponent implements OnInit {
             // Realizar cualquier acción adicional después de eliminar el usuario
             Swal.fire('User deleted!', '', 'success');
             // Redirigir a la página de gestión de usuarios después de eliminar el usuario
-            this.router.navigate(['/user-management']);
+            this.router.navigate(['/userManagement']);
           },
           error => {
             console.error('Error deleting user:', error);

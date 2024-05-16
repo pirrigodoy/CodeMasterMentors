@@ -23,7 +23,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->cascadeOnDelete();
-            $table->string('content');
+            $table->string('comment');
             $table->string('date');
             $table->unsignedBigInteger('estado');
             $table->foreign('estado')

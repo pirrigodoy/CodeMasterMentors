@@ -8,8 +8,8 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ApiService {
   // URL de tu API en Laravel
-  private apiUrl = 'http://localhost:8000/api/';
-  // private apiUrl = 'http://www.slimedungeon.es/api/';
+  // private apiUrl = 'http://localhost:8000/api/';
+  private apiUrl = 'https://www.slimedungeon.es/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -154,16 +154,19 @@ export class ApiService {
   }
   // ------------------------------------------------------------------------------------------------
 
-  guardarRatingYComentario(advertisementId: string, rating: number, comment: string, fecha: string): Observable<any> {
+  guardarRatingYComentario(advertisementId: number, rating: number, comment: string, fecha: string, receiver: number, transmitter: number): Observable<any> {
     const formData = {
-      advertisementId: advertisementId,
+      transmitter: transmitter,
+      advertisement_id: advertisementId,
+      receiver: receiver,
       rating: rating,
       comment: comment,
-      fecha: fecha
+      fecha: fecha,
     };
 
-    return this.http.post<any>(`${this.apiUrl}/comments`, formData);
+    return this.http.post<any>(`${this.apiUrl}comments`, formData);
   }
+
 
   // ------------------------------------------------------------------------------------------------
 
@@ -221,11 +224,7 @@ export class ApiService {
   // ------------------------------------------------------------------------------------------------
 
   deleteUser(userId: string): Observable<any> {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('user_id');
-
     return this.http.delete<any>(`${this.apiUrl}users/${userId}`);
-
   }
   // ------------------------------------------------------------------------------------------------
 

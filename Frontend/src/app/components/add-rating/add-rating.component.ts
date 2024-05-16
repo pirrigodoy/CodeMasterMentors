@@ -12,10 +12,11 @@ export class AddRatingComponent implements OnInit {
   rating: number = 0;
   comment: string = '';
   receiver: string = ''; // Nombre del receptor
-  receiver_id: string = '';
+  receiver_id: number = 0;
   users: any = [];
   currentDate: string = ''; // Fecha actual
   remitente: number = parseInt(localStorage.getItem('user_id') || '0', 10);
+
   constructor(private router: Router, private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -40,15 +41,13 @@ export class AddRatingComponent implements OnInit {
     const currentDate = new Date();
     this.currentDate = currentDate.toISOString().split('T')[0];
 
-
     this.apiService.getUserData(this.receiver).subscribe(
       (response) => {
         if (response.error) {
           console.error('Error al obtener los datos del anuncio:', response.message);
         } else {
           this.receiver = response.data.username; // Asignar el nombre del receptor
-          this.receiver_id = response.data.id; // Asignar el nombre del receptor
-
+          this.receiver_id = response.data.id; // Asignar el ID del receptor
           console.log(this.receiver);
         }
       },
@@ -58,40 +57,29 @@ export class AddRatingComponent implements OnInit {
     );
   }
 
-  onSubmit() {
-    console.log('Rating:', this.rating);
-    console.log('Comentario:', this.comment);
-    console.log('Receptor:', this.receiver);
-    console.log('Remitente: ', this.remitente)
 
-    if (!this.rating || !this.comment || !this.receiver || !this.remitente) {
-      console.error('Por favor, complete el rating, el comentario y asegúrate de tener un destinatario');
-      return;
-    }
-    // Construir el mensaje
-    const message = {
-      trasnmitter: localStorage.getItem('user_id'),
-      advertisement_id: localStorage.getItem('advertisement_id'),
-      receiver: this.receiver_id,
-      rating: this.rating,
-      comment: this.comment,
-      fecha: this.currentDate,
+    onSubmit() {
+      console.log('Rating:', this.rating);
+      console.log('Comentario:', this.comment);
+      console.log('Receptor:', this.receiver);
+      console.log('Remitente:', this.remitente);
 
-
-    };
-    console.log(message)
-    // Llamar al servicio de la API para enviar el mensaje
-    this.apiService.sendMessage(message).subscribe(
-      response => {
-        console.log('Mensaje enviado exitosamente', response);
-        // Redirigir al usuario al anuncio
-        this.router.navigate(['/anuncios', this.advertisementId]);
-      },
-      error => {
-        console.error('Error al enviar el mensaje', error);
-        // Aquí puedes manejar el error de acuerdo a tus necesidades
+      if (!this.rating || !this.comment || !this.receiver || !this.remitente) {
+          console.error('Por favor, complete el rating, el comentario y asegúrate de tener un destinatario y remitente');
+          return;
       }
-    );
+      const ad_id = parseInt(this.advertisementId, 10);
+
+      this.apiService.guardarRatingYComentario(ad_id, this.rating, this.comment, this.currentDate, this.receiver_id, this.remitente).subscribe(
+          response => {
+              console.log('Mensaje enviado exitosamente', response);
+              this.router.navigate(['/advertisement', this.advertisementId]);
+          },
+          error => {
+              console.error('Error al enviar el mensaje', error);
+              // Aquí puedes manejar el error de acuerdo a tus necesidades
+          }
+      );
   }
 
   getUsers() {
