@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service'; // Importa el servici
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import * as EmailJS from 'emailjs-com';
 
 @Component({
   selector: 'app-profile',
@@ -45,6 +46,8 @@ export class ProfileComponent implements OnInit {
         console.error('Error al obtener los datos del usuario:', error);
       }
     );
+    const EMAILJS_USER_ID = 'a68ncIwtUgoSeP9S6';
+    EmailJS.init(EMAILJS_USER_ID);
   }
 
   toggleEdit() {
@@ -125,6 +128,21 @@ export class ProfileComponent implements OnInit {
             console.log('pppppp', response)
             if (response) {
 
+
+              const templateParams = {
+                to_email: this.userData.email, // Suponiendo que la dirección de correo electrónico del usuario está almacenada en userData.email
+                subject: 'Confirmación de eliminación de cuenta',
+                message: 'Tu cuenta ha sido eliminada con éxito.',
+                user_name: this.userData.name
+              };
+
+              EmailJS.send('service_b0ebhe5', 'template_5bn545g', templateParams)
+                .then((response: any) => {
+                  console.log('Correo electrónico enviado con éxito:', response);
+                })
+                .catch((error: any) => {
+                  console.error('Error al enviar el correo electrónico:', error);
+                });
               // Usuario eliminado con éxito
               Swal.fire(
                 '¡Eliminado!',

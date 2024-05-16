@@ -8,8 +8,8 @@ import { map, tap } from 'rxjs/operators';
 })
 export class ApiService {
   // URL de tu API en Laravel
-  // private apiUrl = 'http://localhost:8000/api/';
-  private apiUrl = 'https://www.slimedungeon.es/api/';
+  private apiUrl = 'http://localhost:8000/api/';
+  // private apiUrl = 'https://www.slimedungeon.es/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -142,7 +142,7 @@ export class ApiService {
   }
   // ------------------------------------------------------------------------------------------------
 
-  crearAnuncio(nuevoAnuncio: any): Observable<any> {
+  createAdvertisement(nuevoAnuncio: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
     const httpOptions = {
       headers: new HttpHeaders({
@@ -237,6 +237,19 @@ export class ApiService {
   }
   // ------------------------------------------------------------------------------------------------
 
+  crearAnuncio(nuevoAnuncio: any): Observable<any> {
+    // Especifica el encabezado para enviar datos JSON
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    // Realiza la solicitud POST con los datos del nuevo anuncio y las opciones de encabezado
+    return this.http.post<any>(`${this.apiUrl}advertisements`, nuevoAnuncio, httpOptions);
+  }
+  // ------------------------------------------------------------------------------------------------
+
+
   crearListaFavoritos(nuevaLista: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
     const httpOptions = {
@@ -249,7 +262,7 @@ export class ApiService {
   }
   // ------------------------------------------------------------------------------------------------
 
-  crearAnuncioListaFavoritos(nuevaAnuncioLista: any): Observable<any> {
+  createAdvertisementListaFavoritos(nuevaAnuncioLista: any): Observable<any> {
     // Especifica el encabezado para enviar datos JSON
     const httpOptions = {
       headers: new HttpHeaders({
@@ -362,7 +375,9 @@ export class ApiService {
     return this.http.get<any[]>(url);
   }
 
-
+  getLanguageprogrammingData(programmingLanguageId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}programminglanguages/${programmingLanguageId}`);
+  }
 
 }
 

@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -46,6 +47,13 @@ export class RegisterComponent implements OnInit {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       ageDiff--;
     }
+
+    // Verificar si la edad es mayor de 100 años
+    if (ageDiff > 100) {
+      this.isValidAge = false;
+      return;
+    }
+
     this.isValidAge = ageDiff >= 14;
   }
 
@@ -96,7 +104,6 @@ export class RegisterComponent implements OnInit {
       },
       error: (error) => {
         // Manejar errores de la solicitud de registro
-        this.errorMessage = 'Error en el registro. Por favor, inténtalo de nuevo.';
         console.error('Error en el registro:', error);
       }
     });

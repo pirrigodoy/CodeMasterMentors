@@ -16,7 +16,6 @@ import { AboutusComponent } from './components/aboutus/aboutus.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { MisAnunciosComponent } from './components/mis-anuncios/mis-anuncios.component';
-import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { ModificarAnuncioComponent } from './components/modificar-anuncio/modificar-anuncio.component';
 import { CommentManagementComponent } from './components/comment-management/comment-management.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -32,7 +31,8 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
-import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
+import { PaymentcreateAdvertisementComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
+import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 // import { AuthService } from './auth.service';
 
 
@@ -48,7 +48,6 @@ import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio
     AboutusComponent,
     ContactComponent,
     MisAnunciosComponent,
-    CrearAnuncioComponent,
     ModificarAnuncioComponent,
     ProfileComponent,
     AdvertisementComponent,
@@ -65,7 +64,8 @@ import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio
     CondicionesComponent,
     ProgramingLanguageManagementComponent,
     AddProgramingLanguageComponent,
-    PaymentCrearAnuncioComponent,
+    PaymentcreateAdvertisementComponent,
+    CrearAnuncioComponent
   ],
   imports: [
     BrowserModule,

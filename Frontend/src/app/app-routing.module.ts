@@ -26,7 +26,7 @@ import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
 import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
-import { PaymentCrearAnuncioComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
+import { PaymentcreateAdvertisementComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
 
 const routes: Routes = [
 
@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: 'userManagement', component: UserManagementComponent, canActivate: [loginGuard] },
   { path: 'adManagement', component: AdvertisementManagementComponent, canActivate: [loginGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [loginGuard] },
-  { path: 'paymentCrearAnuncio', component: PaymentCrearAnuncioComponent, canActivate: [loginGuard] },
+  { path: 'paymentcreateAdvertisement', component: PaymentcreateAdvertisementComponent, canActivate: [loginGuard] },
 
   { path: 'lista-favoritos/:userId', component: FavouriteListComponent, canActivate: [loginGuard] },
   { path: 'addRating', component: AddRatingComponent, canActivate: [loginGuard] },

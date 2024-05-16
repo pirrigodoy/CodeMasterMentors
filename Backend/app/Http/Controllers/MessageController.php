@@ -15,7 +15,7 @@ class MessageController extends Controller
         $request->validate([
             'remitente' => 'required|integer',
             'destinatario' => 'required|integer',
-            'comment' => 'required|string', // Añadido: Validación del contenido del mensaje
+            'content' => 'required|string', // Añadido: Validación del contenido del mensaje
         ]);
 
         try {
@@ -23,7 +23,7 @@ class MessageController extends Controller
             $message = new Message();
             $message->remitente = $request->remitente;
             $message->destinatario = $request->destinatario;
-            $message->comment = $request->comment;
+            $message->content = $request->content;
             $message->date = $request->date;
             $message->estado = $request->estado;
 

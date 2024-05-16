@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PaymentCrearAnuncioComponent } from './payment-crear-anuncio.component';
+import { PaymentcreateAdvertisementComponent } from './payment-crear-anuncio.component';
 
-describe('PaymentCrearAnuncioComponent', () => {
-  let component: PaymentCrearAnuncioComponent;
-  let fixture: ComponentFixture<PaymentCrearAnuncioComponent>;
+describe('PaymentcreateAdvertisementComponent', () => {
+  let component: PaymentcreateAdvertisementComponent;
+  let fixture: ComponentFixture<PaymentcreateAdvertisementComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PaymentCrearAnuncioComponent]
+      declarations: [PaymentcreateAdvertisementComponent]
     });
-    fixture = TestBed.createComponent(PaymentCrearAnuncioComponent);
+    fixture = TestBed.createComponent(PaymentcreateAdvertisementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

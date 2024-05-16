@@ -109,6 +109,10 @@
             <div *ngIf="bornDateInput.touched && !born_date" class="text-red-500">Date of Birth is required</div>
             <div *ngIf="bornDateInput.touched && born_date && !isValidAge" class="text-red-500">You must be at least 14
               years old</div>
+            <div *ngIf="bornDateInput.touched && isValidAge === false" class="text-red-500">You must select a valid date
+              of birth
+              date of birth (no more than 100 years in the past).</div>
+
           </div>
 
           <!-- -------------------------------------------------------------------------------------- -->
@@ -118,14 +122,20 @@
           <div class="mb-4">
             <label for="city_id" class="block text-gray-700 font-bold mb-2 dark:text-white">City</label>
             <select name="city_id" id="city_id" [(ngModel)]="city_id" required
-              class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+              class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+              #cityInput="ngModel">
               <option value="" disabled>Select a city</option>
               <ng-container *ngFor="let city of cities.data">
                 <option [ngValue]="city.id">{{ city.name }}</option>
               </ng-container>
             </select>
-            <div *ngIf="city_id === ''" class="text-red-500">City is required</div>
+            <!-- Show error message if touched but not selected -->
+            <div *ngIf="cityInput.touched && cityInput.invalid" class="text-red-500">
+              <div *ngIf="cityInput.errors?.['required']">City is required</div>
+            </div>
           </div>
+
+
 
 
           <!-- -------------------------------------------------------------------------------------- -->

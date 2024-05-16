@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router'; // Importa Router
+import * as EmailJS from 'emailjs-com';
 
 @Component({
   selector: 'app-user-management',
@@ -17,6 +18,8 @@ export class UserManagementComponent implements OnInit {
   ngOnInit(): void {
     this.loadUsers();
     this.loadRoles();
+    const EMAILJS_USER_ID = 'ZZGv2rSlsn03aidsX';
+    EmailJS.init(EMAILJS_USER_ID);
   }
 
   loadUsers() {
@@ -44,22 +47,55 @@ export class UserManagementComponent implements OnInit {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiService.deleteUser(userId).subscribe(
-          response => {
-            console.log('User deleted successfully:', response);
-            // Realizar cualquier acción adicional después de eliminar el usuario
-            Swal.fire('User deleted!', '', 'success');
-            // Redirigir a la página de gestión de usuarios después de eliminar el usuario
-            this.router.navigate(['/userManagement']);
+        this.apiService.getUserData(userId).subscribe(
+          userData => {
+            const userEmail = userData.data.email;
+            if (!userEmail) {
+              console.error('El correo electrónico del usuario está vacío.');
+              return;
+            } // Accede al correo electrónico del usuario
+            const userName = userData.data.name;
+            console.log(userName);
+            console.log(userEmail);
+
+            // Continuar con la lógica de eliminación del usuario
+            this.apiService.deleteUser(userId).subscribe(
+              response => {
+                console.log('User deleted successfully:', response);
+                // Envía un correo electrónico al usuario eliminado
+                const templateParams = {
+                  your_email: userEmail,
+                  subject: 'Confirmación de eliminación de cuenta',
+                  message: 'Tu cuenta ha sido eliminada con éxito.',
+                  to_name: userName
+                };
+
+                EmailJS.send('service_32gackn', 'template_g8ykurf', templateParams)
+                  .then((response: any) => {
+                    console.log('Correo electrónico enviado con éxito:', response);
+                  })
+                  .catch((error: any) => {
+                    console.error('Error al enviar el correo electrónico:', error);
+                  });
+
+                Swal.fire('User deleted!', '', 'success');
+                this.router.navigate(['/userManagement']);
+              },
+              error => {
+                console.error('Error deleting user:', error);
+                Swal.fire('Error', 'Failed to delete user', 'error');
+              }
+            );
           },
           error => {
-            console.error('Error deleting user:', error);
-            // Manejar el error en caso de que ocurra
-            Swal.fire('Error', 'Failed to delete user', 'error');
+            console.error('Error getting user data:', error);
+            Swal.fire('Error', 'Failed to get user data', 'error');
           }
         );
       }
     });
   }
+
+
 
 }

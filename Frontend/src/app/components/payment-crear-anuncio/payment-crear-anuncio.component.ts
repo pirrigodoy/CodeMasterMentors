@@ -8,7 +8,7 @@ import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/s
   templateUrl: './payment-crear-anuncio.component.html',
   styleUrls: ['./payment-crear-anuncio.component.css']
 })
-export class PaymentCrearAnuncioComponent {
+export class PaymentcreateAdvertisementComponent {
   stripe: Stripe | null = null;
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
@@ -22,6 +22,9 @@ export class PaymentCrearAnuncioComponent {
 
   async ngOnInit() {
     this.loadRecipientId();
+    // Establecer el precio del anuncio a 10€ (1000 centavos)
+    this.advertisementPrice = 1000;
+
     // Cargar la biblioteca de Stripe de forma asíncrona
     const stripePromise = loadStripe('pk_live_51PBvY4Rq5tXwNMj9gK7A3gAnVqucWSpwh3LWut9PKZSQm0VQIZlQbrqSBkUvjHxoM0sD0tHdDXEGiHQnd8JnhzBo00BOgKK6XA');
     this.stripe = await stripePromise;
@@ -35,28 +38,7 @@ export class PaymentCrearAnuncioComponent {
     } else {
       console.error('Stripe is not initialized');
     }
-
-    // Obtener advertisement_id del localStorage
-    const advertisementId = localStorage.getItem('advertisement_id');
-    if (advertisementId) {
-      // Obtener datos del anuncio del backend
-      this.apiService.getAdvertisementData(advertisementId).subscribe(
-        (response) => {
-          if (!response.error) {
-            // Convertir el precio de euros a centavos
-            this.advertisementPrice = response.data.price_hour * 100;
-          } else {
-            console.error('Error al obtener los datos del anuncio:', response.message);
-          }
-        },
-        (error) => {
-          console.error('Error al obtener los datos del anuncio:', error);
-        }
-      );
-    } else {
-      console.error('advertisement_id no encontrado en el localStorage');
-    }
-  }
+}
 
   async submitPayment() {
     if (!this.stripe || !this.cardElement || this.advertisementPrice === null) {

@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
           favouriteList_id: this.selectedFavoriteList
         };
 
-        this.apiService.crearAnuncioListaFavoritos(newFavoriteList1).subscribe((response: any) => {
+        this.apiService.createAdvertisementListaFavoritos(newFavoriteList1).subscribe((response: any) => {
           this.router.navigate(['/lista-favoritos', userId]);
         }, error => {
           console.error('Error al vincular el anuncio a la lista de favoritos:', error);
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit {
               favouriteList_id: response.data.id
             };
 
-            this.apiService.crearAnuncioListaFavoritos(newFavoriteList1).subscribe((response: any) => {
+            this.apiService.createAdvertisementListaFavoritos(newFavoriteList1).subscribe((response: any) => {
               this.router.navigate(['/lista-favoritos', userId]);
             }, error => {
               console.error('Error al vincular el anuncio a la lista de favoritos:', error);
