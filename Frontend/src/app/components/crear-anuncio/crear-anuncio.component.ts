@@ -24,42 +24,53 @@ export class CrearAnuncioComponent implements OnInit {
     EmailJS.init(EMAILJS_USER_ID);
   }
   crearAnuncio(): void {
-    this.apiService.crearAnuncio(this.nuevoAnuncio).subscribe((response: any) => {
-      console.log('Anuncio creado:', response);
 
-      const userId = response.data.user_id;
-      const programmingLanguageId = response.data.programmingLanguage_id;
+    // Aquí puedes enviar el formulario al servidor si todos los campos son válidos
+    if (this.validateForm()) {
+      // Convertir el precio por hora a número antes de enviarlo al servidor
+      this.nuevoAnuncio.price_hour = parseFloat(this.nuevoAnuncio.price_hour); // Convertir a número
+      this.apiService.crearAnuncio(this.nuevoAnuncio).subscribe((response: any) => {
+        console.log('Anuncio creado:', response);
 
-      this.apiService.getUserData(userId).subscribe((userData: any) => {
-        const userEmail = userData.data.email;
-        const userName = userData.data.name;
+        const userId = response.data.user_id;
+        const programmingLanguageId = response.data.programmingLanguage_id;
 
-        // Obtener los datos del lenguaje de programación
-        this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe((languageData: any) => {
-          const languageName = languageData.data.languageName;
+        this.apiService.getUserData(userId).subscribe((userData: any) => {
+          const userEmail = userData.data.email;
+          const userName = userData.data.name;
 
-          const templateParams = {
-            your_email: userEmail,
-            subject: 'Confirmación de creación de anuncio',
-            message: `Has creado un anuncio de ${languageName}`,
-            to_name: userName,
-            language_programming: languageName
-          };
+          // Obtener los datos del lenguaje de programación
+          this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe((languageData: any) => {
+            const languageName = languageData.data.languageName;
 
-          // Envía el correo electrónico utilizando EmailJS
-          EmailJS.send('service_32gackn', 'template_7amm96p', templateParams)
-            .then((response: any) => {
-              console.log('Correo electrónico enviado con éxito:', response);
-            })
-            .catch((error: any) => {
-              console.error('Error al enviar el correo electrónico:', error);
-            });
+            const templateParams = {
+              your_email: userEmail,
+              subject: 'Confirmación de creación de anuncio',
+              message: `Has creado un anuncio de ${languageName}`,
+              to_name: userName,
+              language_programming: languageName
+            };
 
-          const advertisementId = localStorage.getItem('advertisement_id');
-          this.router.navigate(['/mis-anuncios', advertisementId]);
+            // Envía el correo electrónico utilizando EmailJS
+            EmailJS.send('service_32gackn', 'template_7amm96p', templateParams)
+              .then((response: any) => {
+                console.log('Correo electrónico enviado con éxito:', response);
+              })
+              .catch((error: any) => {
+                console.error('Error al enviar el correo electrónico:', error);
+              });
+
+            const advertisementId = localStorage.getItem('advertisement_id');
+            this.router.navigate(['/mis-anuncios', advertisementId]);
+          });
         });
       });
-    });
+    } else {
+      console.log('Formulario inválido');
+    }
+
+
+
   }
 
 
@@ -71,4 +82,34 @@ export class CrearAnuncioComponent implements OnInit {
     });
   }
 
+
+  validateForm(): boolean {
+    // Validar cada campo del formulario
+    if (!this.nuevoAnuncio.title || this.nuevoAnuncio.title.length < 6) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.class) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.about_me) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.description) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.price_hour) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.disponibility) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.experience) {
+      return false;
+    }
+    if (!this.nuevoAnuncio.programmingLanguage_id) {
+      return false;
+    }
+    // Puedes agregar más validaciones para otros campos aquí
+    return true;
+  }
 }
