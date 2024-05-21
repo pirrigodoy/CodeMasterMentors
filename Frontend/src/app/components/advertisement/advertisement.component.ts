@@ -8,23 +8,22 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./advertisement.component.css']
 })
 export class AdvertisementComponent implements OnInit {
-nuevaValoracion(arg0: any) {
-throw new Error('Method not implemented.');
-}
   advertisementId: string = '';
   advertisementData: any = {};
   programmingLanguages: any = [];
-  users: any = [];
-  comments: any = []; // Variable para almacenar los comentarios
+  users: any = [] = [];
+  comments: any[] = []; // Asegúrate de que esto es un array
+  filteredComments: any[] = []; // Asegúrate de que esto es un array
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    const advertisementIdParam = this.route.snapshot.paramMap.get('advertisementId') ?? '';
-    this.advertisementId = advertisementIdParam;
-
-    if (!this.advertisementId) {
-      console.error("No se proporcionó un ID de anuncio en la URL");
+    // Obtener advertisementId del local storage
+    const advertisementIdFromStorage = localStorage.getItem('advertisement_id');
+    if (advertisementIdFromStorage) {
+      this.advertisementId = advertisementIdFromStorage;
+    } else {
+      console.error("No se encontró advertisement_id en el local storage");
       return;
     }
 
@@ -55,18 +54,57 @@ throw new Error('Method not implemented.');
   }
 
   getUsers() {
-    this.apiService.getUsers().subscribe((users: any) => {
-      this.users = users;
-      console.log('Users:', users);
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getUsers().subscribe((response: any) => {
+        console.log('API response:', response);
+        if (Array.isArray(response.data)) {
+          this.users = response.data;
+          console.log('Users:', this.users);
+          resolve();
+        } else {
+          console.error('Error: los usuarios no son un array:', response.data);
+          reject('Error: los usuarios no son un array');
+        }
+      }, error => {
+        console.error('Error al obtener los usuarios:', error);
+        reject(error);
+      });
     });
   }
 
+
   getComments() {
-    this.apiService.getComments().subscribe((comments: any) => {
-      this.comments = comments;
-      console.log('Comments:', comments);
+    this.apiService.getComments().subscribe((response: any) => {
+      if (Array.isArray(response.data)) {
+        this.comments = response.data;
+        console.log('Comments:', this.comments);
+        this.comments.forEach(comment => {
+          console.log('Comment advertisement_id:', comment.advertisement_id);
+        });
+        this.filterComments();
+      } else {
+        console.error('Error: los comentarios no son un array:', response.data);
+      }
     });
+  }
+
+  filterComments() {
+    console.log('Filtering comments for advertisementId:', this.advertisementId);
+    const advertisementId = parseInt(this.advertisementId, 10);
+    this.filteredComments = this.comments.filter((comment: any) => {
+      if (comment.advertisement_id) {
+        return comment.advertisement_id === advertisementId;
+      } else {
+        console.warn('Comment without advertisement_id:', comment);
+        return false;
+      }
+    });
+    console.log('Filtered Comments:', this.filteredComments);
+  }
+
+  getUserName(userId: number): string {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.name : 'Usuario desconocido';
   }
 
 }
-

@@ -11,13 +11,14 @@ import * as EmailJS from 'emailjs-com';
 })
 export class UserManagementComponent implements OnInit {
   users: any = [];
-  roles: any = [];
+  roles: any = [] = [];
 
   constructor(private apiService: ApiService, private router: Router) { } // Inyecta Router en el constructor
 
   ngOnInit(): void {
     this.loadUsers();
     this.loadRoles();
+    this.getRoles();
     const EMAILJS_USER_ID = 'ZZGv2rSlsn03aidsX';
     EmailJS.init(EMAILJS_USER_ID);
   }
@@ -34,10 +35,30 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  getRoles() {
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getRoles().subscribe((response: any) => {
+        console.log('API response:', response);
+        if (Array.isArray(response.data)) {
+          this.roles = response.data;
+          console.log('Users:', this.roles);
+          resolve();
+        } else {
+          console.error('Error: los usuarios no son un array:', response.data);
+          reject('Error: los usuarios no son un array');
+        }
+      }, error => {
+        console.error('Error al obtener los usuarios:', error);
+        reject(error);
+      });
+    });
+  }
+
   getRoleName(roleId: string): string {
     const role = this.roles.find((role: any) => role.id === roleId);
     return role ? role.name : 'Unknown Role';
   }
+
 
   eliminarUsuario(userId: string) {
     Swal.fire({

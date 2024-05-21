@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto bg-white shadow-md rounded-md p-6 dark:bg-gray-800">
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Modificar Anuncio</h2>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Modify Advertisement</h2>
   <form *ngIf="advertisement" (submit)="confirmarActualizacion()">
     <!-- Email -->
     <div class="relative z-0 w-full mb-5 group">
@@ -12,8 +12,7 @@
     </div>
     <!-- Boton lenguajes -->
     <div class="mb-4">
-      <label for="programmingLanguageId" class="block text-gray-700 font-bold mb-2 dark:text-white">Lenguaje de
-        Programación</label>
+      <label for="programmingLanguageId" class="block text-gray-700 font-bold mb-2 dark:text-white">Programing Languages</label>
       <div class="relative">
         <select id="programmingLanguageId" name="programmingLanguage_id"
           class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
@@ -82,8 +81,7 @@
       </div>
     </div>
     <!-- Save Changes Button -->
-    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Guardar
-      Cambios</button>
+    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Changes</button>
   </form>
 
 </div>

@@ -12,18 +12,70 @@ import Swal from 'sweetalert2';
 export class AdvertisementManagementComponent implements OnInit {
   advertisements: any = [];
   router: any;
+  users: any = [] = [];
+  programmingLanguages: any = [] = [];
 
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.loadComments();
+    this.getUsers();
+    this.getProgrammingLanguages();
   }
 
   loadComments() {
     this.apiService.getAdvertisements().subscribe((advertisements: any[]) => {
       this.advertisements = advertisements;
     });
+  }
+
+  getUsers() {
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getUsers().subscribe((response: any) => {
+        console.log('API response:', response);
+        if (Array.isArray(response.data)) {
+          this.users = response.data;
+          console.log('Users:', this.users);
+          resolve();
+        } else {
+          console.error('Error: los usuarios no son un array:', response.data);
+          reject('Error: los usuarios no son un array');
+        }
+      }, error => {
+        console.error('Error al obtener los usuarios:', error);
+        reject(error);
+      });
+    });
+  }
+
+  getProgrammingLanguages() {
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getProgrammingLanguages().subscribe((response: any) => {
+        console.log('API response:', response);
+        if (Array.isArray(response.data)) {
+          this.programmingLanguages = response.data;
+          console.log('Users:', this.programmingLanguages);
+          resolve();
+        } else {
+          console.error('Error: los usuarios no son un array:', response.data);
+          reject('Error: los usuarios no son un array');
+        }
+      }, error => {
+        console.error('Error al obtener los usuarios:', error);
+        reject(error);
+      });
+    });
+  }
+
+  getUserName(userId: number): string {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.name : 'Usuario desconocido';
+  }
+
+  getProgrammingName(programmingLanguageId: number): string {
+    const programmingLanguage = this.programmingLanguages.find((programmingLanguage: any) => programmingLanguage.id === programmingLanguageId);
+    return programmingLanguage ? programmingLanguage.languageName : 'Usuario desconocido';
   }
 
   eliminarAnuncio(advertisementId: string) {

@@ -1,17 +1,19 @@
 <div class="chat-container">
   <!-- Lista de destinatarios -->
-  <div *ngFor="let recipient of recipients" class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-sm relative m-10 recipient" (click)="loadMessagesForRecipient(recipient.data.id)">
-      <span class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
-      <div class="ml-5">
-          <h4 class="text-lg font-semibold leading-tight text-gray-900">{{ recipient.data.name }}</h4>
-          <p class="text-sm text-gray-600">Tienes un nuevo mensaje!</p>
-      </div>
+  <div *ngFor="let recipient of recipients"
+    class="flex items-center p-4 bg-white rounded-lg shadow-xl mx-auto max-w-sm relative m-10 recipient"
+    (click)="loadMessagesForRecipient(recipient.data.id)">
+    <span
+      class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
+    <div class="ml-5">
+      <h4 class="text-lg font-semibold leading-tight text-gray-900">{{ recipient.data.name }}</h4>
+      <p class="text-sm text-gray-600">Tienes un nuevo mensaje!</p>
+    </div>
   </div>
 
 
   <!-- Lista de mensajes -->
-<!-- Lista de mensajes -->
-<ng-container *ngIf="showMessages">
+  <ng-container *ngIf="showMessages">
     <div class="container mx-auto p-4"> <!-- Contenedor central -->
       <div *ngFor="let message of messages" class="w-full mb-6"> <!-- Añadido mb-6 para espacio entre mensajes -->
         <div class="grid pb-11">
@@ -32,37 +34,32 @@
 
 
     <!-- Formulario para enviar un nuevo mensaje -->
-   <!-- Formulario de envío de mensajes -->
-<div class="container mx-auto p-4"> <!-- Contenedor central -->
-    <form (submit)="sendMessage($event)">
-      <div class="w-full pl-3 pr-1 py-1 rounded-3xl border border-gray-200 items-center gap-2 inline-flex justify-between">
-        <div class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <g id="User Circle">
-              <path id="icon" d="M6.05 17.6C6.05 15.3218 8.26619 13.475 11 13.475C13.7338 13.475 15.95 15.3218 15.95 17.6M13.475 8.525C13.475 9.89191 12.3669 11 11 11C9.6331 11 8.525 9.89191 8.525 8.525C8.525 7.1581 9.6331 6.05 11 6.05C12.3669 6.05 13.475 7.1581 13.475 8.525ZM19.25 11C19.25 15.5563 15.5563 19.25 11 19.25C6.44365 19.25 2.75 15.5563 2.75 11C2.75 6.44365 6.44365 2.75 11 2.75C15.5563 2.75 19.25 6.44365 19.25 11Z" stroke="#4F46E5" stroke-width="1.6" />
-            </g>
-          </svg>
-          <input #messageInput class="grow shrink basis-0 text-black text-xs font-medium leading-4 focus:outline-none">
-        </div>
-        <div class="flex items-center gap-2">
-          <svg class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <g id="Attach 01">
-              <g id="Vector">
-                <path d="M14.9332 7.79175L8.77551 14.323C8.23854 14.8925 7.36794 14.8926 6.83097 14.323C6.294 13.7535 6.294 12.83 6.83097 12.2605L12.9887 5.72925M12.3423 6.41676L13.6387 5.04176C14.7126 3.90267 16.4538 3.90267 17.5277 5.04176C18.6017 6.18085 18.6017 8.02767 17.5277 9.16676L16.2314 10.5418M16.8778 9.85425L10.72 16.3855C9.10912 18.0941 6.49732 18.0941 4.88641 16.3855C3.27549 14.6769 3.27549 11.9066 4.88641 10.198L11.0441 3.66675" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14.9332 7.79175L8.77551 14.323C8.23854 14.8925 7.36794 14.8926 6.83097 14.323C6.294 13.7535 6.294 12.83 6.83097 12.2605L12.9887 5.72925M12.3423 6.41676L13.6387 5.04176C14.7126 3.90267 16.4538 3.90267 17.5277 5.04176C18.6017 6.18085 18.6017 8.02767 17.5277 9.16676L16.2314 10.5418M16.8778 9.85425L10.72 16.3855C9.10912 18.0941 6.49732 18.0941 4.88641 16.3855C3.27549 14.6769 3.27549 11.9066 4.88641 10.198L11.0441 3.66675" stroke="black" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14.9332 7.79175L8.77551 14.323C8.23854 14.8925 7.36794 14.8926 6.83097 14.323C6.294 13.7535 6.294 12.83 6.83097 12.2605L12.9887 5.72925M12.3423 6.41676L13.6387 5.04176C14.7126 3.90267 16.4538 3.90267 17.5277 5.04176C18.6017 6.18085 18.6017 8.02767 17.5277 9.16676L16.2314 10.5418M16.8778 9.85425L10.72 16.3855C9.10912 18.0941 6.49732 18.0941 4.88641 16.3855C3.27549 14.6769 3.27549 11.9066 4.88641 10.198L11.0441 3.66675" stroke="black" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Formulario de envío de mensajes -->
+    <div class="container mx-auto p-4"> <!-- Contenedor central -->
+      <form (submit)="sendMessage($event)">
+        <div
+          class="w-full pl-3 pr-1 py-1 rounded-3xl border border-gray-200 items-center gap-2 inline-flex justify-between">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <g id="User Circle">
+                <path id="icon"
+                  d="M6.05 17.6C6.05 15.3218 8.26619 13.475 11 13.475C13.7338 13.475 15.95 15.3218 15.95 17.6M13.475 8.525C13.475 9.89191 12.3669 11 11 11C9.6331 11 8.525 9.89191 8.525 8.525C8.525 7.1581 9.6331 6.05 11 6.05C12.3669 6.05 13.475 7.1581 13.475 8.525ZM19.25 11C19.25 15.5563 15.5563 19.25 11 19.25C6.44365 19.25 2.75 15.5563 2.75 11C2.75 6.44365 6.44365 2.75 11 2.75C15.5563 2.75 19.25 6.44365 19.25 11Z"
+                  stroke="#4F46E5" stroke-width="1.6" />
               </g>
-            </g>
-          </svg>
-          <button type="submit" class="items-center flex px-3 py-2 bg-indigo-600 rounded-full shadow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-
             </svg>
-            <h3 class="text-white text-xs font-semibold leading-4 px-2">Send</h3>
-          </button>
+            <input #messageInput
+              class="grow shrink basis-0 text-black text-xs font-medium leading-4 focus:outline-none">
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="submit" class="items-center flex px-3 py-2 bg-indigo-600 rounded-full shadow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+
+              </svg>
+              <h3 class="text-white text-xs font-semibold leading-4 px-2">Send</h3>
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
   </ng-container>
 </div>

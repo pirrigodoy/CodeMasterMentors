@@ -8,12 +8,15 @@ import Swal from 'sweetalert2';
 })
 export class CommentManagementComponent implements OnInit {
   comments: any = [];
+  users: any = [] = [];
 
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.loadComments();
+    this.getUsers();
+
   }
 
   loadComments() {
@@ -21,6 +24,35 @@ export class CommentManagementComponent implements OnInit {
       this.comments = comments;
 
     });
+  }
+
+  getUsers() {
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getUsers().subscribe((response: any) => {
+        console.log('API response:', response);
+        if (Array.isArray(response.data)) {
+          this.users = response.data;
+          console.log('Users:', this.users);
+          resolve();
+        } else {
+          console.error('Error: los usuarios no son un array:', response.data);
+          reject('Error: los usuarios no son un array');
+        }
+      }, error => {
+        console.error('Error al obtener los usuarios:', error);
+        reject(error);
+      });
+    });
+  }
+
+  getTransmitter(userId: number): string {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.name : 'Usuario desconocido';
+  }
+
+  getReceiver(userId: number): string {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.name : 'Usuario desconocido';
   }
 
   eliminarComment(commentId: string) {

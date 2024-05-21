@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { AuthService } from '../../services/auth.service'; // Importa el servicio de autenticación
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import * as EmailJS from 'emailjs-com';
@@ -18,14 +17,19 @@ export class ProfileComponent implements OnInit {
   userData: any = {};
   isEditing: boolean = false;
   selectedFile: File | null = null;
-  deleteCheckbox: boolean = false; // Agregar esta línea para definir la variable deleteCheckbox
-  deleteButtonClass: string = 'bg-red-700'; // Variable para controlar la clase CSS del botón "Eliminar"
-  deleteButtonColor: string = 'bg-gray-500'; // Inicialmente gris
+  deleteCheckbox: boolean = false;
+  deleteButtonClass: string = 'bg-red-700';
+  deleteButtonColor: string = 'bg-gray-500';
+  cities: any[] = [];
+  email: string = '';
+  emailPattern: any;
+  errorMessage: string = '';
+  born_date: string = '';
+  isValidAge: boolean = true;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-
     const userIdParam = this.route.snapshot.paramMap.get('userId');
     if (userIdParam) {
       this.userId = userIdParam;
@@ -40,12 +44,29 @@ export class ProfileComponent implements OnInit {
         } else {
           this.userData = response.data;
           console.log(this.userData);
+          // Obtener el nombre de la ciudad
+          this.apiService.getCityData(this.userData.city_id).subscribe(
+            (cityData: any) => {
+              this.userData.city_name = cityData.data.name;
+            },
+            (error: any) => console.error('Error al obtener el nombre de la ciudad:', error)
+          );
         }
       },
       (error) => {
         console.error('Error al obtener los datos del usuario:', error);
       }
     );
+
+    this.apiService.getCities().subscribe(
+      (response: any) => {
+        this.cities = response.data;
+      },
+      (error: any) => {
+        console.error('Error al obtener las ciudades:', error);
+      }
+    );
+
     const EMAILJS_USER_ID = 'a68ncIwtUgoSeP9S6';
     EmailJS.init(EMAILJS_USER_ID);
   }
@@ -109,8 +130,6 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-
-
   deleteUser() {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -127,8 +146,6 @@ export class ProfileComponent implements OnInit {
           (response: any) => {
             console.log('pppppp', response)
             if (response) {
-
-
               const templateParams = {
                 to_email: this.userData.email, // Suponiendo que la dirección de correo electrónico del usuario está almacenada en userData.email
                 subject: 'Confirmación de eliminación de cuenta',
@@ -169,4 +186,56 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  validateAge() {
+    const today = new Date();
+    const birthDate = new Date(this.userData.born_date);
+    let ageDiff = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      ageDiff--;
+    }
+
+    // Verificar si la edad es mayor de 100 años
+    if (ageDiff > 100) {
+      this.isValidAge = false;
+      return;
+    }
+
+    this.isValidAge = ageDiff >= 14;
+  }
+
+
+  validateForm(): boolean {
+    // Validar cada campo del formulario
+    if (!this.userData.userName) {
+      return false;
+    }
+    if (!this.userData.name) {
+      return false;
+    }
+    // Validar formato de correo electrónico utilizando una expresión regular
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(this.userData.email)) {
+      this.errorMessage = 'Por favor, introduce un correo electrónico válido.';
+      return false; // Devolver falso si el formato del correo electrónico es incorrecto
+    }
+    if (!this.userData.price_hour) {
+      return false;
+    }
+    if (!this.userData.disponibility) {
+      return false;
+    }
+    if (!this.userData.experience) {
+      return false;
+    }
+    if (!this.userData.born_date) {
+      return false;
+    }
+
+
+    // Puedes agregar más validaciones para otros campos aquí
+    return true;
+  }
+
+
 }

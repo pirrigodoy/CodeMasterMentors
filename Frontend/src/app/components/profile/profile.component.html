@@ -20,12 +20,12 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
             placeholder=" " [(ngModel)]="userData.username" [required]="true" [minlength]="6" #usernameInput="ngModel">
           <label for="username"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Usuario</label>
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">UserName</label>
           <div
             *ngIf="usernameInput.touched && usernameInput.invalid && (usernameInput.errors?.['required'] || usernameInput.errors?.['minlength'])"
             class="text-red-500">
-            <div *ngIf="usernameInput.errors?.['required']">El usuario es obligatorio</div>
-            <div *ngIf="usernameInput.errors?.['minlength']">El usuario debe tener al menos 6 caracteres</div>
+            <div *ngIf="usernameInput.errors?.['required']">The UserName is required</div>
+            <div *ngIf="usernameInput.errors?.['minlength']">The username must have at least 6 characters</div>
           </div>
         </div>
 
@@ -35,12 +35,12 @@
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
             placeholder=" " [(ngModel)]="userData.name" required minlength="3" #nameInput="ngModel">
           <label for="name"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
           <div
             *ngIf="nameInput.touched && nameInput.invalid && (nameInput.errors?.['required'] || nameInput.errors?.['minlength'])"
             class="text-red-500">
-            <div *ngIf="nameInput.errors?.['required']">El nombre es obligatorio</div>
-            <div *ngIf="nameInput.errors?.['minlength']">El nombre debe tener al menos 2 caracteres</div>
+            <div *ngIf="nameInput.errors?.['required']">The Name is required</div>
+            <div *ngIf="nameInput.errors?.['minlength']">The Name must have at least 3 characters</div>
           </div>
         </div>
 
@@ -51,27 +51,38 @@
             placeholder=" " [(ngModel)]="userData.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             #emailInput="ngModel">
           <label for="email"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Correo
-            Electrónico</label>
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+          <div
+            *ngIf="emailInput.touched && emailInput.invalid && (emailInput.errors?.['required'] || emailInput.errors?.['pattern'])"
+            class="text-red-500">
+            <div *ngIf="emailInput.errors?.['required']">Email is required</div>
+            <div *ngIf="emailInput.errors?.['pattern']">Invalid email format</div>
+          </div>
         </div>
 
         <!-- Campo de Fecha de Nacimiento -->
         <div class="relative z-0 w-full mb-5 group">
           <input type="date" name="born_date" id="born_date"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
-            placeholder=" " [(ngModel)]="userData.born_date" required #bornDateInput="ngModel">
+            placeholder=" " [(ngModel)]="userData.born_date" required (change)="validateAge()" #bornDateInput="ngModel">
           <label for="bornDate"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Fecha
-            de Nacimiento</label>
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Born
+            Date</label>
+          <div *ngIf="bornDateInput.touched && bornDateInput.invalid && bornDateInput.errors?.['required']"
+            class="text-red-500">Born Date is required</div>
+          <div *ngIf="!isValidAge" class="text-red-500">Invalid age. You must be between 14 and 100 years old.</div>
         </div>
+
 
         <!-- Campo de Área -->
         <div class="relative z-0 w-full mb-5 group">
-          <input type="text" name="city" id="city"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
-            placeholder=" " [(ngModel)]="userData.city_id" required #cityInput="ngModel">
-          <label for="city"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Área</label>
+          <label for="city" class="block text-sm font-medium text-gray-700 dark:text-gray-300">City</label>
+          <select name="city" id="city"
+            class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-3 rounded leading-tight focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
+            [(ngModel)]="userData.city_id" required>
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+          </select>
+
         </div>
 
         <!-- Botón para Subir Imagen -->
@@ -80,10 +91,10 @@
           <label for="imageInput" class="cursor-pointer mr-2">
             <i class="fas fa-image text-green-700 pr-4"></i>
           </label>
-          <span class="text-sm text-gray-500">Subir Imagen</span>
+          <span class="text-sm text-gray-500">Upload Image</span>
         </div>
-        <p class="text-xs text-white mb-1">*No se permiten imágenes inapropiadas</p>
-        <p class="text-xs text-white">*No se permiten imágenes con mensajes despectivos y/o políticos</p>
+        <p class="text-xs text-white mb-1">*Inappropriate images are not allowed</p>
+        <p class="text-xs text-white">*Images with derogatory and/or political messages are not allowed.</p>
 
 
         <div class="pt-12 pb-8">
@@ -91,7 +102,7 @@
           <div class="flex justify-center">
             <button (click)="saveChanges()"
               class="bg-green-700 hover:bg-green-900 text-white font-bold py-3 px-6 rounded-full shadow-md">
-              Guardar Cambios
+              Save Changes
             </button>
           </div>
           <!-- Botón de eliminar perfil -->
@@ -100,11 +111,11 @@
               <input checked id="green-checkbox" type="checkbox" [(ngModel)]="deleteCheckbox"
                 (change)="updateDeleteButtonClass()"
                 class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-              <span class="ml-2 text-gray-700 dark:text-gray-300">Eliminar Perfil</span>
+              <span class="ml-2 text-gray-700 dark:text-gray-300">Delete Profile</span>
             </label>
             <button type="button" (click)="deleteUser()"
               [class]="deleteButtonColor + ' text-white font-medium py-3 px-6 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105'"
-              [disabled]="!deleteCheckbox">Eliminar</button>
+              [disabled]="!deleteCheckbox">Delete</button>
           </div>
         </div>
 

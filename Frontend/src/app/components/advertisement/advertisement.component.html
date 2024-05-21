@@ -2,72 +2,63 @@
   <div class="container mx-auto py-8">
     <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
       <div class="col-span-4 sm:col-span-3">
-        <div class="bg-white shadow rounded-lg p-6">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
           <div class="flex flex-col items-center">
-
-            <ng-container *ngFor="let user of users.data">
+            <ng-container *ngFor="let user of users">
               <ng-container *ngIf="user.id === advertisementData.user_id">
-                <img class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0" src="{{ user.img }}" alt="User Image" />
-                <h1 class="text-xl font-bold">{{user.name}}</h1>
-
+                <img class="w-32 h-32 bg-gray-300 dark:bg-gray-700 rounded-full mb-4 shrink-0" src="{{ user.img }}" alt="User Image" />
+                <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ user.name }}</h1>
               </ng-container>
             </ng-container>
-            <p class="text-gray-700">{{ advertisementData.title }}</p>
-            <p class="text-gray-700">{{ advertisementData.user_id }}</p>
-
+            <p class="text-gray-700 dark:text-gray-300">{{ advertisementData.title }}</p>
             <div class="mt-6 flex flex-wrap gap-4 justify-center">
               <a routerLink="/payment" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Contratar</a>
-              <a [routerLink]="['/addRating']"
-                class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded">Añadir una
-                Valoración</a>
+              <a [routerLink]="['/addRating']" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 py-2 px-4 rounded">Añadir una Valoración</a>
             </div>
           </div>
-          <hr class="my-6 border-t border-gray-300">
+          <hr class="my-6 border-t border-gray-300 dark:border-gray-700">
           <div class="flex flex-col">
-            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Skills</span>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Skills</span>
             <ng-container *ngFor="let programmingLanguage of programmingLanguages.data">
               <ng-container *ngIf="programmingLanguage.id === advertisementData.programmingLanguage_id">
-                <p class="text-gray-700 mb-2">{{ programmingLanguage.languageName }}</p>
+                <p class="text-gray-700 dark:text-gray-300 mb-2">{{ programmingLanguage.languageName }}</p>
               </ng-container>
             </ng-container>
-            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Precio/hora</span>
-            <p class="text-gray-700 mb-2">{{ advertisementData.price_hour }} €/h</p>
-            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Disponibilidad</span>
-            <p class="text-gray-700 mb-2">{{ advertisementData.disponibility }}</p>
-            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Tipo de clase</span>
-            <p class="text-gray-700 mb-2">{{ advertisementData.class }}</p>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Precio/hora</span>
+            <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.price_hour }} €/h</p>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Disponibilidad</span>
+            <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.disponibility }}</p>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Tipo de clase</span>
+            <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.class }}</p>
           </div>
         </div>
       </div>
       <div class="col-span-4 sm:col-span-9">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h2 class="text-xl font-bold mb-4">About Me</h2>
-          <p class="text-gray-700">{{ advertisementData.about_me }}
-          </p>
-
-
-
-
-          <h2 class="text-xl font-bold mt-6 mb-4">Experience</h2>
-          <p class="text-gray-700 mb-2">{{ advertisementData.experience }}</p>
-
-          <h2 class="text-xl font-bold mt-6 mb-4">Description</h2>
-
-          <p class="text-gray-700 mb-2">{{ advertisementData.description }}</p>
-
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">About Me</h2>
+          <p class="text-gray-700 dark:text-gray-300">{{ advertisementData.about_me }}</p>
+          <h2 class="text-xl font-bold mt-6 mb-4 text-gray-900 dark:text-white">Experience</h2>
+          <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.experience }}</p>
+          <h2 class="text-xl font-bold mt-6 mb-4 text-gray-900 dark:text-white">Description</h2>
+          <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.description }}</p>
         </div>
         <!-- Sección para mostrar los comentarios -->
         <div class="mt-6">
-          <h2 class="text-xl font-bold mb-4 text-white">Comentarios</h2>
-          <div *ngFor="let comment of comments.data" class="bg-gray-100 rounded-lg p-4 mb-4">
+          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Comentarios</h2>
+          <div *ngFor="let comment of filteredComments" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
             <div class="flex items-center justify-between">
-              <p class="font-bold">{{ comment.receiver }} - {{ comment.fecha }}</p>
+      <p class="font-bold text-gray-900 dark:text-gray-100">{{ getUserName(comment.transmitter) }} - {{ comment.fecha }}</p>
             </div>
-            <p class="text-gray-700">Rating: {{ comment.rating }}</p>
-            <p class="text-gray-700">{{ comment.comment }}</p>
+            <p class="text-gray-700 dark:text-gray-300">
+              Rating:
+              <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                <i class="fa" [ngClass]="{'fa-star text-yellow-500': comment.rating > i, 'fa-star-o text-gray-400 dark:text-gray-500': comment.rating <= i}"></i>
+              </ng-container>
+            </p>
+            <p class="text-gray-700 dark:text-gray-300">{{ comment.comment }}</p>
           </div>
-          <br>
         </div>
       </div>
     </div>
   </div>
+</div>

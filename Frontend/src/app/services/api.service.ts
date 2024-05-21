@@ -379,6 +379,9 @@ export class ApiService {
     return this.http.get<any>(`${this.apiUrl}programminglanguages/${programmingLanguageId}`);
   }
 
+  getCityData(cityId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}cities/${cityId}`);
+  }
 }
 
 

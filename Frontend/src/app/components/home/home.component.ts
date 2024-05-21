@@ -19,14 +19,16 @@ export class HomeComponent implements OnInit {
   selectedFavoriteList: any = '';
   currentUserID: number | null = null;
   minPrice: number = 0;
-  maxPrice: number = 0;
+  maxPrice: number = 100;
   priceFilter: number = 0;
   showPriceModal: boolean = false;
   currentPriceFilter: number = 0;
   showDropdown: boolean = false;
   cities: any = [];
-  showZoneModal: boolean = false; // Para el modal de filtro por zona
-  selectedCity: number | null = null; // Ciudad seleccionada para el filtro
+  comments: any[] = [];
+  showZoneModal: boolean = false;
+  selectedCity: number | null = null;
+  selectedLanguageId: string | null = null;
 
   constructor(private apiService: ApiService, private router: Router, private route: ActivatedRoute) { }
 
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit {
     this.getCities();
     this.getProgrammingLanguages();
     this.getFavoriteLists();
+    this.getComments();
   }
 
   getCities() {
@@ -47,9 +50,30 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  getComments() {
+    this.apiService.getComments().subscribe(
+      (comments: any) => {
+        if (Array.isArray(comments)) {
+          this.comments = comments;
+          console.log('Fetched comments:', this.comments);
+        } else {
+          console.log('Comments data is not an array:', comments);
+          this.comments = [];
+        }
+      },
+      error => {
+        console.error('Error fetching comments:', error);
+      }
+    );
+  }
+
+
+
+
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
+      console.log('Fetched advertisements:', advertisements);
       this.filteredAdvertisements = advertisements.data;
     });
   }
@@ -69,7 +93,6 @@ export class HomeComponent implements OnInit {
   createCookie(advertisementId: string): void {
     localStorage.setItem('advertisement_id', advertisementId);
 
-    // Obtener el user_id asociado al advertisement
     const advertisement = this.advertisements.data.find((advertisement: any) => advertisement.id === advertisementId);
     if (advertisement) {
       const userId = advertisement.user_id;
@@ -77,12 +100,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  filterAdvertisements() {
+    this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => {
+      const matchesLanguage = this.selectedLanguageId ? advertisement.programmingLanguage_id === this.selectedLanguageId : true;
+      const matchesPrice = advertisement.price_hour >= this.minPrice && advertisement.price_hour <= this.maxPrice;
+      const user = this.users.data.find((user: any) => user.id === advertisement.user_id);
+      const matchesCity = this.selectedCity ? user && user.city_id === this.selectedCity : true;
+      return matchesLanguage && matchesPrice && matchesCity;
+    });
+  }
+
   filterByLanguage(languageId: string | null) {
-    if (languageId) {
-      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => advertisement.programmingLanguage_id === languageId);
-    } else {
-      this.filteredAdvertisements = this.advertisements.data;
-    }
+    this.selectedLanguageId = languageId;
+    this.filterAdvertisements();
   }
 
   getFavoriteLists() {
@@ -162,19 +192,8 @@ export class HomeComponent implements OnInit {
   }
 
   applyPriceFilter() {
-    this.searchByPrice();
+    this.filterAdvertisements();
     this.closePriceModal();
-  }
-
-  searchByPrice() {
-    if (Array.isArray(this.advertisements.data)) {
-      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => {
-        const price = advertisement.price_hour;
-        return price >= this.minPrice && price <= this.maxPrice;
-      });
-    } else {
-      console.error('this.advertisements.data no es un array.');
-    }
   }
 
   onPriceFilterChange() {
@@ -185,7 +204,6 @@ export class HomeComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
 
-  // Métodos para el filtro por zona
   openZoneModal() {
     this.showZoneModal = true;
   }
@@ -195,18 +213,26 @@ export class HomeComponent implements OnInit {
   }
 
   applyZoneFilter() {
-    this.searchByZone();
+    this.filterAdvertisements();
     this.closeZoneModal();
   }
 
-  searchByZone() {
-    if (this.selectedCity !== null) {
-      this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => {
-        const user = this.users.data.find((user: any) => user.id === advertisement.user_id);
-        return user && user.city_id === this.selectedCity;
-      });
-    } else {
-      this.filteredAdvertisements = this.advertisements.data;
+
+  calculateAverageRating(advertisementId: number): number {
+    const advertisementComments = this.comments.filter((comment: any) => comment.advertisement_id === advertisementId);
+    if (advertisementComments.length === 0) {
+      return 0; // If there are no comments, return 0 stars.
     }
+
+    const totalRating = advertisementComments.reduce((sum: number, comment: any) => sum + comment.rating, 0);
+    return totalRating / advertisementComments.length;
   }
+
+
+  round(value: number): number {
+    return Math.round(value);
+  }
+
+
+
 }

@@ -1,5 +1,5 @@
 <div class="max-w-md mx-auto bg-white shadow-md rounded-md p-6 dark:bg-gray-800">
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Crear Anuncio</h2>
+  <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Create Advertisement</h2>
 
   <!-- Formulario para crear un nuevo anuncio -->
 
@@ -40,7 +40,7 @@
       <!-- Añadida clase 'mb-4' -->
       <input type="text" [(ngModel)]="nuevoAnuncio.about_me" name="about_me" id="about_me"
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
-        placeholder=" " required #abouMeInput="ngModel" minlength="6" />
+        placeholder=" " required #abouMeInput="ngModel" minlength="30" />
       <label for="about_me"
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">About
         Me</label>
@@ -48,7 +48,7 @@
         *ngIf="abouMeInput.touched && abouMeInput.invalid && (abouMeInput.errors?.['required'] || abouMeInput.errors?.['minlength'])"
         class="text-red-500">
         <div *ngIf="abouMeInput.errors?.['required']">About Me is required</div>
-        <div *ngIf="abouMeInput.errors?.['minlength']">About Me must be at least 6 characters long</div>
+        <div *ngIf="abouMeInput.errors?.['minlength']">About Me must be at least 30 characters long</div>
       </div>
     </div>
 
@@ -58,14 +58,14 @@
         <!-- Añadida clase 'mb-4' -->
         <input type="text" [(ngModel)]="nuevoAnuncio.description" name="description" id="description"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer mb-4"
-          placeholder=" " required #descriptionInput="ngModel" minlength="6" />
+          placeholder=" " required #descriptionInput="ngModel" minlength="40" />
         <label for="description"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
         <div
           *ngIf="descriptionInput.touched && descriptionInput.invalid && (descriptionInput.errors?.['required'] || descriptionInput.errors?.['minlength'])"
           class="text-red-500">
           <div *ngIf="descriptionInput.errors?.['required']">Description is required</div>
-          <div *ngIf="descriptionInput.errors?.['minlength']">Description must be at least 6 characters long</div>
+          <div *ngIf="descriptionInput.errors?.['minlength']">Description must be at least 40 characters long</div>
         </div>
       </div>
       <div class="relative z-0 w-full mb-5 group">
@@ -75,7 +75,7 @@
         <label for="price_hour"
           class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price/Hour</label>
         <div
-          *ngIf="priceInput.touched && priceInput.invalid && (priceInput.errors?.['required'] || priceInput.errors?.['minlength'])"
+          *ngIf="priceInput.touched && priceInput.invalid && (priceInput.errors?.['required'])"
           class="text-red-500">
           <div *ngIf="priceInput.errors?.['required']">Price is required</div>
         </div>
@@ -115,8 +115,7 @@
     </div>
     <!-- Boton lenguajes -->
     <div class="mb-4">
-      <label for="programmingLanguageId" class="block text-gray-700 font-bold mb-2 dark:text-white">Lenguaje de
-        Programación</label>
+      <label for="programmingLanguageId" class="block text-gray-700 font-bold mb-2 dark:text-white">Programming Language</label>
       <div class="mb-4">
         <div class="relative">
           <select id="programmingLanguageId" name="programmingLanguage_id"
@@ -126,11 +125,12 @@
             </option>
           </select>
           <div *ngIf="languageInput.touched && languageInput.invalid && languageInput.errors?.['required']"
-            class="text-red-500">Por favor selecciona un lenguaje de programación</div>
+            class="text-red-500">Please select a programming language</div>
         </div>
       </div>
 
     </div>
+
     <!-- Botón para enviar el formulario -->
     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crear
       Anuncio</button>

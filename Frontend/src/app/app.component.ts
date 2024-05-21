@@ -13,8 +13,12 @@ export class AppComponent implements OnInit {
   user: any = null;
   userId: string | null = null;
   showFooter: boolean = true;
+  isNavbarCollapsed: boolean = true; // Nuevo
 
-  constructor(private authService: AuthService, private apiService: ApiService) {}
+  constructor(private authService: AuthService, private apiService: ApiService) {
+    // Inicializamos showDropdown como false
+    this.showDropdown = false;
+  }
 
   ngOnInit() {
     this.authService.isLoggedIn$.subscribe(isLoggedIn => {
@@ -56,5 +60,9 @@ export class AppComponent implements OnInit {
 
   onHideFooter(hide: boolean) {
     this.showFooter = hide;
+  }
+
+  toggleNavbar() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 }

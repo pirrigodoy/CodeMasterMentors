@@ -8,15 +8,15 @@
         <th scope="col" class="px-6 py-3">Rating</th>
         <th scope="col" class="px-6 py-3">Comment</th>
         <th scope="col" class="px-6 py-3">Date</th>
-        <th scope="col" class="px-6 py-3">Eliminar</th>
+        <th scope="col" class="px-6 py-3">Delete</th>
       </tr>
     </thead>
     <tbody>
 
       <tr *ngFor="let comment of comments.data" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
         <td class="px-6 py-4">{{comment.advertisement_id}}</td>
-        <td class="px-6 py-4">{{comment.transmitter }}</td>
-        <td class="px-6 py-4">{{comment.receiver }}</td>
+        <td class="px-6 py-4">{{getTransmitter( comment.transmitter )}}</td>
+        <td class="px-6 py-4">{{getReceiver( comment.receiver )}}</td>
         <td class="px-6 py-4">{{comment.rating }}</td>
 
         <td class="px-6 py-4">{{comment.comment }}</td>
