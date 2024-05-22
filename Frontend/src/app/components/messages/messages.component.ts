@@ -171,7 +171,7 @@ export class MessagesComponent implements OnInit {
   getUserImageUrl(userId: number): string | undefined {
     const user = this.users.find((user: any) => user.id === userId);
     return user ? user.img : undefined;
-  }
+}
 
 
 }
