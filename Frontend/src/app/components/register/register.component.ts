@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
-
+import Swal from 'sweetalert2';
+import * as EmailJS from 'emailjs-com';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,6 @@ export class RegisterComponent implements OnInit {
   // Evento emitido para ocultar el footer
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-
   constructor(private apiService: ApiService, private router: Router) {
     this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
   }
@@ -38,6 +38,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getRoles();
     this.getCities();
+
+    const EMAILJS_USER_ID = 'a68ncIwtUgoSeP9S6';
+    EmailJS.init(EMAILJS_USER_ID);
   }
 
   validateAge() {
@@ -57,7 +60,6 @@ export class RegisterComponent implements OnInit {
 
     this.isValidAge = ageDiff >= 14;
   }
-
 
   onSubmit() {
     // Validar si todos los campos están llenos
@@ -101,7 +103,31 @@ export class RegisterComponent implements OnInit {
         console.log('Registro exitoso:', response);
         // Mostrar mensaje de éxito y redirigir al componente de inicio de sesión
         this.registerSuccess = 'Registro exitoso. Ahora puedes iniciar sesión.';
-        this.router.navigate(['/login']);
+
+        // Enviar correo electrónico de confirmación
+        const templateParams = {
+          to_email: this.email,
+          subject: 'Bienvenido',
+          message: 'Gracias por registrarte en nuestra plataforma.',
+          user_name: this.name
+        };
+
+        EmailJS.send('service_b0ebhe5', 'template_5bn545g', templateParams)
+          .then((emailResponse: any) => {
+            console.log('Correo electrónico enviado con éxito:', emailResponse);
+            // Redirigir al inicio de sesión
+            this.router.navigate(['/login']);
+          })
+          .catch((emailError: any) => {
+            console.error('Error al enviar el correo electrónico:', emailError);
+            Swal.fire(
+              'Registro exitoso',
+              'Tu cuenta ha sido creada, pero hubo un problema al enviar el correo electrónico de confirmación.',
+              'warning'
+            ).then(() => {
+              this.router.navigate(['/login']);
+            });
+          });
       },
       error: (error) => {
         // Manejar errores de la solicitud de registro
@@ -110,13 +136,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-
   getRoles() {
     this.apiService.getRoles().subscribe((roles: any) => {
       this.roles = roles;
       console.log('roles:', roles);
-      console.log('eeeeeeeee')
-
     });
   }
 
@@ -124,11 +147,8 @@ export class RegisterComponent implements OnInit {
     this.apiService.getCities().subscribe((cities: any) => {
       this.cities = cities;
       console.log('cities:', cities);
-      console.log('eeeeeeeee')
-
     });
   }
-
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -150,10 +170,4 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
-
-
-
-
-
-
 }

@@ -148,32 +148,42 @@ export class ProfileComponent implements OnInit {
       if (result.isConfirmed) {
         this.apiService.deleteUser(this.userId).subscribe(
           (response: any) => {
-            console.log('pppppp', response)
+            console.log('Respuesta de eliminación:', response);
             if (response) {
               const templateParams = {
-                to_email: this.userData.email, // Suponiendo que la dirección de correo electrónico del usuario está almacenada en userData.email
+                to_email: this.userData.email, // Asegúrate de que userData.email esté definido y tenga un valor
                 subject: 'Confirmación de eliminación de cuenta',
                 message: 'Tu cuenta ha sido eliminada con éxito.',
                 user_name: this.userData.name
               };
 
+              console.log('Enviando correo con parámetros:', templateParams);
+
               EmailJS.send('service_b0ebhe5', 'template_5bn545g', templateParams)
-                .then((response: any) => {
-                  console.log('Correo electrónico enviado con éxito:', response);
+                .then((emailResponse: any) => {
+                  console.log('Correo electrónico enviado con éxito:', emailResponse);
+                  // Usuario eliminado con éxito
+                  Swal.fire(
+                    '¡Eliminado!',
+                    'Tu perfil ha sido eliminado.',
+                    'success'
+                  ).then(() => {
+                    // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
+                    this.authService.logout();
+                    this.router.navigate(['/']);
+                  });
                 })
-                .catch((error: any) => {
-                  console.error('Error al enviar el correo electrónico:', error);
+                .catch((emailError: any) => {
+                  console.error('Error al enviar el correo electrónico:', emailError);
+                  Swal.fire(
+                    'Error',
+                    'Tu perfil ha sido eliminado, pero hubo un problema al enviar el correo electrónico de confirmación.',
+                    'error'
+                  ).then(() => {
+                    this.authService.logout();
+                    this.router.navigate(['/']);
+                  });
                 });
-              // Usuario eliminado con éxito
-              Swal.fire(
-                '¡Eliminado!',
-                'Tu perfil ha sido eliminado.',
-                'success'
-              ).then(() => {
-                // Redirige a la página de inicio o a otro lugar apropiado después de eliminar el usuario
-                this.authService.logout();
-                this.router.navigate(['/']);
-              });
             }
           },
           (error: any) => {
@@ -186,10 +196,10 @@ export class ProfileComponent implements OnInit {
             );
           }
         );
-
       }
     });
   }
+
   validateAge() {
     const today = new Date();
     const birthDate = new Date(this.userData.born_date);
