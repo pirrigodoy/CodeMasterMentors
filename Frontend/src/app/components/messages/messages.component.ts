@@ -7,12 +7,12 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10);; // Inicializa senderId
+  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10); // Inicializa senderId
   recipientId: number = 11; // Inicializa recipientId
   messages: any[] = []; // Inicializa messages como un arreglo vacío
   recipients: any[] = [];
   showMessages: boolean = false; // Variable de bandera para mostrar los mensajes
-  showMessagesForRecipient: boolean = false; // Nueva variable de bandera para mostrar los mensajes para un destinatario
+  users: any[] = []; // Asegúrate de que esto es un array
 
   @ViewChild('messageInput') messageInput!: ElementRef<HTMLInputElement>;
 
@@ -21,14 +21,28 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.loadMessages();
     this.loadRecipients();
-    this.loadRecipientId(); // Llama a esta función para cargar el senderId
+    this.loadRecipientId();
+    this.getUsers();
   }
 
-  // Función para cargar los mensajes entre senderId y recipientId
   loadMessages(): void {
     this.apiService.getMessages(this.senderId, this.recipientId).subscribe(
       (response: any[]) => {
-        this.messages = response;
+        response.forEach((message, index) => {
+          this.apiService.getUserData(message.remitente.toString()).subscribe(
+            (senderDetail: any) => {
+              message.senderName = senderDetail.data.name || 'Desconocido';
+              message.senderImage = senderDetail.data.img || 'ruta/por/defecto/a/la/imagen.png'; // Actualiza la ruta por defecto según tus necesidades
+
+              if (index === response.length - 1) {
+                this.messages = response;
+              }
+            },
+            (error: any) => {
+              console.error('Error al cargar los detalles del remitente:', error);
+            }
+          );
+        });
       },
       (error: any) => {
         console.error('Error al cargar los mensajes:', error);
@@ -36,10 +50,8 @@ export class MessagesComponent implements OnInit {
     );
   }
 
-  // Función para cargar los destinatarios
   loadRecipients(): void {
     const userId = parseInt(localStorage.getItem('user_id') || '0', 10);
-
     if (!userId) {
       console.error('No se pudo obtener el ID del usuario logueado.');
       return;
@@ -81,24 +93,15 @@ export class MessagesComponent implements OnInit {
     );
   }
 
-  // Función para cargar los mensajes para un destinatario y mostrarlos
   loadMessagesForRecipient(recipientId: number): void {
     this.recipientId = recipientId;
     this.loadMessages();
-    this.showMessagesForRecipient = true;
+    this.showMessages = true;
   }
 
-  // Método para ocultar los mensajes y mostrar el primer div nuevamente
-  showRecipientList(): void {
-    this.showMessagesForRecipient = false;
-  }
-
-  // Función para enviar un nuevo mensaje
   sendMessage(event: Event): void {
     event.preventDefault();
-
     const newMessageContent = this.messageInput.nativeElement.value.trim();
-
     if (!newMessageContent) {
       console.error('El contenido del mensaje es requerido.');
       return;
@@ -126,10 +129,8 @@ export class MessagesComponent implements OnInit {
     );
   }
 
-  // Función para cargar el recipientId
   loadRecipientId(): void {
     const advertisementId = localStorage.getItem('advertisement_id');
-
     if (advertisementId === null) {
       console.error('El ID del anuncio no está disponible en el localStorage.');
       return;
@@ -155,5 +156,22 @@ export class MessagesComponent implements OnInit {
       }
     );
   }
+
+  getUsers(): void {
+    this.apiService.getUsers().subscribe(
+      (response: any) => {
+        this.users = response.data;
+      },
+      (error: any) => {
+        console.error('Error al obtener los usuarios:', error);
+      }
+    );
+  }
+
+  getUserImageUrl(userId: number): string | undefined {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.img : undefined;
+  }
+
 
 }

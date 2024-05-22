@@ -74,7 +74,7 @@ class MessageController extends Controller
         Log::info('Unique Recipients: ' . $uniqueRecipients);
 
         if ($uniqueRecipients->isEmpty()) {
-            return response()->json(['error' => 'No recipients found for the sender.'], 404);
+            return response()->json([]);
         }
 
         return response()->json($uniqueRecipients)->header('Access-Control-Allow-Origin', '*');
@@ -90,7 +90,7 @@ class MessageController extends Controller
         $uniqueSenders = $senders->pluck('remitente');
 
         if ($uniqueSenders->isEmpty()) {
-            return response()->json(['error' => 'No senders found for the recipient.'], 404);
+            return response()->json([]);
         }
 
         return response()->json($uniqueSenders, 200)->header('Access-Control-Allow-Origin', '*');

@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
   emailPattern: any;
   roles: any = [];
   userData: any = {};
+  imgName: string = '';
 
   // Evento emitido para ocultar el footer
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -138,6 +139,8 @@ export class RegisterComponent implements OnInit {
         if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
           // Guarda la ruta de la imagen en this.img
           this.img = response.url;
+          // Guarda el nombre de la imagen en this.imgName
+          this.imgName = file.name;
         } else {
           console.error('Error al subir la imagen:', response.message);
         }

@@ -14,6 +14,8 @@ export class AdvertisementComponent implements OnInit {
   users: any = [] = [];
   comments: any[] = []; // Asegúrate de que esto es un array
   filteredComments: any[] = []; // Asegúrate de que esto es un array
+  currentUserRoleId: number | undefined;
+
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
@@ -60,6 +62,15 @@ export class AdvertisementComponent implements OnInit {
         if (Array.isArray(response.data)) {
           this.users = response.data;
           console.log('Users:', this.users);
+          // Obtener el role_id del usuario actual
+          const userIdFromStorage = localStorage.getItem('user_id');
+          if (userIdFromStorage) {
+            const currentUser = this.users.find((user: any) => user.id === parseInt(userIdFromStorage, 10));
+            if (currentUser) {
+              this.currentUserRoleId = currentUser.role_id;
+            }
+          }
+          console.log('Current User Role ID:', this.currentUserRoleId);
           resolve();
         } else {
           console.error('Error: los usuarios no son un array:', response.data);
@@ -106,5 +117,11 @@ export class AdvertisementComponent implements OnInit {
     const user = this.users.find((user: any) => user.id === userId);
     return user ? user.name : 'Usuario desconocido';
   }
+
+  getUserImageUrl(userId: number): string | undefined {
+    const user = this.users.find((user: any) => user.id === userId);
+    return user ? user.img : undefined;
+  }
+
 
 }

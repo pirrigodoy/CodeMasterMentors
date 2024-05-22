@@ -6,14 +6,17 @@
           <div class="flex flex-col items-center">
             <ng-container *ngFor="let user of users">
               <ng-container *ngIf="user.id === advertisementData.user_id">
-                <img class="w-32 h-32 bg-gray-300 dark:bg-gray-700 rounded-full mb-4 shrink-0" src="{{ user.img }}" alt="User Image" />
+                <img class="w-32 h-32 bg-gray-300 dark:bg-gray-700 rounded-full mb-4 shrink-0" src="{{ user.img }}"
+                  alt="User Image" />
                 <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ user.name }}</h1>
               </ng-container>
             </ng-container>
             <p class="text-gray-700 dark:text-gray-300">{{ advertisementData.title }}</p>
-            <div class="mt-6 flex flex-wrap gap-4 justify-center">
-              <a routerLink="/payment" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Contratar</a>
-              <a [routerLink]="['/addRating']" class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 py-2 px-4 rounded">Añadir una Valoración</a>
+
+            <div class="mt-6 flex flex-wrap gap-4 justify-center" *ngIf="currentUserRoleId !== 2">
+              <a routerLink="/payment" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">Hire</a>
+              <a [routerLink]="['/addRating']"
+                class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-700 dark:text-gray-300 py-2 px-4 rounded">Add Rating</a>
             </div>
           </div>
           <hr class="my-6 border-t border-gray-300 dark:border-gray-700">
@@ -24,11 +27,11 @@
                 <p class="text-gray-700 dark:text-gray-300 mb-2">{{ programmingLanguage.languageName }}</p>
               </ng-container>
             </ng-container>
-            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Precio/hora</span>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Price/Hour</span>
             <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.price_hour }} €/h</p>
-            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Disponibilidad</span>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Disponibility</span>
             <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.disponibility }}</p>
-            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Tipo de clase</span>
+            <span class="text-gray-700 dark:text-gray-300 uppercase font-bold tracking-wider mb-2">Type Class</span>
             <p class="text-gray-700 dark:text-gray-300 mb-2">{{ advertisementData.class }}</p>
           </div>
         </div>
@@ -44,20 +47,27 @@
         </div>
         <!-- Sección para mostrar los comentarios -->
         <div class="mt-6">
-          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Comentarios</h2>
+          <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">Comments</h2>
           <div *ngFor="let comment of filteredComments" class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 mb-4">
             <div class="flex items-center justify-between">
-      <p class="font-bold text-gray-900 dark:text-gray-100">{{ getUserName(comment.transmitter) }} - {{ comment.fecha }}</p>
+              <div class="flex items-center">
+                <!-- Mostrar la imagen del usuario -->
+                <img *ngIf="getUserImageUrl(comment.transmitter)" [src]="getUserImageUrl(comment.transmitter)" alt="User Image"
+                  class="h-10 w-10 rounded-full object-cover mr-2">
+                <p class="font-bold text-gray-900 dark:text-gray-100">{{ getUserName(comment.transmitter) }} - {{ comment.fecha }}</p>
+              </div>
             </div>
             <p class="text-gray-700 dark:text-gray-300">
               Rating:
               <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-                <i class="fa" [ngClass]="{'fa-star text-yellow-500': comment.rating > i, 'fa-star-o text-gray-400 dark:text-gray-500': comment.rating <= i}"></i>
+                <i class="fa"
+                  [ngClass]="{'fa-star text-yellow-500': comment.rating > i, 'fa-star-o text-gray-400 dark:text-gray-500': comment.rating <= i}"></i>
               </ng-container>
             </p>
             <p class="text-gray-700 dark:text-gray-300">{{ comment.comment }}</p>
           </div>
         </div>
+
       </div>
     </div>
   </div>

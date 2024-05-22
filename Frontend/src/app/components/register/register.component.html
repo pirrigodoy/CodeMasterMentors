@@ -150,8 +150,10 @@
                 </path>
               </svg>
             </label>
-            <span class="text-sm text-gray-500">Subir Imagen</span>
+            <span class="text-sm text-gray-500" *ngIf="img">{{ img }}</span> <!-- Mostrar el nombre de la imagen seleccionada -->
+            <span class="text-sm text-gray-500" *ngIf="!img">Subir Imagen</span> <!-- Mostrar este texto si no se ha seleccionado ninguna imagen -->
           </div>
+
 
           <!-- -------------------------------------------------------------------------------------- -->
 

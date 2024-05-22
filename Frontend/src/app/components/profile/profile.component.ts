@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
   errorMessage: string = '';
   born_date: string = '';
   isValidAge: boolean = true;
+  imgName: string = '';
+  img: string = '';
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router, private authService: AuthService) { }
 
@@ -118,8 +120,10 @@ export class ProfileComponent implements OnInit {
     this.apiService.uploadImage(file).subscribe(
       (response: any) => {
         if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
-          // Guarda la ruta de la imagen en userData
-          this.userData.img = response.url;
+          // Guarda la ruta de la imagen en this.img
+          this.img = response.url;
+          // Guarda el nombre de la imagen en this.imgName
+          this.imgName = file.name;
         } else {
           console.error('Error al subir la imagen:', response.message);
         }
