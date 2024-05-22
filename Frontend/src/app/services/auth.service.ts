@@ -8,8 +8,8 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  // private apiUrl = 'https://www.slimedungeon.es/api/';
-  private apiUrl = 'http://localhost:8000/api/';
+  private apiUrl = 'https://www.slimedungeon.es/api/';
+  // private apiUrl = 'http://localhost:8000/api/';
 
 
   private isLoggedInSubject: BehaviorSubject<boolean>; // BehaviorSubject para almacenar el estado actual
