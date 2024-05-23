@@ -13,29 +13,39 @@ export class EditAdvertisementComponent {
   programmingLanguages: any = {};
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
+  /**
+ * Initializes the component.
+ * Retrieves the advertisement ID from the localStorage.
+ * If the advertisement ID is not null, retrieves advertisement data and programming languages data.
+ * Otherwise, logs an error indicating that the advertisement ID was not found in the localStorage.
+ */
   ngOnInit(): void {
-    // Obtenemos el advertisementId del localStorage
+    // Retrieve the advertisementId from localStorage
     const advertisementId = localStorage.getItem('advertisement_id');
 
-    // Verificamos si advertisementId no es null
+    // Check if advertisementId is not null
     if (advertisementId !== null) {
-      // Llamamos al método getAdvertisementById del ApiService para obtener los datos del anuncio
+      // Call the getAdvertisementById method of ApiService to retrieve advertisement data
       this.apiService.getAdvertisementById(advertisementId).subscribe((advertisement: any) => {
         this.advertisement = advertisement.data;
         console.log('Advertisement:', advertisement);
       });
 
+      // Retrieve programming languages data
       this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any[]) => {
         this.programmingLanguages = programmingLanguages;
         console.log('Programming Languages:', programmingLanguages);
       });
     } else {
       console.error('No se encontró advertisement_id en el localStorage.');
-      // Puedes manejar este caso de acuerdo a tus necesidades, por ejemplo, redirigiendo a otra página.
+      // You can handle this case according to your requirements, for example, redirecting to another page.
     }
-
-
   }
+
+  /**
+  * Displays a confirmation dialog to confirm whether the user wants to save changes.
+  * If confirmed, calls the updateAdvertisement method.
+  */
   confirmarActualizacion(): void {
     Swal.fire({
       title: '¿Estás seguro de guardar los cambios?',
@@ -52,9 +62,16 @@ export class EditAdvertisementComponent {
       }
     });
   }
+
+  /**
+  * Updates the advertisement using the ApiService's updateAdvertisement method.
+  * Displays a success message if the update is successful.
+  * Redirects to the 'adManagement' route after updating the advertisement.
+  * Displays an error message if there is an error updating the advertisement.
+  */
   updateAdvertisement(): void {
     this.apiService.updateAdvertisement(this.advertisement).subscribe((response: any) => {
-      // Muestra una alerta de éxito
+      // Display a success alert
       Swal.fire({
         icon: 'success',
         title: '¡Anuncio actualizado!',
@@ -62,11 +79,11 @@ export class EditAdvertisementComponent {
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Ok'
       }).then((result) => {
-        // Redirige a la ruta mis-anuncios con el ID de usuario después de actualizar el anuncio
+        // Redirect to the 'adManagement' route with the user ID after updating the advertisement
         this.router.navigate(['/adManagement']);
       });
     }, (error: any) => {
-      // Muestra una alerta de error
+      // Display an error alert
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -77,4 +94,5 @@ export class EditAdvertisementComponent {
       console.error('Error updating advertisement:', error);
     });
   }
+
 }

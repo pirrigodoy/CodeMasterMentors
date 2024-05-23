@@ -22,7 +22,13 @@ export class AuthService {
     this.isLoggedIn$ = this.isLoggedInSubject.asObservable();
   }
 
-  // Método para realizar el inicio de sesión
+  /**
+   * Logs in a user with the provided credentials.
+   * @param {Object} credentials - The user's login credentials containing email and password.
+   * @param {string} credentials.email - The user's email.
+   * @param {string} credentials.password - The user's password.
+   * @return {Observable<any>} - An observable of the login response.
+   */
   login(credentials: { email: string, password: string }): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}login`, credentials)
       .pipe(
@@ -41,19 +47,26 @@ export class AuthService {
   }
 
 
-  // Método para cerrar sesión
+  /**
+ * Logs out the currently authenticated user.
+ */
   logout() {
-    // Elimina el token de acceso del almacenamiento local
+    // Remove the access token from local storage
     localStorage.removeItem('access_token');
-    // Realiza una solicitud de cierre de sesión al backend (si es necesario)
-    // Puedes agregar lógica adicional aquí si necesitas más acciones de cierre de sesión
-    // Emite un nuevo valor de false para indicar que el usuario ya no está autenticado
+
+    // You can add additional logout logic here if you need more logout actions
+
+    // Emit a new value of false to indicate that the user is no longer authenticated
     this.isLoggedInSubject.next(false);
   }
 
-  // Método para verificar si el usuario está autenticado
+  /**
+   * Checks if the user is authenticated.
+   * @returns {boolean} - True if the user is authenticated, otherwise false.
+   * @private
+   */
   private isAuthenticated(): boolean {
-    // Devuelve true si existe un token de acceso en el almacenamiento local, de lo contrario, false
+    // Returns true if there is an access token in local storage, otherwise false
     return !!localStorage.getItem('access_token');
   }
 

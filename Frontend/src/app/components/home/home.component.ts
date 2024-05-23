@@ -45,6 +45,11 @@ export class HomeComponent implements OnInit {
     this.getComments();
   }
 
+  /**
+  * Fetches cities data from the ApiService's getCities method.
+  * Assigns fetched cities data to the 'cities' property.
+  * Logs fetched cities to the console.
+  */
   getCities() {
     this.apiService.getCities().subscribe((cities: any) => {
       this.cities = cities;
@@ -52,6 +57,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Fetches comments data from the ApiService's getComments method.
+ * Assigns fetched comments data to the 'comments' property.
+ * Calculates average ratings based on the fetched comments.
+ * Assigns calculated average ratings to the 'averageRatings' property.
+ * Logs fetched comments and calculated average ratings to the console.
+ */
   getComments() {
     this.apiService.getComments().subscribe((comments: any) => {
       this.comments = comments;
@@ -61,6 +74,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Fetches advertisements data from the ApiService's getAdvertisements method.
+ * Assigns fetched advertisements data to the 'advertisements' property.
+ * Logs fetched advertisements to the console.
+ * Initializes the 'filteredAdvertisements' property with the fetched advertisements data.
+ */
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
@@ -69,18 +89,33 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Fetches users data from the ApiService's getUsers method.
+ * Assigns fetched users data to the 'users' property.
+ */
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
     });
   }
 
+
+  /**
+  * Fetches programming languages data from the ApiService's getProgrammingLanguages method.
+  * Assigns fetched programming languages data to the 'programmingLanguages' property.
+  */
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
     });
   }
 
+
+  /**
+ * Creates a cookie with the advertisement ID and sets the receiver ID in localStorage.
+ * @param {string} advertisementId - The ID of the advertisement
+ */
   createCookie(advertisementId: string): void {
     localStorage.setItem('advertisement_id', advertisementId);
 
@@ -91,6 +126,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+  /**
+ * Filters advertisements based on selected filters such as programming language, price range, and city.
+ * Updates the 'filteredAdvertisements' property with the filtered advertisements.
+ */
   filterAdvertisements() {
     this.filteredAdvertisements = this.advertisements.data.filter((advertisement: any) => {
       const matchesLanguage = this.selectedLanguageId ? advertisement.programmingLanguage_id === this.selectedLanguageId : true;
@@ -101,23 +141,39 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Sets the selected language ID and filters advertisements accordingly.
+ * @param {string | null} languageId - The ID of the selected language, or null if no language is selected
+ */
   filterByLanguage(languageId: string | null) {
     this.selectedLanguageId = languageId;
     this.filterAdvertisements();
   }
 
+
+  /**
+  * Fetches favorite lists data from the ApiService's getFavouriteLists method.
+  * Assigns fetched favorite lists data to the 'favoriteLists' property.
+  */
   getFavoriteLists() {
     this.apiService.getFavouriteLists().subscribe((favoriteLists: any) => {
       this.favoriteLists = favoriteLists;
     });
   }
 
+
+  /**
+ * Creates a new favorite list or adds the advertisement to an existing favorite list.
+ * Redirects to the favorite lists page after creating or updating the favorite list.
+ */
   createFavoriteList(): void {
-    // Verifica si el usuario está autenticado
-  if (!localStorage.getItem('user_id')) {
-    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
-    return;
-  }
+    // Check if the user is authenticated
+    if (!localStorage.getItem('user_id')) {
+      this.router.navigate(['/login']); // Redirect to the login page
+      return;
+    }
+
     if (this.selectedFavoriteList) {
       const userId = localStorage.getItem('user_id');
       const advertisementId = localStorage.getItem('advertisement_id');
@@ -170,6 +226,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
   openForm(advertisementId: string): void {
     this.createCookie(advertisementId);
     this.showModal = true;
@@ -213,65 +270,78 @@ export class HomeComponent implements OnInit {
     this.closeZoneModal();
   }
 
+  /**
+  * Calculates the average ratings for each advertisement based on the comments data.
+  * Returns an object containing the average ratings for each advertisement.
+  * @returns {Object} - An object containing the average ratings for each advertisement
+  */
   calculateAverageRatings() {
     const ratingsSum: { [key: number]: { sum: number, count: number } } = {};
 
-    // Verifica que los comentarios están en una propiedad `data` y que es un array
+    // Check if comments data exists and is an array
     if (this.comments.data && Array.isArray(this.comments.data)) {
-        console.log('Complete comments data:', JSON.stringify(this.comments.data, null, 2));
+      console.log('Complete comments data:', JSON.stringify(this.comments.data, null, 2));
 
-        this.comments.data.forEach((comment: { advertisement_id: number; rating: number }) => {
-            console.log('Processing comment:', comment);
-            const advertisementId = comment.advertisement_id;
-            const rating = comment.rating;
-            console.log('Advertisement ID:', advertisementId);
-            console.log('Rating:', rating);
+      this.comments.data.forEach((comment: { advertisement_id: number; rating: number }) => {
+        console.log('Processing comment:', comment);
+        const advertisementId = comment.advertisement_id;
+        const rating = comment.rating;
+        console.log('Advertisement ID:', advertisementId);
+        console.log('Rating:', rating);
 
-            if (advertisementId !== undefined && rating !== undefined) {
-                if (ratingsSum[advertisementId]) {
-                    ratingsSum[advertisementId].sum += rating;
-                    ratingsSum[advertisementId].count += 1;
-                } else {
-                    ratingsSum[advertisementId] = { sum: rating, count: 1 };
-                }
-            } else {
-                console.error('advertisement_id or rating is undefined:', { advertisementId, rating });
-            }
-        });
+        if (advertisementId !== undefined && rating !== undefined) {
+          if (ratingsSum[advertisementId]) {
+            ratingsSum[advertisementId].sum += rating;
+            ratingsSum[advertisementId].count += 1;
+          } else {
+            ratingsSum[advertisementId] = { sum: rating, count: 1 };
+          }
+        } else {
+          console.error('advertisement_id or rating is undefined:', { advertisementId, rating });
+        }
+      });
     } else {
-        console.error('comments.data is not a valid array:', this.comments);
+      console.error('comments.data is not a valid array:', this.comments);
     }
 
     const averageRatings: { [key: number]: number } = {};
 
     for (const advertisementId in ratingsSum) {
-        if (ratingsSum.hasOwnProperty(advertisementId)) {
-            const { sum, count } = ratingsSum[advertisementId];
-            if (count !== 0) {
-                averageRatings[advertisementId] = sum / count;
-            } else {
-                averageRatings[advertisementId] = 0;
-            }
+      if (ratingsSum.hasOwnProperty(advertisementId)) {
+        const { sum, count } = ratingsSum[advertisementId];
+        if (count !== 0) {
+          averageRatings[advertisementId] = sum / count;
+        } else {
+          averageRatings[advertisementId] = 0;
         }
+      }
     }
 
+    console.log('Average Ratings:', averageRatings);
     return averageRatings;
-    console.log('FFFFFFFF',averageRatings);
-}
-
-round(value: number): number {
-  return Math.round(value);
-}
-
-getUserRole(userId: number | null): number {
-  if (!userId) return 0; // Si el userId es null o undefined, retorna 0 o cualquier otro valor predeterminado según tu lógica
-
-  const user = this.users.data.find((user: any) => user.id === userId);
-  if (user) {
-    return user.role_id; // Suponiendo que role_id es un atributo de tu objeto de usuario
-  } else {
-    return 0; // Si el usuario no se encuentra, retorna 0 o cualquier otro valor predeterminado según tu lógica
   }
-}
+
+
+  round(value: number): number {
+    return Math.round(value);
+  }
+
+  /**
+ * Retrieves the role ID of the user with the specified user ID.
+ * If the user ID is null or undefined, returns 0 or any other default value according to your logic.
+ * @param {number | null} userId - The ID of the user
+ * @returns {number} - The role ID of the user, or 0 if the user is not found or the user ID is null/undefined
+ */
+  getUserRole(userId: number | null): number {
+    if (!userId) return 0; // If userId is null or undefined, returns 0 or any other default value according to your logic
+
+    const user = this.users.data.find((user: any) => user.id === userId);
+    if (user) {
+      return user.role_id; // Assuming role_id is an attribute of your user object
+    } else {
+      return 0; // If user is not found, returns 0 or any other default value according to your logic
+    }
+  }
+
 
 }

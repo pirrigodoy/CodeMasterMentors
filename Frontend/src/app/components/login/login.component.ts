@@ -15,23 +15,28 @@ export class LoginComponent {
 
   @Output() hideFooter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private apiService: ApiService,  private router: Router) {
+  constructor(private apiService: ApiService, private router: Router) {
     this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
     // this.hideFooter.emit(true); // Emitir el evento para ocultar el footer en el AppComponent
 
-   }
+  }
 
-   onSubmit() {
+  /**
+* Submits the login form by calling the ApiService's login method with the provided email and password.
+* Handles success response by redirecting the user to another page.
+* Handles errors by displaying error messages to the user.
+*/
+  onSubmit() {
     this.apiService.login({ email: this.email, password: this.password })
       .subscribe(
         response => {
-          // Manejar la respuesta de éxito, por ejemplo, redirigir al usuario a otra página
+          // Handle success response, e.g., redirect user to another page
           this.router.navigate(['/home']).then(() => {
             window.location.reload();
           });
         },
         error => {
-          // Manejar errores, por ejemplo, mostrar un mensaje de error al usuario
+          // Handle errors, e.g., display error message to user
           if (error.status === 401) {
             this.errorMessage = 'Usuario o contraseña incorrectos.';
           } else {
@@ -41,4 +46,5 @@ export class LoginComponent {
         }
       );
   }
+
 }

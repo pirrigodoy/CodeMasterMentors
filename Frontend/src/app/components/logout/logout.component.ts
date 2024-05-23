@@ -15,19 +15,25 @@ export class LogoutComponent implements OnInit {
     this.logout();
   }
 
+  /**
+ * Logs out the user by calling the ApiService's logout method.
+ * Clears any user data stored in the application if necessary.
+ * Redirects to the login page or another destination page after logout.
+ */
   logout() {
     this.apiService.logout().subscribe(
       response => {
-        // Eliminar cualquier dato de usuario almacenado en la aplicación (si es necesario)
-        // Redirigir a la página de inicio de sesión u otra página de destino
-        this.router.navigate(['/login']); // Redirige a la página de inicio de sesión después del logout
+        // Clear any user data stored in the application (if necessary)
+        // Redirect to the login page or another destination page
+        this.router.navigate(['/login']); // Redirect to the login page after logout
       },
       error => {
-        // Manejar errores si es necesario
+        // Handle errors if necessary
         console.error(error);
-        // Redirigir a la página de inicio de sesión u otra página de destino
-        this.router.navigate(['/login']); // Redirige a la página de inicio de sesión en caso de error
+        // Redirect to the login page or another destination page
+        this.router.navigate(['/login']); // Redirect to the login page in case of error
       }
     );
   }
+
 }

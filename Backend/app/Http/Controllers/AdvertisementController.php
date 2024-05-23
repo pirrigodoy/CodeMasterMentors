@@ -13,23 +13,38 @@ use Illuminate\Support\Facades\DB;
 
 class AdvertisementController extends Controller
 {
-    // Función para mostrar todos los anuncios
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Display a listing of advertisements.
+     *
+     * @return \App\Http\Responses\ApiResponse
+     */
     public function index()
     {
         $advertisements = Advertisement::all();
         return ApiResponse::success('Lista de anuncios', 200, $advertisements);
     }
+    //------------------------------------------------------------------------------------------------
 
-    // Función para mostrar un formulario para crear un nuevo anuncio
-    // public function create()
-    // {
-    //     return view('advertisements.create');
-    // }
 
-    // Función para guardar un nuevo anuncio en la base de datos
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Store a newly created advertisement in the database.
+     *
+     * This function validates the incoming request data and creates a new advertisement
+     * in the database if validation passes.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *     The HTTP request containing advertisement data.
+     * @return \App\Http\Responses\ApiResponse
+     *     Returns an API response indicating success or validation errors.
+     */
     public function store(Request $request)
     {
         try {
+            // Validate the incoming request data
             $request->validate([
                 'user_id' => 'required',
                 // 'programmingLanguage_id' => 'required',
@@ -42,42 +57,89 @@ class AdvertisementController extends Controller
                 'experience' => 'required'
             ]);
 
+            // Create a new advertisement with the validated data
             $advertisement = Advertisement::create($request->all());
+
+            // Return a success response with the newly created advertisement
             return ApiResponse::success('Anuncio creado exitosamente', 201, $advertisement);
         } catch (ValidationException $e) {
+            // Handle validation errors and return appropriate response
             $errors = $e->validator->errors()->toArray();
             return ApiResponse::error('Error de validación', 422, $errors);
         }
     }
 
-    // Función para mostrar un anuncio específico
+    //------------------------------------------------------------------------------------------------
+
+
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Display the specified advertisement.
+     *
+     * This function retrieves and displays a specific advertisement by its ID.
+     * It also fetches the name of the user associated with the advertisement
+     * and includes it in the response.
+     *
+     * @param  int  $id
+     *     The ID of the advertisement to be displayed.
+     * @return \App\Http\Responses\ApiResponse
+     *     Returns an API response containing the advertisement details, including the user's name.
+     */
     public function show($id)
     {
         try {
-            // Encuentra el anuncio por su ID
+            // Find the advertisement by its ID
             $advertisement = Advertisement::findOrFail($id);
 
-            // Obtiene el nombre del usuario asociado al anuncio
+            // Get the name of the user associated with the advertisement
             $userName = DB::table('users')->where('id', $advertisement->user_id)->value('name');
 
-            // Agrega el nombre del usuario a la respuesta del anuncio
+            // Add the user's name to the advertisement response
             $advertisement->user_name = $userName;
 
-            // Retorna la respuesta exitosa con el anuncio, incluyendo el nombre del usuario
+            // Return a successful response with the advertisement details, including the user's name
             return ApiResponse::success('Anuncio obtenido', 200, $advertisement);
         } catch (ModelNotFoundException $e) {
-            // Maneja la excepción si no se encuentra el anuncio
+            // Handle the exception if the advertisement is not found
             return ApiResponse::error('Anuncio no encontrado', 404);
         }
     }
+    //------------------------------------------------------------------------------------------------
 
-    // Función para mostrar un formulario para editar un anuncio
-    public function edit(Advertisement $advertisement)
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Show the form for editing the specified advertisement.
+     *
+     * This function displays a form for editing a specific advertisement.
+     *
+     * @param  \App\Models\Advertisement  $advertisement
+     *     The advertisement instance to be edited.
+     * @return \Illuminate\Contracts\View\View
+     *     Returns a view for editing the advertisement.
+     */    public function edit(Advertisement $advertisement)
     {
         return view('advertisements.edit', compact('advertisement'));
     }
+    //------------------------------------------------------------------------------------------------
 
-    // Función para actualizar un anuncio en la base de datos
+
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Update the specified advertisement in the database.
+     *
+     * This function validates the incoming request data and updates the specified advertisement
+     * in the database if validation passes.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *     The HTTP request containing updated advertisement data.
+     * @param  \App\Models\Advertisement  $advertisement
+     *     The advertisement instance to be updated.
+     * @return \App\Http\Responses\ApiResponse
+     *     Returns an API response indicating success or validation errors.
+     */
     public function update(Request $request, Advertisement $advertisement)
     {
         $request->validate([
@@ -92,28 +154,64 @@ class AdvertisementController extends Controller
             'experience' => 'required'
         ]);
 
+        // Update the advertisement with the validated data
         $advertisement->update($request->all());
 
+        // Return a success response indicating the advertisement was updated successfully
         return ApiResponse::success('Anuncio actualizado exitosamente', 200, $advertisement);
     }
+    //------------------------------------------------------------------------------------------------
 
-    // Función para eliminar un anuncio de la base de datos
+
+    //------------------------------------------------------------------------------------------------
+    /**
+     * Remove the specified advertisement from the database.
+     *
+     * This function deletes the specified advertisement from the database.
+     *
+     * @param  \App\Models\Advertisement  $advertisement
+     *     The advertisement instance to be deleted.
+     * @return \App\Http\Responses\ApiResponse
+     *     Returns an API response indicating success after deleting the advertisement.
+     */
     public function destroy(Advertisement $advertisement)
     {
+        // Delete the advertisement from the database
         $advertisement->delete();
 
+        // Return a success response indicating the advertisement was deleted successfully
         return ApiResponse::success('Anuncio borrado', 200, $advertisement);
     }
+    //------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------
 
+    /**
+     * Get user ID by Advertisement ID.
+     *
+     * This function retrieves the user ID associated with the specified advertisement ID.
+     *
+     * @param  int  $advertisementId
+     *     The ID of the advertisement.
+     * @return \App\Http\Responses\ApiResponse
+     *     Returns an API response containing the user ID associated with the advertisement ID.
+     */
     public function getUserIdByAdvertisementId($advertisementId)
     {
         try {
+            // Find the advertisement by its ID
             $advertisement = Advertisement::findOrFail($advertisementId);
+
+            // Return a success response with the user ID associated with the advertisement
             return ApiResponse::success('User ID obtenido', 200, $advertisement->user_id);
         } catch (ModelNotFoundException $e) {
+            // Handle the exception if the advertisement ID does not exist
             return ApiResponse::error('El ID del anuncio no existe', 404);
         } catch (\Exception $e) {
+            // Handle other exceptions and return an error response
             return ApiResponse::error('Error al obtener el user_id', 500);
         }
     }
+
+    //------------------------------------------------------------------------------------------------
+
 }

@@ -43,51 +43,60 @@ export class RegisterComponent implements OnInit {
     EmailJS.init(EMAILJS_USER_ID);
   }
 
+  /**
+
+Validates the age based on the birth date provided.
+If the age is greater than 100, sets isValidAge to false.
+*/
   validateAge() {
     const today = new Date();
     const birthDate = new Date(this.born_date);
-    let ageDiff = today.getFullYear() - birthDate.getFullYear(); // Cambiar de const a let
+    let ageDiff = today.getFullYear() - birthDate.getFullYear(); // Changed from const to let
     const monthDiff = today.getMonth() - birthDate.getMonth();
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       ageDiff--;
     }
-
-    // Verificar si la edad es mayor de 100 años
+    // Check if the age is greater than 100 years
     if (ageDiff > 100) {
       this.isValidAge = false;
       return;
     }
 
-    this.isValidAge = ageDiff >= 14;
+    this.isValidAge = ageDiff >= 14; // Update isValidAge based on age difference
   }
 
+  /**
+ * Submits the registration form.
+ * Validates the input fields and sends a registration request to the API service.
+ * Displays error messages if any input field is empty or invalid.
+ */
   onSubmit() {
-    // Validar si todos los campos están llenos
+    // Check if all fields are filled
     if (!this.username || !this.password || !this.role_id || !this.name || !this.email || !this.born_date || !this.city_id || !this.img) {
-      this.errorMessage = 'Por favor, complete todos los campos.';
-      return; // Detener la ejecución si algún campo está vacío
+      this.errorMessage = 'Please fill in all fields.';
+      return; // Stop execution if any field is empty
     }
 
-    // Validar si city_id tiene un valor seleccionado
+    // Validate if city_id has a selected value
     if (!this.city_id) {
-      this.errorMessage = 'Por favor, selecciona una ciudad.';
-      return; // Detener la ejecución si city_id está vacío
+      this.errorMessage = 'Please select a city.';
+      return; // Stop execution if city_id is empty
     }
 
-    // Validar formato de correo electrónico utilizando una expresión regular
+    // Validate email format using a regular expression
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(this.email)) {
-      this.errorMessage = 'Por favor, introduce un correo electrónico válido.';
-      return; // Detener la ejecución si el formato del correo electrónico es incorrecto
+      this.errorMessage = 'Please enter a valid email.';
+      return; // Stop execution if email format is incorrect
     }
 
-    // Validar longitud y contenido de la contraseña
+    // Validate password length and content
     if (this.password.length < 8 || !(/[a-zA-Z]/.test(this.password) && /[0-9]/.test(this.password))) {
-      this.errorMessage = 'La contraseña debe tener al menos 8 caracteres y contener letras y números.';
-      return; // Detener la ejecución si la contraseña no cumple con los requisitos
+      this.errorMessage = 'Password must be at least 8 characters long and contain letters and numbers.';
+      return; // Stop execution if password doesn't meet requirements
     }
 
-    // Enviar la solicitud de registro al servicio API
+    // Send registration request to the API service
     this.apiService.register({
       username: this.username,
       role_id: this.role_id,
@@ -99,30 +108,30 @@ export class RegisterComponent implements OnInit {
       img: this.img
     }).subscribe({
       next: (response) => {
-        // Manejar la respuesta de éxito
-        console.log('Registro exitoso:', response);
-        // Mostrar mensaje de éxito y redirigir al componente de inicio de sesión
-        this.registerSuccess = 'Registro exitoso. Ahora puedes iniciar sesión.';
+        // Handle success response
+        console.log('Registration successful:', response);
+        // Show success message and redirect to login component
+        this.registerSuccess = 'Registration successful. You can now log in.';
 
-        // Enviar correo electrónico de confirmación
+        // Send confirmation email
         const templateParams = {
           to_email: this.email,
-          subject: 'Bienvenido',
-          message: 'Gracias por registrarte en nuestra plataforma.',
+          subject: 'Welcome',
+          message: 'Thank you for registering with our platform.',
           user_name: this.name
         };
 
         EmailJS.send('service_b0ebhe5', 'template_5bn545g', templateParams)
           .then((emailResponse: any) => {
-            console.log('Correo electrónico enviado con éxito:', emailResponse);
-            // Redirigir al inicio de sesión
+            console.log('Email sent successfully:', emailResponse);
+            // Redirect to login
             this.router.navigate(['/login']);
           })
           .catch((emailError: any) => {
-            console.error('Error al enviar el correo electrónico:', emailError);
+            console.error('Error sending email:', emailError);
             Swal.fire(
-              'Registro exitoso',
-              'Tu cuenta ha sido creada, pero hubo un problema al enviar el correo electrónico de confirmación.',
+              'Registration Successful',
+              'Your account has been created, but there was an issue sending the confirmation email.',
               'warning'
             ).then(() => {
               this.router.navigate(['/login']);
@@ -130,12 +139,16 @@ export class RegisterComponent implements OnInit {
           });
       },
       error: (error) => {
-        // Manejar errores de la solicitud de registro
-        console.error('Error en el registro:', error);
+        // Handle registration request errors
+        console.error('Registration error:', error);
       }
     });
   }
 
+
+  /**
+ * Retrieves roles from the API service and stores them in the component.
+ */
   getRoles() {
     this.apiService.getRoles().subscribe((roles: any) => {
       this.roles = roles;
@@ -143,6 +156,9 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  /**
+ * Retrieves cities from the API service and stores them in the component.
+ */
   getCities() {
     this.apiService.getCities().subscribe((cities: any) => {
       this.cities = cities;
@@ -150,24 +166,29 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  /**
+ * Handles the event when a file is selected for upload.
+ * @param event The event containing the selected file.
+ */
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
-    // Subir la imagen al servidor
+    // Upload the image to the server
     this.apiService.uploadImage(file).subscribe(
       (response: any) => {
-        if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
-          // Guarda la ruta de la imagen en this.img
+        if (response.url) { // Check if the image URL is present in the response
+          // Save the image path in this.img
           this.img = response.url;
-          // Guarda el nombre de la imagen en this.imgName
+          // Save the image name in this.imgName
           this.imgName = file.name;
         } else {
-          console.error('Error al subir la imagen:', response.message);
+          console.error('Error uploading image:', response.message);
         }
       },
       (error: any) => {
-        console.error('Error al subir la imagen:', error);
+        console.error('Error uploading image:', error);
       }
     );
   }
+
 }

@@ -18,36 +18,48 @@ export class ProgramingLanguageManagementComponent implements OnInit {
     this.loadProgrammingLanguages();
   }
 
+  /**
+ * Loads the programming languages from the API service and assigns them to the component property.
+ */
   loadProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any[]) => {
       this.programmingLanguages = programmingLanguages;
     });
   }
 
+
+  /**
+ * Displays a confirmation dialog to delete a programming language and handles the deletion process.
+ * @param {string} programmingLanguageId - The ID of the programming language to be deleted.
+ */
   eliminarPrograma(programmingLanguageId: string) {
+    // Display a confirmation dialog
     Swal.fire({
       title: 'Are you sure you want to delete this Language?',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete',
       cancelButtonText: 'Cancel'
     }).then((result) => {
+      // If user confirms deletion
       if (result.isConfirmed) {
+        // Send request to delete the programming language
         this.apiService.deleteProgrammingLanguage(programmingLanguageId).subscribe(
           response => {
-            console.log('Advertisement deleted successfully:', response);
-            // Realizar cualquier acción adicional después de eliminar el anuncio
-            Swal.fire('Advertisement deleted!', '', 'success').then(() => {
-              // Refrescar la página después de eliminar el anuncio
+            console.log('Programming language deleted successfully:', response);
+            // Perform any additional action after deleting the programming language
+            Swal.fire('Programming Language deleted!', '', 'success').then(() => {
+              // Refresh the page after deleting the programming language
               window.location.reload();
             });
           },
           error => {
-            console.error('Error deleting advertisement:', error);
-            // Manejar el error en caso de que ocurra
-            Swal.fire('Error', 'Failed to delete advertisement', 'error');
+            console.error('Error deleting programming language:', error);
+            // Handle the error if it occurs
+            Swal.fire('Error', 'Failed to delete programming language', 'error');
           }
         );
       }
     });
   }
+
 }

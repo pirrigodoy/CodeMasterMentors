@@ -14,29 +14,40 @@ export class ModificarAnuncioComponent implements OnInit {
   programmingLanguages: any = {};
   constructor(private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
+  /**
+ * Initializes component properties by fetching advertisement data and programming languages.
+ * Retrieves advertisement data from localStorage using advertisement_id, then calls ApiService methods to fetch advertisement and programming languages data.
+ * Logs retrieved data to console.
+ * If advertisement_id is not found in localStorage, logs an error message and handles the case according to requirements.
+ */
   ngOnInit(): void {
-    // Obtenemos el advertisementId del localStorage
+    // Retrieve advertisementId from localStorage
     const advertisementId = localStorage.getItem('advertisement_id');
 
-    // Verificamos si advertisementId no es null
+    // Check if advertisementId is not null
     if (advertisementId !== null) {
-      // Llamamos al método getAdvertisementById del ApiService para obtener los datos del anuncio
+      // Call ApiService's getAdvertisementById method to fetch advertisement data
       this.apiService.getAdvertisementById(advertisementId).subscribe((advertisement: any) => {
         this.advertisement = advertisement.data;
         console.log('Advertisement:', advertisement);
       });
 
+      // Call ApiService's getProgrammingLanguages method to fetch programming languages data
       this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any[]) => {
         this.programmingLanguages = programmingLanguages;
         console.log('Programming Languages:', programmingLanguages);
       });
     } else {
+      // Log error message if advertisement_id is not found in localStorage
       console.error('No se encontró advertisement_id en el localStorage.');
-      // Puedes manejar este caso de acuerdo a tus necesidades, por ejemplo, redirigiendo a otra página.
+      // You can handle this case according to your requirements, for example, redirecting to another page.
     }
-
-
   }
+
+  /**
+ * Displays a confirmation dialog to confirm saving changes.
+ * If user confirms, calls updateAdvertisement method.
+ */
   confirmarActualizacion(): void {
     Swal.fire({
       title: '¿Estás seguro de guardar los cambios?',
@@ -53,9 +64,16 @@ export class ModificarAnuncioComponent implements OnInit {
       }
     });
   }
+
+
+  /**
+ * Updates the advertisement data by calling the ApiService's updateAdvertisement method.
+ * Displays success or error alert messages based on the response.
+ * If update is successful, redirects to the 'mis-anuncios' route with the user ID after updating the advertisement.
+ */
   updateAdvertisement(): void {
     this.apiService.updateAdvertisement(this.advertisement).subscribe((response: any) => {
-      // Muestra una alerta de éxito
+      // Display success alert
       Swal.fire({
         icon: 'success',
         title: '¡Anuncio actualizado!',
@@ -63,11 +81,11 @@ export class ModificarAnuncioComponent implements OnInit {
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Ok'
       }).then((result) => {
-        // Redirige a la ruta mis-anuncios con el ID de usuario después de actualizar el anuncio
+        // Redirect to 'mis-anuncios' route with the user ID after updating the advertisement
         this.router.navigate(['/mis-anuncios', this.advertisement.user_id]);
       });
     }, (error: any) => {
-      // Muestra una alerta de error
+      // Display error alert
       Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -78,4 +96,5 @@ export class ModificarAnuncioComponent implements OnInit {
       console.error('Error updating advertisement:', error);
     });
   }
+
 }

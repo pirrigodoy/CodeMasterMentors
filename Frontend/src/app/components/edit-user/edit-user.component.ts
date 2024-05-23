@@ -18,6 +18,10 @@ export class EditUserComponent implements OnInit {
     private router: Router,
     private apiService: ApiService) { }
 
+  /**
+ * Initializes the component.
+ * Subscribes to query parameters and loads user data if the 'userId' parameter is provided.
+ */
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.userId = params['userId'] || null;
@@ -27,6 +31,10 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Loads user data for the specified user ID.
+ */
   loadUserData() {
     this.apiService.getUserData(this.userId!).subscribe(
       userData => {
@@ -39,10 +47,17 @@ export class EditUserComponent implements OnInit {
     );
   }
 
+
   toggleEdit() {
     this.isEditing = !this.isEditing;
   }
 
+  /**
+  * Saves changes made to user data.
+  * Displays a confirmation dialog to confirm whether the user wants to save the changes.
+  * If confirmed, updates the user data via the ApiService's updateUserData method.
+  * If denied, cancels the operation.
+  */
   saveChanges() {
     Swal.fire({
       title: 'Do you want to save the changes?',
@@ -57,7 +72,7 @@ export class EditUserComponent implements OnInit {
             console.log('Changes saved successfully:', data);
             this.isEditing = false;
             Swal.fire('Saved!', '', 'success');
-            this.router.navigate(['/userManagement']); // Redirige al usuario a la página 'userManagement' después de guardar los cambios
+            this.router.navigate(['/userManagement']); // Redirects the user to the 'userManagement' page after saving changes
           },
           (error) => {
             console.error('Error saving changes:', error);
@@ -70,22 +85,29 @@ export class EditUserComponent implements OnInit {
     });
   }
 
+  /**
+ * Handles the selection of a file for upload.
+ * Uploads the selected image file to the server via the ApiService's uploadImage method.
+ * Upon successful upload, saves the image URL in the userData.
+ * @param {any} event - The event containing the selected file
+ */
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
-    // Subir la imagen al servidor
+    // Upload the image to the server
     this.apiService.uploadImage(file).subscribe(
       (response: any) => {
-        if (response.url) { // Verifica si la URL de la imagen está presente en la respuesta
-          // Guarda la ruta de la imagen en userData
+        if (response.url) { // Check if the image URL is present in the response
+          // Save the image URL in userData
           this.userData.img = response.url;
         } else {
-          console.error('Error al subir la imagen:', response.message);
+          console.error('Error uploading image:', response.message);
         }
       },
       (error: any) => {
-        console.error('Error al subir la imagen:', error);
+        console.error('Error uploading image:', error);
       }
     );
   }
+
 }

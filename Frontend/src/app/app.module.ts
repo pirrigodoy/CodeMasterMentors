@@ -26,7 +26,6 @@ import { EditAdvertisementComponent } from './components/edit-advertisement/edit
 import { AddRatingComponent } from './components/add-rating/add-rating.component';
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
-import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { AddProgramingLanguageComponent } from './components/add-programing-language/add-programing-language.component';
@@ -59,7 +58,6 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
     AddRatingComponent,
     PaymentComponent,
     FavouriteListComponent,
-    ApplicationComponent,
     MessagesComponent,
     CondicionesComponent,
     ProgramingLanguageManagementComponent,

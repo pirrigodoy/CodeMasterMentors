@@ -25,6 +25,11 @@ export class MessagesComponent implements OnInit {
     this.getUsers();
   }
 
+  /**
+ * Loads messages between senderId and recipientId.
+ * Retrieves sender details for each message and updates senderName and senderImage properties.
+ * Assigns loaded messages to the 'messages' property.
+ */
   loadMessages(): void {
     this.apiService.getMessages(this.senderId, this.recipientId).subscribe(
       (response: any[]) => {
@@ -32,7 +37,7 @@ export class MessagesComponent implements OnInit {
           this.apiService.getUserData(message.remitente.toString()).subscribe(
             (senderDetail: any) => {
               message.senderName = senderDetail.data.name || 'Desconocido';
-              message.senderImage = senderDetail.data.img || 'ruta/por/defecto/a/la/imagen.png'; // Actualiza la ruta por defecto según tus necesidades
+              message.senderImage = senderDetail.data.img || 'ruta/por/defecto/a/la/imagen.png'; // Update default path as per your needs
 
               if (index === response.length - 1) {
                 this.messages = response;
@@ -50,6 +55,13 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+
+  /**
+ * Loads recipients for the current user.
+ * Retrieves the user ID from localStorage and fetches unique recipient and sender IDs.
+ * Fetches user data for each recipient and sender and adds them to the 'recipients' array.
+ * Logs errors if any occur during the process.
+ */
   loadRecipients(): void {
     const userId = parseInt(localStorage.getItem('user_id') || '0', 10);
     if (!userId) {
@@ -59,6 +71,7 @@ export class MessagesComponent implements OnInit {
 
     const uniqueUserIds = new Set<number>();
 
+    // Fetch unique recipient IDs
     this.apiService.getUniqueRecipients(userId).subscribe(
       (recipientIds: number[]) => {
         recipientIds.forEach(recipientId => {
@@ -70,6 +83,7 @@ export class MessagesComponent implements OnInit {
       }
     );
 
+    // Fetch unique sender IDs
     this.apiService.getUniqueSenders(userId).subscribe(
       (senderIds: number[]) => {
         senderIds.forEach(senderId => {
@@ -77,6 +91,7 @@ export class MessagesComponent implements OnInit {
         });
 
         uniqueUserIds.forEach(id => {
+          // Fetch user data for each recipient and sender
           this.apiService.getUserData(id.toString()).subscribe(
             (userData: any) => {
               this.recipients.push(userData);
@@ -93,12 +108,20 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+
   loadMessagesForRecipient(recipientId: number): void {
     this.recipientId = recipientId;
     this.loadMessages();
     this.showMessages = true;
   }
 
+  /**
+ * Sends a new message.
+ * Prevents the default form submission behavior.
+ * Validates the message content and sends it to the recipient.
+ * Fetches messages after sending the new message.
+ * @param {Event} event - The event object
+ */
   sendMessage(event: Event): void {
     event.preventDefault();
     const newMessageContent = this.messageInput.nativeElement.value.trim();
@@ -129,6 +152,12 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+
+  /**
+  * Loads the recipient ID based on the advertisement ID stored in localStorage.
+  * Fetches the user ID associated with the advertisement ID and assigns it to the 'recipientId' property.
+  * Loads messages after obtaining the recipient ID.
+  */
   loadRecipientId(): void {
     const advertisementId = localStorage.getItem('advertisement_id');
     if (advertisementId === null) {
@@ -157,6 +186,11 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+
+  /**
+ * Fetches users data from the ApiService's getUsers method and assigns it to the 'users' property.
+ * Logs errors if any occur during the request.
+ */
   getUsers(): void {
     this.apiService.getUsers().subscribe(
       (response: any) => {
@@ -168,10 +202,17 @@ export class MessagesComponent implements OnInit {
     );
   }
 
+
+  /**
+ * Retrieves the image URL of the user with the specified userId.
+ * @param {number} userId - The ID of the user
+ * @returns {string | undefined} - The image URL of the user, or undefined if the user is not found
+ */
   getUserImageUrl(userId: number): string | undefined {
     const user = this.users.find((user: any) => user.id === userId);
     return user ? user.img : undefined;
-}
+  }
+
 
 
 }

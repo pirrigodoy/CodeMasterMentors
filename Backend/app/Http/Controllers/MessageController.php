@@ -9,17 +9,32 @@ use Illuminate\Database\QueryException;
 
 class MessageController extends Controller
 {
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Send a message.
+     *
+     * This function validates the data from the message sending form and sends a message with the provided data.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *     The HTTP request containing message data.
+     * @return \Illuminate\Http\JsonResponse
+     *     Returns a JSON response indicating success or failure.
+     */
     public function sendMessage(Request $request)
     {
-        // Valida los datos del formulario de envío de mensajes
+        // Validate the message sending form data
         $request->validate([
             'remitente' => 'required|integer',
             'destinatario' => 'required|integer',
-            'content' => 'required|string', // Añadido: Validación del contenido del mensaje
+            'content' => 'required|string',
+            'date' => 'required', // Ensure date field is present
+            'estado' => 'required', // Ensure estado field is present
         ]);
 
         try {
-            // Crea un nuevo mensaje con los datos proporcionados
+            // Create a new message with the provided data
             $message = new Message();
             $message->remitente = $request->remitente;
             $message->destinatario = $request->destinatario;
@@ -29,19 +44,37 @@ class MessageController extends Controller
 
             $message->save();
 
-            // Devuelve una respuesta de éxito
+            // Return a success response
             return response()->json(['message' => 'Message sent successfully'], 200);
         } catch (QueryException $e) {
-            // Si ocurre un error al guardar el mensaje, registra un error y devuelve una respuesta de error
+            // If an error occurs while saving the message, log the error and return an error response
             Log::error('Error al enviar el mensaje: ' . $e->getMessage());
             return response()->json(['error' => 'Error al enviar el mensaje'], 500);
         }
     }
 
+    //-----------------------------------------------------------------------------------
+
+
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Get messages between two users.
+     *
+     * This function retrieves messages exchanged between two users identified by their IDs.
+     *
+     * @param  int  $senderId
+     *     The ID of the message sender.
+     * @param  int  $recipientId
+     *     The ID of the message recipient.
+     * @return \Illuminate\Http\JsonResponse
+     *     Returns a JSON response containing messages exchanged between the specified users.
+     */
     public function getMessages($senderId, $recipientId)
     {
         try {
-            // Obtén los mensajes entre dos usuarios
+            // Retrieve messages between two users
             $messages = Message::where(function ($query) use ($senderId, $recipientId) {
                 $query->where('remitente', $senderId)
                     ->where('destinatario', $recipientId);
@@ -50,49 +83,93 @@ class MessageController extends Controller
                     ->where('destinatario', $senderId);
             })->orderBy('created_at', 'asc')->get();
 
-            // Devuelve los mensajes
+            // Return the messages
             return response()->json($messages, 200);
         } catch (QueryException $e) {
-            // Si ocurre un error al obtener los mensajes, registra un error y devuelve una respuesta de error
+            // If an error occurs while retrieving messages, log the error and return an error response
             Log::error('Error al obtener los mensajes: ' . $e->getMessage());
             return response()->json(['error' => 'Error al obtener los mensajes'], 500);
         }
     }
+
+    //-----------------------------------------------------------------------------------
+
+
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Get unique message recipients for a given sender.
+     *
+     * This function retrieves unique message recipients for a given sender identified by their ID.
+     *
+     * @param  int  $senderId
+     *     The ID of the message sender.
+     * @return \Illuminate\Http\JsonResponse
+     *     Returns a JSON response containing unique message recipients for the specified sender.
+     */
     public function getUniqueRecipients($senderId)
     {
+        // Retrieve unique recipients for the given sender
         $recipients = Message::where('remitente', $senderId)
             ->groupBy('destinatario')
             ->select('destinatario')
             ->get();
 
-        // Agrega una declaración de registro para ver los datos recuperados
+        // Log retrieved data for analysis
         Log::info('Recipients: ' . $recipients);
 
+        // Extract unique recipient IDs
         $uniqueRecipients = $recipients->pluck('destinatario');
 
-        // Agrega otra declaración de registro para ver los destinatarios únicos
+        // Log unique recipient IDs for analysis
         Log::info('Unique Recipients: ' . $uniqueRecipients);
 
+        // If no unique recipients found, return an empty response
         if ($uniqueRecipients->isEmpty()) {
             return response()->json([]);
         }
 
+        // Return the unique recipients
         return response()->json($uniqueRecipients)->header('Access-Control-Allow-Origin', '*');
     }
 
+    //-----------------------------------------------------------------------------------
+
+
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * Get unique message senders for a given recipient.
+     *
+     * This function retrieves unique message senders for a given recipient identified by their ID.
+     *
+     * @param  int  $recipientId
+     *     The ID of the message recipient.
+     * @return \Illuminate\Http\JsonResponse
+     *     Returns a JSON response containing unique message senders for the specified recipient.
+     */
     public function getUniqueSenders($recipientId)
     {
+        // Retrieve unique senders for the given recipient
         $senders = Message::where('destinatario', $recipientId)
             ->groupBy('remitente')
             ->select('remitente')
             ->get();
 
+        // Extract unique sender IDs
         $uniqueSenders = $senders->pluck('remitente');
 
+        // If no unique senders found, return an empty response
         if ($uniqueSenders->isEmpty()) {
             return response()->json([]);
         }
 
+        // Return the unique senders
         return response()->json($uniqueSenders, 200)->header('Access-Control-Allow-Origin', '*');
     }
+
+    //-----------------------------------------------------------------------------------
+
 }

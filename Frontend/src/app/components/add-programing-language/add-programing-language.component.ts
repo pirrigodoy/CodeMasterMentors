@@ -13,18 +13,27 @@ export class AddProgramingLanguageComponent {
 
   constructor(private apiService: ApiService, private router: Router) { }
 
+  /**
+ * Saves changes by adding a new programming language through the API service.
+ * Redirects to the programming languages management component after successful addition.
+ * Logs success and error messages and handles errors as needed.
+ */
   saveChanges() {
-    // Llama al servicio API para agregar un nuevo programa
+    // Call the API service to add a new programming language
     this.apiService.addPrograma(this.LanguageData).subscribe(
       response => {
+        // Log success message and perform any additional actions after adding the new program
         console.log('New programming language added successfully:', response);
-        // Realiza cualquier acción adicional después de agregar el nuevo programa
-        this.router.navigate(['/programingLanguagesManagement']); // Redirige al componente de gestión de lenguajes de programación
+        // Redirect to the programming languages management component after successful addition
+        this.router.navigate(['/programingLanguagesManagement']);
       },
       error => {
+        // Log error message and handle the error as needed
         console.error('Error adding programming language:', error);
-        // Maneja el error según sea necesario
+        // You can implement error handling logic here, such as displaying an error message to the user
       }
     );
   }
+
+
 }

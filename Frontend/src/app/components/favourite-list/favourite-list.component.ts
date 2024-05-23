@@ -26,6 +26,11 @@ export class FavouriteListComponent implements OnInit {
     this.getAdvertisementFavouriteLists();
   }
 
+  /**
+ * Fetches advertisements data from the ApiService's getAdvertisements method.
+ * Assigns fetched advertisements data to the 'advertisements' property.
+ * Logs fetched advertisements to the console.
+ */
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe((advertisements: any) => {
       this.advertisements = advertisements;
@@ -33,6 +38,12 @@ export class FavouriteListComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Fetches users data from the ApiService's getUsers method.
+ * Assigns fetched users data to the 'users' property.
+ * Logs fetched users to the console.
+ */
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
@@ -40,6 +51,12 @@ export class FavouriteListComponent implements OnInit {
     });
   }
 
+
+  /**
+ * Fetches favorite lists data from the ApiService's getFavouriteLists method.
+ * Assigns fetched favorite lists data to the 'favouriteLists' property.
+ * Logs fetched favorite lists to the console.
+ */
   getFavouriteLists() {
     this.apiService.getFavouriteLists().subscribe((favouriteLists: any) => {
       this.favouriteLists = favouriteLists;
@@ -47,6 +64,12 @@ export class FavouriteListComponent implements OnInit {
     });
   }
 
+  /**
+ * Fetches advertisement favourite lists data from the ApiService's getAdvertisementFavouriteLists method.
+ * Assigns fetched advertisement favourite lists data to the 'advertisementFavouriteLists' property.
+ * Logs fetched advertisement favourite lists to the console.
+ * Modifies each advertisement favourite list item to include the user's image URL.
+ */
   getAdvertisementFavouriteLists() {
     this.apiService.getAdvertisementFavouriteLists().subscribe((advertisementFavouriteLists: any) => {
       this.advertisementFavouriteLists = advertisementFavouriteLists;
@@ -57,18 +80,30 @@ export class FavouriteListComponent implements OnInit {
         if (advertisement) {
           const user = this.users.data.find((user: any) => user.id === advertisement.user_id);
           if (user) {
-            adList.userImgUrl = user.img; // Ajusta según el campo de imagen en la tabla `users`
+            adList.userImgUrl = user.img; // Adjust according to the image field in the 'users' table
           }
         }
       });
     });
   }
 
+
+  /**
+  * Retrieves the title of the advertisement with the specified advertisement ID.
+  * If the advertisement is found, returns its title; otherwise, returns a default message.
+  * @param {number} advertisementId - The ID of the advertisement
+  * @returns {string} - The title of the advertisement, or a default message if the advertisement is not found
+  */
   getAdvertisementTitle(advertisementId: number): string {
     const advertisement = this.advertisements.data.find((ad: any) => ad.id === advertisementId);
     return advertisement ? advertisement.title : 'Anuncio no encontrado';
   }
 
+
+  /**
+  * Deletes the specified favorite list.
+  * @param {any} favouriteList - The favorite list object to be deleted
+  */
   deleteList(favouriteList: any) {
     const favouriteListId = favouriteList.id;
     this.apiService.deleteFavourite_list(favouriteListId)
@@ -83,6 +118,11 @@ export class FavouriteListComponent implements OnInit {
       );
   }
 
+
+  /**
+ * Deletes the specified advertisement from the favorite lists.
+ * @param {any} advertisementFavouriteLists - The advertisement favourite lists object to be deleted
+ */
   deleteAdvertisementFavourite(advertisementFavouriteLists: any) {
     const advertisementFavouriteListsId = advertisementFavouriteLists.id;
 
@@ -98,6 +138,7 @@ export class FavouriteListComponent implements OnInit {
       );
   }
 
+
   openEditModal(favouriteList: any) {
     this.selectedFavouriteList = favouriteList;
     this.editedListName = favouriteList.name;
@@ -108,6 +149,11 @@ export class FavouriteListComponent implements OnInit {
     this.showModal = false;
   }
 
+  /**
+ * Saves the edited favorite list.
+ * If the edited list name is not empty, updates the favorite list with the edited name.
+ * @returns {void}
+ */
   saveEditedList() {
     if (this.editedListName.trim() !== '') {
       const editedFavouriteList = {
@@ -130,4 +176,5 @@ export class FavouriteListComponent implements OnInit {
       console.error('El nombre de la lista de favoritos no puede estar vacío');
     }
   }
+
 }

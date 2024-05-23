@@ -23,23 +23,32 @@ export class CrearAnuncioComponent implements OnInit {
     const EMAILJS_USER_ID = 'ZZGv2rSlsn03aidsX';
     EmailJS.init(EMAILJS_USER_ID);
   }
+  /**
+ * Creates an advertisement by sending the form data to the server if all fields are valid.
+ * Converts the price per hour to a number before sending it to the server.
+ * Displays a success message after creating the advertisement and sends an email confirmation.
+ * Redirects to the 'mis-anuncios' route after creating the advertisement.
+ * Displays a message if the form is invalid.
+ */
   crearAnuncio(): void {
-
-    // Aquí puedes enviar el formulario al servidor si todos los campos son válidos
+    // Send the form to the server if all fields are valid
     if (this.validateForm()) {
-      // Convertir el precio por hora a número antes de enviarlo al servidor
-      this.nuevoAnuncio.price_hour = parseFloat(this.nuevoAnuncio.price_hour); // Convertir a número
+      // Convert the price per hour to a number before sending it to the server
+      this.nuevoAnuncio.price_hour = parseFloat(this.nuevoAnuncio.price_hour);
+
+      // Call the API service to create the advertisement
       this.apiService.crearAnuncio(this.nuevoAnuncio).subscribe((response: any) => {
         console.log('Anuncio creado:', response);
 
         const userId = response.data.user_id;
         const programmingLanguageId = response.data.programmingLanguage_id;
 
+        // Get user data to send an email confirmation
         this.apiService.getUserData(userId).subscribe((userData: any) => {
           const userEmail = userData.data.email;
           const userName = userData.data.name;
 
-          // Obtener los datos del lenguaje de programación
+          // Get the programming language data
           this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe((languageData: any) => {
             const languageName = languageData.data.languageName;
 
@@ -51,7 +60,7 @@ export class CrearAnuncioComponent implements OnInit {
               language_programming: languageName
             };
 
-            // Envía el correo electrónico utilizando EmailJS
+            // Send the email using EmailJS
             EmailJS.send('service_32gackn', 'template_7amm96p', templateParams)
               .then((response: any) => {
                 console.log('Correo electrónico enviado con éxito:', response);
@@ -60,6 +69,7 @@ export class CrearAnuncioComponent implements OnInit {
                 console.error('Error al enviar el correo electrónico:', error);
               });
 
+            // Redirect to 'mis-anuncios' route
             const advertisementId = localStorage.getItem('advertisement_id');
             this.router.navigate(['/mis-anuncios', advertisementId]);
           });
@@ -68,13 +78,15 @@ export class CrearAnuncioComponent implements OnInit {
     } else {
       console.log('Formulario inválido');
     }
-
-
-
   }
 
 
 
+
+  /**
+ * Retrieves programming languages from the API service and assigns them to the component property.
+ * Logs the retrieved programming languages to the console.
+ */
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((response: any) => {
       this.programmingLanguages = response.data;
@@ -83,8 +95,13 @@ export class CrearAnuncioComponent implements OnInit {
   }
 
 
+
+  /**
+ * Validates the form fields for creating a new advertisement.
+ * Returns true if all fields are valid; otherwise, returns false.
+ */
   validateForm(): boolean {
-    // Validar cada campo del formulario
+    // Validate each field of the form
     if (!this.nuevoAnuncio.title || this.nuevoAnuncio.title.length < 6) {
       return false;
     }
@@ -109,7 +126,8 @@ export class CrearAnuncioComponent implements OnInit {
     if (!this.nuevoAnuncio.programmingLanguage_id) {
       return false;
     }
-    // Puedes agregar más validaciones para otros campos aquí
+    // You can add more validations for other fields here
     return true;
   }
+
 }

@@ -25,6 +25,12 @@ export class MisAnunciosComponent implements OnInit {
     EmailJS.init(EMAILJS_USER_ID);
   }
 
+  /**
+  * Fetches advertisements data from the ApiService's getAdvertisements method.
+  * Filters advertisements based on the user_id retrieved from localStorage.
+  * Assigns filtered advertisements to the 'advertisements' property.
+  * Handles cases when response.data is not an array or an error occurs during the request.
+  */
   getAdvertisements() {
     this.apiService.getAdvertisements().subscribe(
       (response: any) => {
@@ -53,24 +59,42 @@ export class MisAnunciosComponent implements OnInit {
     );
   }
 
+
+  /**
+  * Fetches users data from the ApiService's getUsers method.
+  * Assigns fetched users data to the 'users' property.
+  */
   getUsers() {
     this.apiService.getUsers().subscribe((users: any) => {
       this.users = users;
-
     });
   }
 
+  /**
+ * Fetches programming languages data from the ApiService's getProgrammingLanguages method.
+ * Assigns fetched programming languages data to the 'programmingLanguages' property.
+ */
   getProgrammingLanguages() {
     this.apiService.getProgrammingLanguages().subscribe((programmingLanguages: any) => {
       this.programmingLanguages = programmingLanguages;
     });
   }
 
+  /**
+  * Modifies an advertisement by setting the advertisement_id in localStorage and navigating to the 'modificar-anuncio' route with the specified advertisementId.
+  * @param {string} advertisementId - The ID of the advertisement to be modified
+  */
   modificarAnuncio(advertisementId: string): void {
     localStorage.setItem('advertisement_id', advertisementId);
     this.router.navigate(['/modificar-anuncio', advertisementId]);
   }
 
+
+  /**
+ * Deletes an advertisement after confirming with the user.
+ * Sends a confirmation email to the advertisement owner before deletion.
+ * @param {string} advertisementId - The ID of the advertisement to be deleted
+ */
   borrarAnuncio(advertisementId: string): void {
     if (confirm('¿Estás seguro de que quieres eliminar este anuncio?')) {
       this.apiService.getAdvertisementData(advertisementId).subscribe(
@@ -83,7 +107,7 @@ export class MisAnunciosComponent implements OnInit {
                 const userEmail = userData.data.email;
                 const userName = userData.data.name;
 
-                // Obtener el nombre del lenguaje de programación
+                // Get the programming language name
                 this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe(
                   (languageData: any) => {
                     const programmingLanguage = languageData.data.languageName;
@@ -95,7 +119,7 @@ export class MisAnunciosComponent implements OnInit {
                       programming_language: programmingLanguage
                     };
 
-                    // Envía el correo electrónico utilizando EmailJS
+                    // Send the email using EmailJS
                     EmailJS.send('service_9zm8nuc', 'template_s2efope', templateParams)
                       .then((response: any) => {
                         console.log('Correo electrónico enviado con éxito:', response);
@@ -117,15 +141,15 @@ export class MisAnunciosComponent implements OnInit {
             console.error('No se encontró el user_id en el localStorage');
           }
 
-          // Eliminar el anuncio después de obtener los datos necesarios
+          // Delete the advertisement after obtaining necessary data
           this.apiService.deleteAdvertisement(advertisementId).subscribe(
             () => {
-              // Eliminación exitosa, actualiza la lista de anuncios
+              // Successful deletion, update the list of advertisements
               this.getAdvertisements();
             },
             (error) => {
               console.error('Error al eliminar el anuncio:', error);
-              // Puedes manejar el error de acuerdo a tus necesidades, por ejemplo, mostrar un mensaje al usuario.
+              // Handle the error according to your requirements, for example, showing a message to the user.
             }
           );
         },
@@ -135,6 +159,7 @@ export class MisAnunciosComponent implements OnInit {
       );
     }
   }
+
 
 
 }

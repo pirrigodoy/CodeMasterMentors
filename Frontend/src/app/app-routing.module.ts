@@ -21,7 +21,6 @@ import { AddRatingComponent } from './components/add-rating/add-rating.component
 import { PaymentComponent } from './components/payment/payment.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
 import { loginGuard } from './components/guards/login.guard';
-import { ApplicationComponent } from './components/application/application.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { CondicionesComponent } from './components/condiciones/condiciones.component';
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
@@ -57,7 +56,6 @@ const routes: Routes = [
   { path: 'mis-anuncios/:userId', component: MisAnunciosComponent, canActivate: [loginGuard] },
   { path: 'crear-anuncio', component: CrearAnuncioComponent, canActivate: [loginGuard] },
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [loginGuard] },
-  { path: 'application', component: ApplicationComponent, canActivate: [loginGuard] },
   { path: 'messages', component: MessagesComponent, canActivate: [loginGuard] },
   { path: 'addProgramingLanguages', component: AddProgramingLanguageComponent, canActivate: [loginGuard] },
   { path: 'programingLanguagesManagement', component: ProgramingLanguageManagementComponent, canActivate: [loginGuard] },
