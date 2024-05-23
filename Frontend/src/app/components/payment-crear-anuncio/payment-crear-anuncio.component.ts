@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment-crear-anuncio',
@@ -15,8 +17,9 @@ export class PaymentcreateAdvertisementComponent {
   advertisementPrice: number | null = null;
   paymentSuccess: boolean = false;
   messageToProgrammer: string = '';
-  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10);; // Inicializa senderId
+  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10); // Inicializa senderId
   recipientId: number = 11;
+  cardholderName: string = '';
 
   constructor(private apiService: ApiService, private router: Router) { }
 
@@ -38,22 +41,36 @@ export class PaymentcreateAdvertisementComponent {
     } else {
       console.error('Stripe is not initialized');
     }
-}
+  }
 
-  async submitPayment() {
-    if (!this.stripe || !this.cardElement || this.advertisementPrice === null) {
-      console.error('Stripe is not initialized, card element is missing, or advertisement price is not available');
+  async submitPayment(paymentForm: NgForm) {
+    if (!this.stripe || !this.cardElement || this.advertisementPrice === null || paymentForm.invalid) {
+      console.error('Stripe is not initialized, card element is missing, advertisement price is not available, or form is invalid');
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+
       return;
     }
 
     const { paymentMethod, error } = await this.stripe.createPaymentMethod({
       type: 'card',
       card: this.cardElement,
+      billing_details: {
+        name: this.cardholderName
+      }
     });
 
     if (error) {
       console.error(error);
-      alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Error al procesar el pago. Por favor, inténtalo de nuevo.",
+      });
     } else {
       console.log(paymentMethod);
 
@@ -67,15 +84,14 @@ export class PaymentcreateAdvertisementComponent {
             console.log('Pago procesado correctamente:', response);
             // Redirigir a otra vista y enviar un mensaje al profesor
             this.paymentSuccess = true;
-            // setTimeout(() => {
-            //   this.router.navigate(['/messages']);
-            // }, 3000); // Redirigir después de 3 segundos
           },
           (error: any) => {
             console.error('Error al procesar el pago:', error);
-            // Mostrar un alerta con el mensaje de error
-            alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
-            // Redirigir a otra vista de error
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Error al procesar el pago. Por favor, inténtalo de nuevo.",
+            });
           }
         );
     }
@@ -97,11 +113,9 @@ export class PaymentcreateAdvertisementComponent {
       return;
     }
 
-    // console.log('ID del anuncio parseado:', parsedAdvertisementId);
-
     // Si el parseo fue exitoso, asigna el valor a recipientId
     this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
-      (userId: number | undefined) => { // <- Cambio aquí
+      (userId: number | undefined) => {
         console.log('ID del usuario obtenido:', userId);
         if (userId === undefined || userId === null) {
           console.error('El ID del usuario obtenido es inválido.');
@@ -109,13 +123,11 @@ export class PaymentcreateAdvertisementComponent {
         }
         this.recipientId = userId;
         console.log('hola', this.recipientId);
-        //this.loadMessages();
       },
       (error: any) => {
         console.error('Error al obtener el user_id:', error);
       }
     );
-
   }
 
   openModal() {

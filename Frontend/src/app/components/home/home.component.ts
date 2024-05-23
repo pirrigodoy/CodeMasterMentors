@@ -113,6 +113,11 @@ export class HomeComponent implements OnInit {
   }
 
   createFavoriteList(): void {
+    // Verifica si el usuario está autenticado
+  if (!localStorage.getItem('user_id')) {
+    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+    return;
+  }
     if (this.selectedFavoriteList) {
       const userId = localStorage.getItem('user_id');
       const advertisementId = localStorage.getItem('advertisement_id');

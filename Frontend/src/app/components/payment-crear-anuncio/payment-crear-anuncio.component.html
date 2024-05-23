@@ -1,7 +1,26 @@
-<form (ngSubmit)="submitPayment()" class="payment-form">
+<form (ngSubmit)="submitPayment(paymentForm)" class="payment-form" #paymentForm="ngForm">
+  <h3 class="text-lg font-semibold dark:text-gray-900">Add a payment method</h3>
+
+  <!-- Campo para el titular de la tarjeta -->
+  <div class="my-4">
+    <label for="cardholder-name" class="block text-sm font-medium text-gray-700 dark:text-gray-900">Cardholder Name</label>
+    <input type="text" id="cardholder-name" name="cardholderName" [(ngModel)]="cardholderName" required
+           pattern="^[a-zA-Z\s]*$"
+           class="mt-1 p-2 block w-full shadow-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+           #cardholderNameRef="ngModel">
+    <div *ngIf="cardholderNameRef.invalid && (cardholderNameRef.dirty || cardholderNameRef.touched)" class="text-red-600">
+      <div *ngIf="cardholderNameRef.errors?.['required']">Cardholder name is required.</div>
+      <div *ngIf="cardholderNameRef.errors?.['pattern']">Cardholder name can only contain letters and spaces.</div>
+    </div>
+  </div>
+
+  <!-- Elemento de la tarjeta -->
   <div id="card-element" class="my-4 p-2 border rounded payment-element"></div>
-  <button type="submit" class="payment-button">Pagar</button>
+
+  <!-- Botón de pago -->
+  <button type="submit" class="payment-button" [disabled]="paymentForm.invalid">Pagar</button>
 </form>
+
 
 <!-- Modal de pago exitoso -->
 <div *ngIf="paymentSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

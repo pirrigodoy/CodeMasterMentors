@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { loadStripe, Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
 import * as EmailJS from 'emailjs-com';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment',
@@ -16,10 +18,11 @@ export class PaymentComponent {
   advertisementPrice: number = 0;
   paymentSuccess: boolean = false;
   messageToProgrammer: string = '';
-  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10);; // Inicializa senderId
+  senderId: number = parseInt(localStorage.getItem('user_id') || '0', 10); // Inicializa senderId
   recipientId: number = 11;
+  cardholderName: string = '';
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) { }
 
   async ngOnInit() {
     this.loadRecipientId();
@@ -61,15 +64,34 @@ export class PaymentComponent {
     EmailJS.init(EMAILJS_USER_ID);
   }
 
-  async submitPayment() {
+  async submitPayment(paymentForm: NgForm) {
     if (!this.stripe || !this.cardElement || this.advertisementPrice === null) {
       console.error('Stripe is not initialized, card element is missing, or advertisement price is not available');
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+
+      return;
+    }
+
+    if (paymentForm.invalid) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill out all required fields correctly.",
+      });
       return;
     }
 
     const { paymentMethod, error } = await this.stripe.createPaymentMethod({
       type: 'card',
       card: this.cardElement,
+      billing_details: {
+        name: this.cardholderName
+      }
     });
 
     if (error) {
@@ -155,7 +177,7 @@ export class PaymentComponent {
       return;
     }
 
-   // console.log('ID del anuncio parseado:', parsedAdvertisementId);
+    // console.log('ID del anuncio parseado:', parsedAdvertisementId);
 
     // Si el parseo fue exitoso, asigna el valor a recipientId
     this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
@@ -188,8 +210,8 @@ export class PaymentComponent {
 
   sendPaymentConfirmationEmail() {
     const user_name = localStorage.getItem('user_name'); // Reemplaza con el nombre del usuario
-  const user_email = localStorage.getItem('user_email'); // Reemplaza con el correo electrónico del usuario
-  const price = this.advertisementPrice/100;
+    const user_email = localStorage.getItem('user_email'); // Reemplaza con el correo electrónico del usuario
+    const price = this.advertisementPrice / 100;
     // Define los parámetros de tu plantilla de correo electrónico
     const templateParams = {
       user_name: user_name,

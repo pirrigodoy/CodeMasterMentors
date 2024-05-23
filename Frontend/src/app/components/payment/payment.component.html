@@ -1,7 +1,29 @@
-<form (ngSubmit)="submitPayment()" class="payment-form">
+<form (ngSubmit)="submitPayment(paymentForm)" class="payment-form" #paymentForm="ngForm">
+  <h3 class="text-lg font-semibold dark:text-gray-900">Add a payment method</h3>
+
+  <!-- Campo para el titular de la tarjeta -->
+  <div class="my-4">
+    <label for="cardholder-name" class="block text-sm font-medium text-gray-700 dark:text-gray-900">Cardholder
+      Name</label>
+    <input type="text" id="cardholder-name" name="cardholderName" [(ngModel)]="cardholderName" required
+      pattern="^[a-zA-Z\s]*$"
+      class="mt-1 p-2 block w-full shadow-sm border rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      #cardholderNameRef="ngModel">
+    <div *ngIf="cardholderNameRef.invalid && (cardholderNameRef.dirty || cardholderNameRef.touched)"
+      class="text-red-600">
+      <div *ngIf="cardholderNameRef.errors?.['required']">Cardholder name is required.</div>
+      <div *ngIf="cardholderNameRef.errors?.['pattern']">Cardholder name can only contain letters and spaces.</div>
+    </div>
+  </div>
+
+  <!-- Elemento de la tarjeta -->
   <div id="card-element" class="my-4 p-2 border rounded payment-element"></div>
-  <button type="submit" class="payment-button">Pagar</button>
+
+  <!-- Botón de pago -->
+  <button type="submit" class="payment-button" [disabled]="paymentForm.invalid">Pagar</button>
 </form>
+
+
 <!-- Modal de pago exitoso -->
 <div *ngIf="paymentSuccess" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
@@ -15,14 +37,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <p class="text-gray-700 dark:text-gray-300">El pago se ha procesado correctamente. Por favor, escribe un mensaje al programador contratado:</p>
-        <textarea [(ngModel)]="messageToProgrammer" class="w-full h-32 mt-2 p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
+        <p class="text-gray-700 dark:text-gray-300">El pago se ha procesado correctamente. Por favor, escribe un mensaje
+          al programador contratado:</p>
+        <textarea [(ngModel)]="messageToProgrammer"
+          class="w-full h-32 mt-2 p-2 border border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
       </div>
       <div class="modal-footer">
-        <button (click)="sendMessageToProgrammer()" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500">Enviar Mensaje</button>
-        <button (click)="closeModalAndRedirect()" class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 dark:bg-red-400 dark:hover:bg-red-500">Cancelar</button>
+        <button (click)="sendMessageToProgrammer()"
+          class="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500">Enviar
+          Mensaje</button>
+        <button (click)="closeModalAndRedirect()"
+          class="px-4 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 dark:bg-red-400 dark:hover:bg-red-500">Cancelar</button>
       </div>
     </div>
   </div>
 </div>
-

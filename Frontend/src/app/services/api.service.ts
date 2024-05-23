@@ -91,6 +91,9 @@ export class ApiService {
           // Almacena el token de acceso en el almacenamiento local
           localStorage.setItem('access_token', response.access_token);
           localStorage.setItem('user_id', response.user.id);
+          localStorage.setItem('user_email', response.user.email );
+          localStorage.setItem('user_name', response.user.name);
+
         })
       );
   }
@@ -101,6 +104,8 @@ export class ApiService {
     // Elimina el token de acceso del almacenamiento local
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_id');
+    localStorage.removeItem('user_email');
+    localStorage.removeItem('user_name');
 
     // Realiza una solicitud de cierre de sesión al backend (si es necesario)
     return this.http.post<any>(`${this.apiUrl}logout`, {});
