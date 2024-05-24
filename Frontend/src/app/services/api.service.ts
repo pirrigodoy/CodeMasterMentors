@@ -387,4 +387,11 @@ export class ApiService {
   getCityData(cityId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}cities/${cityId}`);
   }
+
+
+
+
+  deleteComment(commentId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}comments/${commentId}`);
+  }
 }

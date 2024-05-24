@@ -121,6 +121,7 @@ export class UserManagementComponent implements OnInit {
               response => {
                 console.log('User deleted successfully:', response);
                 // Send an email to the deleted user
+
                 const templateParams = {
                   your_email: userEmail,
                   subject: 'Account Deletion Confirmation',
@@ -137,9 +138,10 @@ export class UserManagementComponent implements OnInit {
                   });
 
                 // Display success message
-                Swal.fire('User deleted!', '', 'success');
-                // Redirect to user management page
-                this.router.navigate(['/userManagement']);
+                Swal.fire('User deleted!', '', 'success').then(() => {
+                  // Reload the page after displaying the success message
+                  window.location.reload();
+                });
               },
               error => {
                 console.error('Error deleting user:', error);
@@ -155,6 +157,7 @@ export class UserManagementComponent implements OnInit {
       }
     });
   }
+
 
 
 
