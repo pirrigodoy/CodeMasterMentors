@@ -90,7 +90,6 @@ export class ProfileComponent implements OnInit {
       this.deleteButtonColor = 'bg-gray-500'; // Reverts to gray if the checkbox is unchecked
     }
   }
-
   saveChanges() {
     Swal.fire({
       title: 'Do you want to save the changes?',
@@ -118,7 +117,6 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
@@ -130,6 +128,9 @@ export class ProfileComponent implements OnInit {
           this.img = response.url;
           // Save the image name in this.imgName
           this.imgName = file.name;
+
+          // Update the userData object with the new image URL
+          this.userData.img = this.img;
         } else {
           console.error('Error uploading the image:', response.message);
         }

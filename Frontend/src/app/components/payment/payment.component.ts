@@ -146,19 +146,17 @@ export class PaymentComponent {
  Sends a message to the programmer with the specified content
  */
   sendMessageToProgrammer() {
-    // Check if the new message has content before sending it
     if (!this.messageToProgrammer.trim()) {
       console.error('Message content is required.');
       return;
     }
-    // Get the current date
 
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString('en-US', { timeZone: 'UTC', hour12: false });
+    const formattedDate = currentDate.toISOString();
 
     const newMessage = {
       sender: this.senderId,
-      recipient: this.recipientId, // Define the ID of the hired programmer here
+      recipient: this.recipientId,
       content: this.messageToProgrammer,
       date: formattedDate,
       status: 1
@@ -167,58 +165,54 @@ export class PaymentComponent {
     this.apiService.sendMessage(newMessage).subscribe(
       (response: any) => {
         console.log('Message sent to the programmer:', response);
-        this.router.navigate(['/messages']);
-        // Clear the text field for the new message
-        this.messageToProgrammer = '';
-        // Close the modal
-        this.paymentSuccess = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Message sent',
+          text: 'Your message has been sent successfully!'
+        }).then(() => {
+          this.router.navigate(['/messages']);
+          this.messageToProgrammer = '';
+          this.paymentSuccess = false;
+        });
       },
       (error: any) => {
         console.error('Error sending message to the programmer:', error);
-        // Handle the error as needed
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'There was an error sending your message. Please try again later.'
+        });
       }
     );
-
   }
-
   /**
 Loads the recipient ID from the localStorage and assigns it to the recipientId property
 */
   loadRecipientId(): void {
     const advertisementId = localStorage.getItem('advertisement_id');
-    console.log('hey', advertisementId);
-    if (advertisementId === null) {
-
+    if (!advertisementId) {
       console.error('The advertisement ID is not available in the localStorage.');
       return;
     }
 
-    // Try to parse the advertisement ID to a number
     const parsedAdvertisementId = parseInt(advertisementId, 10);
     if (isNaN(parsedAdvertisementId)) {
       console.error('The advertisement ID is not a valid number.');
       return;
     }
 
-    // console.log('Parsed advertisement ID:', parsedAdvertisementId);
-
-    // If the parsing was successful, assign the value to recipientId
     this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
-      (userId: number | undefined) => { // <- Change here
-        console.log('Obtained user ID:', userId);
-        if (userId === undefined || userId === null) {
+      (userId: number | undefined) => {
+        if (!userId) {
           console.error('The obtained user ID is invalid.');
           return;
         }
         this.recipientId = userId;
-        console.log('hello', this.recipientId);
-        //this.loadMessages();
       },
       (error: any) => {
         console.error('Error getting the user_id:', error);
       }
     );
-
   }
 
   /**
