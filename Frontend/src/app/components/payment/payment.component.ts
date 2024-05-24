@@ -24,65 +24,50 @@ export class PaymentComponent {
 
   constructor(private apiService: ApiService, private router: Router) { }
 
-  /**
- * Initializes component properties and loads recipient ID asynchronously.
- */
   async ngOnInit() {
-    // Load recipient ID
     this.loadRecipientId();
-
-    // Asynchronously load the Stripe library
+    // Cargar la biblioteca de Stripe de forma asíncrona
     const stripePromise = loadStripe('pk_live_51PBvY4Rq5tXwNMj9gK7A3gAnVqucWSpwh3LWut9PKZSQm0VQIZlQbrqSBkUvjHxoM0sD0tHdDXEGiHQnd8JnhzBo00BOgKK6XA');
     this.stripe = await stripePromise;
 
     if (this.stripe) {
-      // Initialize Stripe elements
       this.elements = this.stripe.elements();
 
-      // Create and mount card element
+      // Crear y montar el elemento de tarjeta
       this.cardElement = this.elements.create('card');
       this.cardElement.mount('#card-element');
     } else {
       console.error('Stripe is not initialized');
     }
 
-    // Retrieve advertisement_id from localStorage
+    // Obtener advertisement_id del localStorage
     const advertisementId = localStorage.getItem('advertisement_id');
     if (advertisementId) {
-      // Fetch advertisement data from the backend
+      // Obtener datos del anuncio del backend
       this.apiService.getAdvertisementData(advertisementId).subscribe(
         (response) => {
           if (!response.error) {
-            // Convert price from euros to cents
+            // Convertir el precio de euros a centavos
             this.advertisementPrice = response.data.price_hour * 100;
           } else {
-            console.error('Error fetching advertisement data:', response.message);
+            console.error('Error al obtener los datos del anuncio:', response.message);
           }
         },
         (error) => {
-          console.error('Error fetching advertisement data:', error);
+          console.error('Error al obtener los datos del anuncio:', error);
         }
       );
     } else {
-      console.error('advertisement_id not found in localStorage');
+      console.error('advertisement_id no encontrado en el localStorage');
     }
-
-    // Initialize EmailJS with user ID
     const EMAILJS_USER_ID = 'RFJu4BW0oAhWI-OvO';
     EmailJS.init(EMAILJS_USER_ID);
   }
 
-
-  /**
- * Submits the payment form for processing.
- * @param {NgForm} paymentForm - The payment form to be submitted.
- */
   async submitPayment(paymentForm: NgForm) {
-    // Check if Stripe, card element, or advertisement price is not available
     if (!this.stripe || !this.cardElement || this.advertisementPrice === null) {
       console.error('Stripe is not initialized, card element is missing, or advertisement price is not available');
 
-      // Display an error message
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -92,9 +77,7 @@ export class PaymentComponent {
       return;
     }
 
-    // Check if the payment form is invalid
     if (paymentForm.invalid) {
-      // Display an error message for invalid form
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -103,7 +86,6 @@ export class PaymentComponent {
       return;
     }
 
-    // Create payment method using Stripe
     const { paymentMethod, error } = await this.stripe.createPaymentMethod({
       type: 'card',
       card: this.cardElement,
@@ -114,147 +96,138 @@ export class PaymentComponent {
 
     if (error) {
       console.error(error);
-      alert('Error processing payment. Please try again.');
+      alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
     } else {
       console.log(paymentMethod);
 
-      // Use advertisement price as the payment amount
+      // Utilizar el precio del anuncio como el monto del pago
       const amount = this.advertisementPrice;
 
-      // Send payment token and amount to backend for processing
+      // Envía el token de pago y el monto al backend para procesar el pago
       this.apiService.processPayment(paymentMethod.id, amount)
         .subscribe(
           (response: any) => {
-            console.log('Payment processed successfully:', response);
+            console.log('Pago procesado correctamente:', response);
             this.sendPaymentConfirmationEmail();
 
-            // Show success message and redirect to another view
+            // Redirigir a otra vista y enviar un mensaje al profesor
             this.paymentSuccess = true;
+            // setTimeout(() => {
+            //   this.router.navigate(['/messages']);
+            // }, 3000); // Redirigir después de 3 segundos
           },
           (error: any) => {
-            console.error('Error processing payment:', error);
-            // Show an alert with the error message
-            alert('Error processing payment. Please try again.');
-            // Redirect to an error view
+            console.error('Error al procesar el pago:', error);
+            // Mostrar un alerta con el mensaje de error
+            alert('Error al procesar el pago. Por favor, inténtalo de nuevo.');
+            // Redirigir a otra vista de error
           }
         );
     }
   }
 
-
-  /**
- Sends a message to the programmer with the specified content
- */
   sendMessageToProgrammer() {
+    // Verifica si el nuevo mensaje tiene contenido antes de enviarlo
     if (!this.messageToProgrammer.trim()) {
-      console.error('Message content is required.');
+      console.error('El contenido del mensaje es requerido.');
       return;
     }
 
+    // Obtiene la fecha actual
     const currentDate = new Date();
-    const formattedDate = currentDate.toISOString();
+    const formattedDate = currentDate.toLocaleString('en-US', { timeZone: 'UTC', hour12: false });
 
     const newMessage = {
-      sender: this.senderId,
-      recipient: this.recipientId,
+      remitente: this.senderId,
+      destinatario: this.recipientId, // Aquí debes definir el ID del programador contratado
       content: this.messageToProgrammer,
       date: formattedDate,
-      status: 1
+      estado: 1
     };
 
     this.apiService.sendMessage(newMessage).subscribe(
       (response: any) => {
-        console.log('Message sent to the programmer:', response);
-        Swal.fire({
-          icon: 'success',
-          title: 'Message sent',
-          text: 'Your message has been sent successfully!'
-        }).then(() => {
-          this.router.navigate(['/messages']);
-          this.messageToProgrammer = '';
-          this.paymentSuccess = false;
-        });
+        console.log('Mensaje enviado al programador:', response);
+        this.router.navigate(['/messages']);
+        // Limpia el campo de texto del nuevo mensaje
+        this.messageToProgrammer = '';
+        // Cierra el modal
+        this.paymentSuccess = false;
       },
       (error: any) => {
-        console.error('Error sending message to the programmer:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'There was an error sending your message. Please try again later.'
-        });
+        console.error('Error al enviar el mensaje al programador:', error);
+        // Puedes manejar el error de acuerdo a tus necesidades
       }
     );
   }
-  /**
-Loads the recipient ID from the localStorage and assigns it to the recipientId property
-*/
+
   loadRecipientId(): void {
     const advertisementId = localStorage.getItem('advertisement_id');
-    if (!advertisementId) {
-      console.error('The advertisement ID is not available in the localStorage.');
+    console.log('hey', advertisementId);
+
+    if (advertisementId === null) {
+      console.error('El ID del anuncio no está disponible en el localStorage.');
       return;
     }
 
+    // Intenta parsear el ID del anuncio a un número
     const parsedAdvertisementId = parseInt(advertisementId, 10);
     if (isNaN(parsedAdvertisementId)) {
-      console.error('The advertisement ID is not a valid number.');
+      console.error('El ID del anuncio no es un número válido.');
       return;
     }
 
+    // console.log('ID del anuncio parseado:', parsedAdvertisementId);
+
+    // Si el parseo fue exitoso, asigna el valor a recipientId
     this.apiService.getUserIdByAdvertisementId(parsedAdvertisementId.toString()).subscribe(
-      (userId: number | undefined) => {
-        if (!userId) {
-          console.error('The obtained user ID is invalid.');
+      (userId: number | undefined) => { // <- Cambio aquí
+        console.log('ID del usuario obtenido:', userId);
+        if (userId === undefined || userId === null) {
+          console.error('El ID del usuario obtenido es inválido.');
           return;
         }
         this.recipientId = userId;
+        console.log('hola', this.recipientId);
+        //this.loadMessages();
       },
       (error: any) => {
-        console.error('Error getting the user_id:', error);
+        console.error('Error al obtener el user_id:', error);
       }
     );
+
   }
 
-  /**
-Opens the modal for displaying payment success message
-*/
   openModal() {
     this.paymentSuccess = true;
   }
 
-  /**
-Closes the modal and redirects to the messages page
-*/
   closeModalAndRedirect() {
-    // Closes the modal and redirects to the messages page
+    // Cierra el modal y redirige a la página de mensajes
     this.paymentSuccess = false;
     this.router.navigate(['/messages']);
   }
 
-  /**
-Sends a payment confirmation email to the user
-*/
   sendPaymentConfirmationEmail() {
-    const user_name = localStorage.getItem('user_name'); // Replace with the user's name
-    const user_email = localStorage.getItem('user_email'); // Replace with the user's email
+    const user_name = localStorage.getItem('user_name'); // Reemplaza con el nombre del usuario
+    const user_email = localStorage.getItem('user_email'); // Reemplaza con el correo electrónico del usuario
     const price = this.advertisementPrice / 100;
-    // Define the parameters for your email template
+    // Define los parámetros de tu plantilla de correo electrónico
     const templateParams = {
       user_name: user_name,
       user_email: user_email,
       price: price
     };
-    // Send the email using EmailJS
 
+    // Enviar el correo electrónico utilizando EmailJS
     EmailJS.send('service_9zm8nuc', 'template_sqxu2a7', templateParams)
       .then((response: any) => {
-        console.log('Email sent successfully:', response);
-        // You can add additional logic if needed
+        console.log('Correo electrónico enviado con éxito:', response);
+        // Puedes agregar lógica adicional si lo necesitas
       })
       .catch((error: any) => {
-        console.error('Error sending email:', error);
-        // You can handle the error as needed
+        console.error('Error al enviar el correo electrónico:', error);
+        // Puedes manejar el error de acuerdo a tus necesidades
       });
-
   }
 }
