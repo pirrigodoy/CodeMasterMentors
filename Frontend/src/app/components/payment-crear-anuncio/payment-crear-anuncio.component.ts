@@ -99,6 +99,8 @@ export class PaymentcreateAdvertisementComponent {
         .subscribe(
           (response: any) => {
             console.log('Pago procesado correctamente:', response);
+            // Set the paymentProcessed key in localStorage
+            localStorage.setItem('paymentProcessed', 'true');
             // Redirect to another view and notify the user about successful payment
             this.paymentSuccess = true;
           },

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Router } from '@angular/router';
 import * as EmailJS from 'emailjs-com';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class MisAnunciosComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit(): void {
+
+
     this.getAdvertisements();
     this.getUsers();
     this.getProgrammingLanguages();
@@ -90,76 +93,88 @@ export class MisAnunciosComponent implements OnInit {
   }
 
 
-  /**
- * Deletes an advertisement after confirming with the user.
- * Sends a confirmation email to the advertisement owner before deletion.
- * @param {string} advertisementId - The ID of the advertisement to be deleted
- */
   borrarAnuncio(advertisementId: string): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este anuncio?')) {
-      this.apiService.getAdvertisementData(advertisementId).subscribe(
-        (advertisementData: any) => {
-          const programmingLanguageId = advertisementData.data.programmingLanguage_id;
-          const userId = localStorage.getItem('user_id');
-          if (userId) {
-            this.apiService.getUserData(userId).subscribe(
-              (userData: any) => {
-                const userEmail = userData.data.email;
-                const userName = userData.data.name;
+    // Utiliza SweetAlert para mostrar un mensaje de confirmación en lugar de la función confirm nativa
+    Swal.fire({
+      title: '¿Estás seguro de que quieres eliminar este anuncio?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma la eliminación, procede con el resto del código
+        this.apiService.getAdvertisementData(advertisementId).subscribe(
+          (advertisementData: any) => {
+            const programmingLanguageId = advertisementData.data.programmingLanguage_id;
+            const userId = localStorage.getItem('user_id');
+            if (userId) {
+              this.apiService.getUserData(userId).subscribe(
+                (userData: any) => {
+                  const userEmail = userData.data.email;
+                  const userName = userData.data.name;
 
-                // Get the programming language name
-                this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe(
-                  (languageData: any) => {
-                    const programmingLanguage = languageData.data.languageName;
+                  // Obtener el nombre del lenguaje de programación
+                  this.apiService.getLanguageprogrammingData(programmingLanguageId).subscribe(
+                    (languageData: any) => {
+                      const programmingLanguage = languageData.data.languageName;
 
-                    const templateParams = {
-                      email: userEmail,
-                      subject: 'Confirmación de eliminación de anuncio',
-                      user_name: userName,
-                      programming_language: programmingLanguage
-                    };
+                      const templateParams = {
+                        email: userEmail,
+                        subject: 'Confirmación de eliminación de anuncio',
+                        user_name: userName,
+                        programming_language: programmingLanguage
+                      };
 
-                    // Send the email using EmailJS
-                    EmailJS.send('service_9zm8nuc', 'template_s2efope', templateParams)
-                      .then((response: any) => {
-                        console.log('Correo electrónico enviado con éxito:', response);
-                      })
-                      .catch((error: any) => {
-                        console.error('Error al enviar el correo electrónico:', error);
-                      });
-                  },
-                  (error) => {
-                    console.error('Error al obtener datos del lenguaje de programación:', error);
-                  }
+                      // Enviar el correo electrónico utilizando EmailJS
+                      EmailJS.send('service_9zm8nuc', 'template_s2efope', templateParams)
+                        .then((response: any) => {
+                          console.log('Correo electrónico enviado con éxito:', response);
+                        })
+                        .catch((error: any) => {
+                          console.error('Error al enviar el correo electrónico:', error);
+                        });
+                    },
+                    (error) => {
+                      console.error('Error al obtener datos del lenguaje de programación:', error);
+                    }
+                  );
+                },
+                (error) => {
+                  console.error('Error al obtener datos del usuario:', error);
+                }
+              );
+            } else {
+              console.error('No se encontró el user_id en el localStorage');
+            }
+
+            // Eliminar el anuncio después de obtener los datos necesarios
+            this.apiService.deleteAdvertisement(advertisementId).subscribe(
+              () => {
+                // Eliminación exitosa, muestra un mensaje de confirmación utilizando SweetAlert
+                Swal.fire(
+                  '¡Eliminado!',
+                  'El anuncio ha sido eliminado correctamente.',
+                  'success'
                 );
+                // Actualiza la lista de anuncios
+                this.getAdvertisements();
               },
               (error) => {
-                console.error('Error al obtener datos del usuario:', error);
+                console.error('Error al eliminar el anuncio:', error);
+                // Maneja el error según tus requisitos, por ejemplo, mostrando un mensaje al usuario.
               }
             );
-          } else {
-            console.error('No se encontró el user_id en el localStorage');
+          },
+          (error) => {
+            console.error('Error al obtener datos del anuncio:', error);
           }
-
-          // Delete the advertisement after obtaining necessary data
-          this.apiService.deleteAdvertisement(advertisementId).subscribe(
-            () => {
-              // Successful deletion, update the list of advertisements
-              this.getAdvertisements();
-            },
-            (error) => {
-              console.error('Error al eliminar el anuncio:', error);
-              // Handle the error according to your requirements, for example, showing a message to the user.
-            }
-          );
-        },
-        (error) => {
-          console.error('Error al obtener datos del anuncio:', error);
-        }
-      );
-    }
+        );
+      }
+    });
   }
-
-
 
 }

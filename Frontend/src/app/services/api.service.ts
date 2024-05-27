@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +90,7 @@ export class ApiService {
         tap(response => {
           // Almacena el token de acceso en el almacenamiento local
           localStorage.setItem('access_token', response.access_token);
+          localStorage.setItem('role_id', response.user.role_id);
           localStorage.setItem('user_id', response.user.id);
           localStorage.setItem('user_email', response.user.email);
           localStorage.setItem('user_name', response.user.name);
@@ -106,6 +107,12 @@ export class ApiService {
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_email');
     localStorage.removeItem('user_name');
+    localStorage.removeItem('role_id');
+    localStorage.removeItem('receiver');
+    localStorage.removeItem('advertisement_id');
+    localStorage.removeItem('paymentProcessed');
+
+
 
     // Realiza una solicitud de cierre de sesión al backend (si es necesario)
     return this.http.post<any>(`${this.apiUrl}logout`, {});
@@ -393,5 +400,29 @@ export class ApiService {
 
   deleteComment(commentId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}comments/${commentId}`);
+  }
+
+
+
+
+  // Método para obtener los datos del usuario autenticado
+  getAuthenticatedUser(): Observable<any> {
+    const roleId: string | null = localStorage.getItem('role_id');
+
+    if (roleId !== null) {
+      // Si tenemos el role_id en el localStorage, podemos devolverlo directamente
+      return of({ role_id: roleId });
+    } else {
+      // Manejar el caso cuando roleId es null
+      // Puedes lanzar un error, devolver un observable vacío, etc.
+      return throwError('Role ID is null');
+    }
+  }
+
+  // Método para obtener el rol del usuario autenticado
+  getUserRole(): Observable<string> {
+    return this.getAuthenticatedUser().pipe(
+      map(user => user.role_id) // Suponiendo que role_id es el identificador del rol en tu aplicación
+    );
   }
 }

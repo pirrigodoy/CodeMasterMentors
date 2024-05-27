@@ -32,8 +32,7 @@ import { AddProgramingLanguageComponent } from './components/add-programing-lang
 import { ProgramingLanguageManagementComponent } from './components/programing-language-management/programing-language-management.component';
 import { PaymentcreateAdvertisementComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
-// import { AuthService } from './auth.service';
-
+import { NotAuthorizedComponent } from './components/unauthorized-component/unauthorized-component.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +62,8 @@ import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.
     ProgramingLanguageManagementComponent,
     AddProgramingLanguageComponent,
     PaymentcreateAdvertisementComponent,
-    CrearAnuncioComponent
+    CrearAnuncioComponent,
+    NotAuthorizedComponent
   ],
   imports: [
     BrowserModule,

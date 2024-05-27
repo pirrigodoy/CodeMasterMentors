@@ -39,7 +39,8 @@ export class CrearAnuncioComponent implements OnInit {
       // Call the API service to create the advertisement
       this.apiService.crearAnuncio(this.nuevoAnuncio).subscribe((response: any) => {
         console.log('Anuncio creado:', response);
-
+        // Set paymentProcessed to false in localStorage
+        localStorage.setItem('paymentProcessed', 'false');
         const userId = response.data.user_id;
         const programmingLanguageId = response.data.programmingLanguage_id;
 
@@ -70,8 +71,8 @@ export class CrearAnuncioComponent implements OnInit {
               });
 
             // Redirect to 'mis-anuncios' route
-            const advertisementId = localStorage.getItem('advertisement_id');
-            this.router.navigate(['/mis-anuncios', advertisementId]);
+            const userId = localStorage.getItem('user_id');
+            this.router.navigate(['/mis-anuncios', userId]);
           });
         });
       });
@@ -79,6 +80,7 @@ export class CrearAnuncioComponent implements OnInit {
       console.log('Formulario inválido');
     }
   }
+
 
 
 
