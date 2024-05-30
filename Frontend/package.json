@@ -28,6 +28,7 @@
     "image-conversion": "^2.1.1",
     "jspdf": "^2.5.1",
     "jwt-decode": "^4.0.0",
+    "ngx-cookie-service": "^18.0.0",
     "ngx-image-compress": "^15.1.6",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.7",

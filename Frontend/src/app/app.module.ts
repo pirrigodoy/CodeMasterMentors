@@ -33,6 +33,7 @@ import { ProgramingLanguageManagementComponent } from './components/programing-l
 import { PaymentcreateAdvertisementComponent } from './components/payment-crear-anuncio/payment-crear-anuncio.component';
 import { CrearAnuncioComponent } from './components/crear-anuncio/crear-anuncio.component';
 import { NotAuthorizedComponent } from './components/unauthorized-component/unauthorized-component.component';
+import { PaymentRegistroComponent } from './components/payment-registro/payment-registro.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { NotAuthorizedComponent } from './components/unauthorized-component/unau
     AddProgramingLanguageComponent,
     PaymentcreateAdvertisementComponent,
     CrearAnuncioComponent,
-    NotAuthorizedComponent
+    NotAuthorizedComponent,
+    PaymentRegistroComponent
   ],
   imports: [
     BrowserModule,

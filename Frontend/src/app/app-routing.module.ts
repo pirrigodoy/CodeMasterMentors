@@ -30,6 +30,9 @@ import { OwnProfileGuard } from './components/guards/OwnProfileGuard.guard';
 import { RoleGuard } from './components/guards/role.guard';
 import { OwnAdvertisementGuard } from './components/guards/OwnAdvertisementGuard.guard';
 import { PagoAnuncioGuard } from './components/guards/PagoAnuncio.guard';
+import { blockLogin } from './components/guards/blockLogin.guard';
+import { profileBlock } from './components/guards/profileBlock.guard';
+import { PaymentRegistroComponent } from './components/payment-registro/payment-registro.component';
 
 const routes: Routes = [
   // Rutas públicas
@@ -40,7 +43,7 @@ const routes: Routes = [
 
   // Rutas protegidas por loginGuard (usuario registrado)
   { path: 'profile/:userId', component: ProfileComponent, canActivate: [loginGuard, OwnProfileGuard] },
-  { path: 'mis-anuncios/:userId', component: MisAnunciosComponent, canActivate: [RoleGuard], data: { expectedRole: '2' } },
+  { path: 'mis-anuncios/:userId', component: MisAnunciosComponent, canActivate: [RoleGuard, profileBlock], data: { expectedRole: '2' } },
   { path: 'crear-anuncio', component: CrearAnuncioComponent, canActivate: [RoleGuard, PagoAnuncioGuard], data: { expectedRole: '2' } },
   { path: 'modificar-anuncio/:advertisementId', component: ModificarAnuncioComponent, canActivate: [RoleGuard], data: { expectedRole: '2' } },
   { path: 'messages', component: MessagesComponent, canActivate: [loginGuard] },
@@ -50,6 +53,7 @@ const routes: Routes = [
   { path: 'adManagement', component: AdvertisementManagementComponent, canActivate: [RoleGuard], data: { expectedRole: '3' } },
   { path: 'payment', component: PaymentComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },
   { path: 'paymentcreateAdvertisement', component: PaymentcreateAdvertisementComponent, canActivate: [RoleGuard], data: { expectedRole: '2' } },
+
   { path: 'lista-favoritos/:userId', component: FavouriteListComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },
   { path: 'addRating', component: AddRatingComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },
   { path: 'commentManagement', component: CommentManagementComponent, canActivate: [RoleGuard], data: { expectedRole: '3' } },
@@ -59,8 +63,10 @@ const routes: Routes = [
   { path: 'programingLanguagesManagement', component: ProgramingLanguageManagementComponent, canActivate: [RoleGuard], data: { expectedRole: '3' } },
 
   // Rutas de autenticación
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'paymentRegistro', component: PaymentRegistroComponent, canActivate: [blockLogin, PaymentRegistroComponent] },
+
+  { path: 'register', component: RegisterComponent, canActivate: [blockLogin] },
+  { path: 'login', component: LoginComponent, canActivate: [blockLogin] },
   { path: 'logout', component: LogoutComponent },
 
   // Ruta de condiciones

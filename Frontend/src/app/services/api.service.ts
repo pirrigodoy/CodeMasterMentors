@@ -11,7 +11,9 @@ export class ApiService {
   // private apiUrl = 'http://localhost:8000/api/';
   private apiUrl = 'https://www.slimedungeon.es/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    localStorage.setItem('paymentRegister', 'false');
+  }
 
   // Método para realizar una solicitud GET
   getData(): Observable<any> {
@@ -96,9 +98,13 @@ export class ApiService {
           localStorage.setItem('user_name', response.user.name);
           localStorage.setItem('paymentProcessed', 'false');
 
+
+
         })
       );
+
   }
+
 
   //----------------------------------------------------------------------
   // Método para cerrar sesión
@@ -112,6 +118,8 @@ export class ApiService {
     localStorage.removeItem('receiver');
     localStorage.removeItem('advertisement_id');
     localStorage.removeItem('paymentProcessed');
+    localStorage.removeItem('paymentRegister');
+
 
 
 
@@ -150,6 +158,8 @@ export class ApiService {
     born_date: string,
     city_id: string,
     img: string
+
+
   }) {
     return this.http.post<any>(`${this.apiUrl}register`, credentials);
   }
