@@ -94,6 +94,7 @@ export class ApiService {
           localStorage.setItem('user_id', response.user.id);
           localStorage.setItem('user_email', response.user.email);
           localStorage.setItem('user_name', response.user.name);
+          localStorage.setItem('paymentProcessed', 'false');
 
         })
       );
