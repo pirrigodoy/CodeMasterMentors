@@ -1,0 +1,40 @@
+/* payment.component.css */
+
+.payment-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-element {
+  margin-bottom: 20px;
+}
+
+.payment-button {
+  width: 100%;
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 150ms ease;
+}
+
+.payment-button:hover {
+  background-color: #333;
+}
+
+@media (max-width: 600px) {
+  .payment-form {
+    padding: 10px;
+  }
+
+  .payment-button {
+    padding: 10px;
+  }
+}

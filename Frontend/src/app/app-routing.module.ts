@@ -33,6 +33,7 @@ import { PagoAnuncioGuard } from './components/guards/PagoAnuncio.guard';
 import { blockLogin } from './components/guards/blockLogin.guard';
 import { profileBlock } from './components/guards/profileBlock.guard';
 import { PaymentRegistroComponent } from './components/payment-registro/payment-registro.component';
+import { PagoRegistroGuard } from './components/guards/pagoRegistro.guard';
 
 const routes: Routes = [
   // Rutas públicas
@@ -53,6 +54,14 @@ const routes: Routes = [
   { path: 'adManagement', component: AdvertisementManagementComponent, canActivate: [RoleGuard], data: { expectedRole: '3' } },
   { path: 'payment', component: PaymentComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },
   { path: 'paymentcreateAdvertisement', component: PaymentcreateAdvertisementComponent, canActivate: [RoleGuard], data: { expectedRole: '2' } },
+
+
+
+  { path: 'paymentRegister', component: PaymentRegistroComponent, canActivate: [PagoRegistroGuard]},
+
+
+
+
 
   { path: 'lista-favoritos/:userId', component: FavouriteListComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },
   { path: 'addRating', component: AddRatingComponent, canActivate: [RoleGuard], data: { expectedRole: '1' } },

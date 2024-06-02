@@ -12,7 +12,9 @@ export class ApiService {
   private apiUrl = 'https://www.slimedungeon.es/api/';
 
   constructor(private http: HttpClient) {
-    localStorage.setItem('paymentRegister', 'false');
+    if (localStorage.getItem('paymentRegister') === null) {
+      localStorage.setItem('paymentRegister', 'false');
+    }
   }
 
   // Método para realizar una solicitud GET
@@ -118,10 +120,6 @@ export class ApiService {
     localStorage.removeItem('receiver');
     localStorage.removeItem('advertisement_id');
     localStorage.removeItem('paymentProcessed');
-    localStorage.removeItem('paymentRegister');
-
-
-
 
     // Realiza una solicitud de cierre de sesión al backend (si es necesario)
     return this.http.post<any>(`${this.apiUrl}logout`, {});
