@@ -45,11 +45,11 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('advertisements', AdvertisementController::class);
 Route::apiResource('programminglanguages', ProgrammingLanguageController::class);
 Route::apiResource('comments', CommentController::class);
-Route::apiResource('applications', ApplicationController::class);
+// Route::apiResource('applications', ApplicationController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('advertisement_favourite_lists', AdvertisementFavouriteListController::class);
 Route::apiResource('favourite_lists', FavouriteListController::class);
-Route::apiResource('receipts', ReceiptController::class);
+// Route::apiResource('receipts', ReceiptController::class);
 
 Route::post('process-payment', [PaymentController::class, 'processPayment']);
 Route::post('uploadimage', [UserController::class, 'uploadimage']);
