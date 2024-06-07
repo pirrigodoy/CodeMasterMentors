@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ApiService {
   // private apiUrl = 'http://localhost:8000/api/';
   private apiUrl = 'https://www.slimedungeon.es/api/';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     if (localStorage.getItem('paymentRegister') === null) {
       localStorage.setItem('paymentRegister', 'false');
     }
@@ -120,7 +121,9 @@ export class ApiService {
     localStorage.removeItem('receiver');
     localStorage.removeItem('advertisement_id');
     localStorage.removeItem('paymentProcessed');
-
+    this.router.navigate(['/login']).then(() => {
+      location.reload(); // Recarga la página después de la redirección
+    });
     // Realiza una solicitud de cierre de sesión al backend (si es necesario)
     return this.http.post<any>(`${this.apiUrl}logout`, {});
   }

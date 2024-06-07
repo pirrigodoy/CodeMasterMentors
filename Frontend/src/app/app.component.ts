@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { ApiService } from './services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
   showFooter: boolean = true;
   isNavbarCollapsed: boolean = true; // Nuevo
 
-  constructor(private authService: AuthService, private apiService: ApiService) {
+  constructor(private authService: AuthService, private apiService: ApiService,  private router: Router) {
     // Inicializamos showDropdown como false
     this.showDropdown = false;
   }
@@ -41,6 +42,11 @@ export class AppComponent implements OnInit {
         this.user = null;
       }
     });
+
+    // Configura el listener de cambios en localStorage
+    this.setupLocalStorageListener();
+
+
   }
 
   /**
@@ -79,11 +85,11 @@ export class AppComponent implements OnInit {
     );
   }
 
-/**
- * Toggles the visibility of the footer based on the provided boolean value.
- *
- * @param {boolean} hide - A boolean value indicating whether to hide or show the footer.
- */
+  /**
+   * Toggles the visibility of the footer based on the provided boolean value.
+   *
+   * @param {boolean} hide - A boolean value indicating whether to hide or show the footer.
+   */
   onHideFooter(hide: boolean) {
     this.showFooter = hide;
   }
@@ -93,5 +99,38 @@ export class AppComponent implements OnInit {
  */
   toggleNavbar() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+  /**
+   * Configura el listener para detectar cambios en el localStorage.
+   */
+  setupLocalStorageListener() {
+    const initialLocalStorage = { ...localStorage };
+
+    setInterval(() => {
+      for (const key in initialLocalStorage) {
+        if (localStorage.getItem(key) !== initialLocalStorage[key]) {
+          if (key !== 'paymentProcessed') { // Ignore changes to 'paymentProcessed'
+            this.handleLocalStorageChange();
+          }
+          if (key !== 'paymentRegister') { // Ignore changes to 'paymentProcessed'
+            this.handleLocalStorageChange();
+          }
+          break;
+        }
+      }
+    }, 1000); // Check every second
+  }
+
+  /**
+   * Maneja los cambios en el localStorage y realiza el logout si se detecta un cambio.
+   */
+  handleLocalStorageChange() {
+    console.log('El localStorage ha cambiado. Cerrando sesión...');
+    this.apiService.logout().subscribe(() => {
+      this.authService.logout();
+      window.location.reload(); // Recarga la página
+      this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+    });
   }
 }
