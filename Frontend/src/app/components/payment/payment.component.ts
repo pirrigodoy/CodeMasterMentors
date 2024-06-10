@@ -111,7 +111,7 @@ export class PaymentComponent {
             this.sendPaymentConfirmationEmail();
 
             // Redirigir a otra vista y enviar un mensaje al profesor
-            this.paymentSuccess = true;
+            // this.paymentSuccess = true;
             // setTimeout(() => {
             //   this.router.navigate(['/messages']);
             // }, 3000); // Redirigir después de 3 segundos

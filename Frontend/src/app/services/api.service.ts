@@ -14,7 +14,7 @@ export class ApiService {
 
   constructor(private http: HttpClient, private router: Router) {
     if (localStorage.getItem('paymentRegister') === null) {
-      localStorage.setItem('paymentRegister', 'false');
+      localStorage.setItem('paymentRegister', 'true');
     }
   }
 
@@ -99,7 +99,7 @@ export class ApiService {
           localStorage.setItem('user_id', response.user.id);
           localStorage.setItem('user_email', response.user.email);
           localStorage.setItem('user_name', response.user.name);
-          localStorage.setItem('paymentProcessed', 'false');
+          localStorage.setItem('paymentProcessed', 'true');
 
 
 

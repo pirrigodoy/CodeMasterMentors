@@ -83,7 +83,7 @@ export class PaymentRegistroComponent {
             // Borrar la entrada de 'role' en localStorage
             localStorage.removeItem('role');
 
-            localStorage.setItem('paymentRegister', 'false');
+           // localStorage.setItem('paymentRegister', 'false');
             this.router.navigate(['/login']);
             Swal.fire({
               icon: "success",
